@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Envision Landscaping">
+  <rect width="64" height="64" rx="16" fill="#08140f"/>
+  <path d="M12 43c11-2 18-11 23-28 7 5 12 12 14 21-7-4-13-4-18-1-5 3-11 6-19 8Z" fill="#92cb3c"/>
+  <path d="M14 48h36M20 53h30" fill="none" stroke="#f6f8f2" stroke-width="4" stroke-linecap="round"/>
+</svg>

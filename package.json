@@ -1,0 +1,18 @@
+{
+  "name": "envision-landscaping-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-pages.mjs",
+    "dev": "node serve.mjs",
+    "serve": "node serve.mjs",
+    "audit": "node scripts/audit-site.mjs",
+    "test": "node scripts/test-site.mjs",
+    "screenshot": "node screenshot.mjs",
+    "screenshot:mobile": "node screenshot-mobile.mjs"
+  },
+  "dependencies": {
+    "maplibre-gl": "5.12.0"
+  }
+}
