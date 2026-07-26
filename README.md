@@ -33,7 +33,7 @@ The quote form creates a prefilled SMS to `(984) 338-6483`; it does not collect 
 
 ## Deployment
 
-`vercel.json`, `robots.txt`, `sitemap.xml`, canonical URLs, JSON-LD, and a custom 404 page are included. Connect this directory to the approved Envision Vercel/domain account before production publication.
+`npm run build` generates a clean `public/` deployment bundle for Vercel. The repository also includes `vercel.json`, `robots.txt`, `sitemap.xml`, canonical URLs, JSON-LD, and a custom 404 page. Connect the repository to the approved Envision Vercel/domain account before production publication.
 
 ## Content guardrails
 

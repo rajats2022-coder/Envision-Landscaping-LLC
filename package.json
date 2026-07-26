@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-pages.mjs",
+    "build": "node scripts/build-pages.mjs && node scripts/prepare-vercel-output.mjs",
     "dev": "node serve.mjs",
     "serve": "node serve.mjs",
     "audit": "node scripts/audit-site.mjs",
