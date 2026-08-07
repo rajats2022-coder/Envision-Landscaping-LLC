@@ -11,12 +11,18 @@
     { "source": "/service-areas/holly-springs-nc", "destination": "/service-areas#holly-springs-nc", "permanent": true },
     { "source": "/service-areas/durham-nc", "destination": "/service-areas#durham-nc", "permanent": true },
     { "source": "/service-areas/garner-nc", "destination": "/service-areas#garner-nc", "permanent": true },
+    { "source": "/service-areas/holland-nc", "destination": "/service-areas", "permanent": true },
     { "source": "/service-areas/chapel-hill-nc", "destination": "/service-areas", "permanent": true },
     { "source": "/contact-us", "destination": "/contact", "permanent": true },
     { "source": "/about-us", "destination": "/about", "permanent": true },
     { "source": "/booking", "destination": "/contact", "permanent": true },
     { "source": "/services/mulch-installation", "destination": "/services/mulch-pine-straw", "permanent": true },
-    { "source": "/services/springfall-cleanups", "destination": "/services/spring-fall-cleanups", "permanent": true }
+    { "source": "/services/springfall-cleanups", "destination": "/services/spring-fall-cleanups", "permanent": true },
+    { "source": "/services/mulching-services", "destination": "/services/mulch-pine-straw", "permanent": true },
+    { "source": "/services/commercial-lawn-care-services", "destination": "/services/commercial-lawn-care", "permanent": true },
+    { "source": "/services/landscaping-consultationdesign", "destination": "/services/landscape-design-planting", "permanent": true },
+    { "source": "/services/residential-lawn-care-services", "destination": "/services/lawn-maintenance", "permanent": true },
+    { "source": "/projects/lawn-care-and-maintenance-project", "destination": "/gallery", "permanent": true }
   ],
   "headers": [
     {

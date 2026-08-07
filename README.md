@@ -40,3 +40,5 @@ The quote form creates a prefilled SMS to `(984) 338-6483`; it does not collect 
 Published copy is limited to the services, service areas, offers, contact details, public reviews, and business facts verified during the July 24 and August 7, 2026 audits. Do not add claims about licensing, insurance, awards, warranties, years in business, or project counts without client confirmation.
 
 As of August 7, 2026, the connected Google Business Profile is the operating source for the current Google Place ID and these configured service areas: Apex, Cary, Durham, Garner, Raleigh, Morrisville, Fuquay-Varina, and Holly Springs. The site intentionally omits business-hours markup until the owner confirms public hours. Future service-area, address, hours, or service changes require owner confirmation before publication.
+
+The previously published Place ID (`ChIJjRfUHps6RysRA6PtjRQlYYc`) and the connected managed Place ID (`ChIJ3xWsRgz1rIkR7xzJrM3_Fy0`) both resolve to Envision but have different Google feature identifiers. Treat the former as a possible duplicate for owner/Google support review; do not merge, remove, or redirect a Google profile automatically.

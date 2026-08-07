@@ -153,6 +153,21 @@ for (const required of [
   if (!exists(required)) findings.push(`missing required file: ${required}`)
 }
 
+const vercelConfig = JSON.parse(read('vercel.json'))
+for (const [source, destination] of [
+  ['/service-areas/holland-nc', '/service-areas'],
+  ['/services/mulching-services', '/services/mulch-pine-straw'],
+  ['/services/commercial-lawn-care-services', '/services/commercial-lawn-care'],
+  ['/services/landscaping-consultationdesign', '/services/landscape-design-planting'],
+  ['/services/residential-lawn-care-services', '/services/lawn-maintenance'],
+  ['/projects/lawn-care-and-maintenance-project', '/gallery'],
+]) {
+  const redirect = vercelConfig.redirects?.find((item) => item.source === source)
+  if (!redirect || redirect.destination !== destination || redirect.permanent !== true) {
+    findings.push(`${source}: missing evidence-aligned permanent redirect to ${destination}`)
+  }
+}
+
 const home = read('index.html')
 for (const field of ['name', 'phone', 'service', 'location']) {
   if (!new RegExp(`<[^>]+name="${field}"`).test(home)) findings.push(`quote form missing ${field}`)
