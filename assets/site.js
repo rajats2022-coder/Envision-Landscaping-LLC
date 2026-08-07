@@ -50,6 +50,27 @@ document.addEventListener('keydown', (event) => {
 
 const revealItems = selectAll('.reveal')
 
+const mobileCtaBar = document.querySelector('.mobile-cta-bar')
+const siteConcierge = document.querySelector('.site-concierge')
+const heroControlGuard = document.querySelector(
+  '.home-page .hero-action-wrap, .service-page-hero .button-row, .inner-hero'
+)
+
+if (mobileCtaBar && heroControlGuard && 'IntersectionObserver' in window) {
+  const mobileCtaObserver = new IntersectionObserver(
+    ([entry]) => {
+      const heroActionsAreClear = !entry.isIntersecting
+      mobileCtaBar.classList.toggle('is-visible', heroActionsAreClear)
+      siteConcierge?.classList.toggle('is-hero-clear', heroActionsAreClear)
+    },
+    { threshold: 0.12 }
+  )
+  mobileCtaObserver.observe(heroControlGuard)
+} else if (mobileCtaBar) {
+  mobileCtaBar.classList.add('is-visible')
+  siteConcierge?.classList.add('is-hero-clear')
+}
+
 if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const revealObserver = new IntersectionObserver(
     (entries, observer) => {
@@ -377,21 +398,81 @@ selectAll('.service-card').forEach((card) => {
   })
 })
 
-const reviewTrack = document.querySelector('[data-review-track]')
+const reviewStack = document.querySelector('[data-review-stack]')
 
-const moveReviews = (direction) => {
-  if (!reviewTrack) return
-  const firstCard = reviewTrack.querySelector('.review-card')
-  const gap = Number.parseFloat(getComputedStyle(reviewTrack).columnGap) || 24
-  const distance = (firstCard?.getBoundingClientRect().width || 320) + gap
-  reviewTrack.scrollBy({
-    left: distance * direction,
-    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+if (reviewStack) {
+  const reviewCards = [...reviewStack.querySelectorAll('[data-review-card]')]
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+  const compactCards = window.matchMedia('(max-width: 720px)')
+  let activeReview = Math.floor(reviewCards.length / 2)
+  let reviewTimer
+
+  const updateReviewStack = () => {
+    const half = Math.floor(reviewCards.length / 2)
+    const spacing = compactCards.matches ? 174 : 252
+
+    reviewCards.forEach((card, index) => {
+      let position = index - activeReview
+      if (position > half) position -= reviewCards.length
+      if (position < -half) position += reviewCards.length
+
+      const distance = Math.abs(position)
+      const isActive = position === 0
+      card.style.setProperty('--shift', `${position * spacing}px`)
+      card.style.setProperty('--lift', `${isActive ? -36 : position % 2 ? 15 : -15}px`)
+      card.style.setProperty('--tilt', `${isActive ? 0 : position % 2 ? 2.5 : -2.5}deg`)
+      card.style.setProperty('--depth', String(20 - distance))
+      card.style.setProperty('--card-opacity', distance > 3 ? '0' : '1')
+      card.classList.toggle('is-active', isActive)
+      card.setAttribute('aria-hidden', distance > 3 ? 'true' : 'false')
+      card.tabIndex = isActive ? 0 : -1
+    })
+  }
+
+  const moveReviewStack = (steps) => {
+    activeReview = (activeReview + steps + reviewCards.length) % reviewCards.length
+    updateReviewStack()
+  }
+
+  const stopReviewTimer = () => window.clearInterval(reviewTimer)
+  const startReviewTimer = () => {
+    stopReviewTimer()
+    if (!reduceMotion.matches) reviewTimer = window.setInterval(() => moveReviewStack(1), 7000)
+  }
+
+  reviewCards.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      activeReview = index
+      updateReviewStack()
+      startReviewTimer()
+    })
+    card.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return
+      event.preventDefault()
+      activeReview = index
+      updateReviewStack()
+      startReviewTimer()
+    })
   })
-}
 
-document.querySelector('.carousel-prev')?.addEventListener('click', () => moveReviews(-1))
-document.querySelector('.carousel-next')?.addEventListener('click', () => moveReviews(1))
+  reviewStack.querySelector('.stack-review-prev')?.addEventListener('click', () => {
+    moveReviewStack(-1)
+    startReviewTimer()
+  })
+  reviewStack.querySelector('.stack-review-next')?.addEventListener('click', () => {
+    moveReviewStack(1)
+    startReviewTimer()
+  })
+
+  reviewStack.addEventListener('pointerenter', stopReviewTimer)
+  reviewStack.addEventListener('pointerleave', startReviewTimer)
+  reviewStack.addEventListener('focusin', stopReviewTimer)
+  reviewStack.addEventListener('focusout', startReviewTimer)
+  compactCards.addEventListener('change', updateReviewStack)
+  reduceMotion.addEventListener('change', startReviewTimer)
+  updateReviewStack()
+  startReviewTimer()
+}
 
 const lightbox = document.querySelector('[data-lightbox]')
 const lightboxImage = lightbox?.querySelector('img')

@@ -48,6 +48,30 @@ for (const pathname of urls) {
   }
   if (!html.includes('/assets/styles.css')) findings.push(`${pathname}: missing shared stylesheet`)
   if (!html.includes('/assets/site.js')) findings.push(`${pathname}: missing shared interaction script`)
+  if (!html.includes('/assets/concierge.js')) findings.push(`${pathname}: missing concierge script`)
+  if (!html.includes('data-concierge')) findings.push(`${pathname}: missing site concierge`)
+  if (!html.includes('mailto:Kyle@envisionlandscapingllc.com')) {
+    findings.push(`${pathname}: missing Kyle email link`)
+  }
+  if (html.includes('search.google.com/local/reviews?placeid=')) {
+    findings.push(`${pathname}: contains obsolete Google review-reading URL`)
+  }
+  if (html.includes('"aggregateRating"')) {
+    findings.push(`${pathname}: contains self-serving LocalBusiness aggregate rating markup`)
+  }
+  for (const [, rating] of html.matchAll(/data-review-rating="([^"]+)"/g)) {
+    if (Number(rating) !== 5) {
+      findings.push(pathname + ': contains a non-five-star displayed review')
+    }
+  }
+
+  for (const [, json] of html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)) {
+    try {
+      JSON.parse(json)
+    } catch {
+      findings.push(`${pathname}: invalid JSON-LD`)
+    }
+  }
 
   for (const [, src, alt] of html.matchAll(/<img[^>]+src="([^"]+)"[^>]*alt="([^"]*)"/g)) {
     if (!alt.trim()) findings.push(`${pathname}: image ${src} has empty alt text`)
@@ -63,11 +87,40 @@ for (const pathname of urls) {
     const target = pagePath(clean)
     if (!exists(target)) findings.push(`${pathname}: broken internal link ${href}`)
   }
+
+  if (pathname.startsWith('/services/')) {
+    const jobCards = (html.match(/<article class="service-job-card/g) || []).length
+    if (jobCards !== 4) {
+      findings.push(`${pathname}: expected 4 detailed service-job cards, found ${jobCards}`)
+    }
+    if (!html.includes('class="service-page-hero"')) {
+      findings.push(`${pathname}: missing mobile-first service hero`)
+    }
+    if (!html.includes('"hasOfferCatalog"')) {
+      findings.push(`${pathname}: missing structured subservice offer catalog`)
+    }
+    const areaLinks = new Set(
+      [...html.matchAll(/href="(\/service-areas#[^"]+)"/g)].map(([, href]) => href),
+    )
+    if (areaLinks.size !== 8) {
+      findings.push(`${pathname}: expected 8 contextual service-area links, found ${areaLinks.size}`)
+    }
+  }
+
+  if (pathname.startsWith('/service-areas/')) {
+    const serviceLinks = new Set(
+      [...html.matchAll(/href="(\/services\/[^"]+)"/g)].map(([, href]) => href),
+    )
+    if (serviceLinks.size !== 8) {
+      findings.push(`${pathname}: expected 8 contextual service links, found ${serviceLinks.size}`)
+    }
+  }
 }
 
 for (const required of [
   '404.html',
   'assets/site.js',
+  'assets/concierge.js',
   'assets/styles.css',
   'assets/vendor/maplibre-gl.css',
   'assets/vendor/maplibre-gl.js',
@@ -87,6 +140,32 @@ if (!home.includes('data-quote-form')) findings.push('homepage quote form is not
 if (!home.includes('href="tel:+19843386483"')) findings.push('homepage missing normalized phone link')
 if (!home.includes('data-map-canvas')) findings.push('homepage live service map is missing')
 if (!home.includes('data-map-view="state"')) findings.push('homepage North Carolina map view is missing')
+if (home.includes('hero-scroll') || home.includes('See the work')) {
+  findings.push('homepage still contains the removed See the work control')
+}
+if (!home.includes('data-review-stack')) findings.push('homepage staggered Google review stack is missing')
+if (!home.includes('42 Google reviews')) findings.push('homepage synced Google review count is missing')
+if (!home.includes('https://search.google.com/local/writereview?placeid=')) {
+  findings.push('homepage direct Google review action is missing')
+}
+if (!home.includes('https://www.google.com/maps/search/?api=1&query=Envision%20Landscaping%20LLC&query_place_id=')) {
+  findings.push('homepage verified Google Maps review-reading link is missing')
+}
+if (!home.includes('mailto:Kyle@envisionlandscapingllc.com')) {
+  findings.push('homepage Kyle email link is missing')
+}
+for (const image of [
+  'service-lawn-crew-v2.jpg',
+  'service-commercial-v2.jpg',
+  'service-landscape-maintenance-v2.jpg',
+  'service-cleanup-crew-v2.jpg',
+  'service-mulch-crew-v2.jpg',
+  'service-planting-v2.jpg',
+  'service-hardscaping-v2.jpg',
+  'service-holiday-lighting-v2.jpg',
+]) {
+  if (!home.includes(`/assets/images/${image}`)) findings.push(`homepage is missing ${image}`)
+}
 
 const areaSignals = [...home.matchAll(/<button class="map-signal[^>]+data-area-signal[^>]+>/g)].map(
   ([markup]) => markup

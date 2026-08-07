@@ -1,0 +1,388 @@
+{
+  "source": "google-business-profile",
+  "businessName": "Envision Landscaping",
+  "locationName": "accounts/112847676151231508867/locations/635646874931218439",
+  "rating": 4.900000095367432,
+  "reviewCount": 42,
+  "fetchedAt": "2026-08-07T02:27:27.268Z",
+  "reviews": [
+    {
+      "id": "AbFvOqlI0oJyzeQzfcgqSzo5Co86G8yejliox5KQh5m_gJgIp_Hpnezvl4xGIkYKehEVx3-ob9GCiw",
+      "author": "Glenn Hames",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKRQCj6nJFBz5aSNpzwPOLMRwMRKKch3DLgLAyWCGMHcf6tLg=s120-c-rp-mo-br100",
+      "rating": 4,
+      "text": "I had a great experience with Envision Landscaping service. They serviced my yard at a fair price. Yes! I would use them again.",
+      "createTime": "2026-07-02T11:56:02.611743Z",
+      "updateTime": "2026-07-02T11:56:02.611743Z"
+    },
+    {
+      "id": "AbFvOqmPjMEQvCUCipw8AHvC8GXr49X90sqGQ0Ffdc4e8Xn8KJ7HFbZo560bqh_a1hN3Ahak5_o_",
+      "author": "Kevin Fagan",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjW49gQv0staNG2APBtDnLb-96w4JcyUpuK7mtZvdK_jLj6BteM=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "I called on a Tuesday and they were able to deliver and spread all 12 yards of mulch on Friday. Most went into our backyard so it was a very manual process but they knocked it out that afternoon. My neighbor recommended them to me and I am so glad he did.",
+      "createTime": "2026-06-02T18:48:10.103948Z",
+      "updateTime": "2026-06-02T18:48:10.103948Z"
+    },
+    {
+      "id": "AbFvOqkkqwZyLL0wNONJF-weK3TUrQLcJaM_o5InBB3qh4ECM-qzn__WLz3DtJU76ddOXkCcmFANRQ",
+      "author": "Andres Soto",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIh-vcLsWPFmG1IonsmK74PRp5uyzJuonLLifLaFYrz4wxvKA=s120-c-rp-mo-ba12-br100",
+      "rating": 5,
+      "text": "Work was done well, and quickly. Price was great for the amount of mulch and work that my yard needed! It was a disaster.",
+      "createTime": "2026-06-02T17:39:59.785497Z",
+      "updateTime": "2026-06-02T17:39:59.785497Z"
+    },
+    {
+      "id": "AbFvOqlEJavIkcY6FZ9Bj8X1UdhQ859mCvPyueeDebSMZ4B1ZFlCi-zRUcTBP2g9Wlz_tMA_LsZhRA",
+      "author": "Meredith Lin",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocI3M2TVY_AtVii3P3APnE-BTVWTIAHdYhM2CfVc8StQ5pfZPQg=s120-c-rp-mo-ba12-br100",
+      "rating": 5,
+      "text": "I had an excellent experience with Envision Landscaping. Kyle came to walk to the property & carefully documented what needed to happen for a Spring cleanup. Within a few days he sent an estimate (very reasonable), once I confirmed the details of the project, he confirmed a cleanup date, & the team arrived. His team worked 6+ hours detailing the whole yard & leaving everything looking nice and ready for spring. I would highly recommend this company to anyone in the area and plan to use cleanup service again for years to come.",
+      "createTime": "2026-03-05T16:09:23.537349Z",
+      "updateTime": "2026-03-05T16:09:23.537349Z"
+    },
+    {
+      "id": "AbFvOqlqEniBrT64qW8aXLKxA2o7i6dNWUcTnH08FJQBIjuofyZrqDA7r9cfP1p7OSwEDVjNXMLM",
+      "author": "Melissa Bebb",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjW0hIOsa9Pw2ARBvSjV2GgX17QaTAhJQVmOW8j-vDAjbMrKbpxbRA=s120-c-rp-mo-ba12-br100",
+      "rating": 1,
+      "text": "Never showed up for appointment and never reached out again.",
+      "createTime": "2026-02-27T16:17:52.042090Z",
+      "updateTime": "2026-02-27T16:17:52.042090Z"
+    },
+    {
+      "id": "AbFvOqkR3119pEDyVDPiBZUZHJHT3jm9AswguSKwlO62HxXd6jeB68eavHnONn12ukWKCU-UN4gZ",
+      "author": "Cole",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXoMWsaH5foSJcMBPVLWf7pX_-SVpAmG3lCeInDBcX0iNi14Hk3=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Great work and great pricing. Very professional and takes care of the lawn. Definitely recommend 10/10!",
+      "createTime": "2025-11-18T14:12:28.133048Z",
+      "updateTime": "2025-11-18T14:12:28.133048Z"
+    },
+    {
+      "id": "AbFvOqnw8lBw7EIP_kvp_EyLouXF-FCnLnoAWCDK4-fNSJn-ecONAe_eTK1gxlkz192KX5f0xpjprw",
+      "author": "jessicad king",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKi_Qpct50zbi77ZILqAtDkzuDEj52AvvnaB8EGoMQj3ckuyQ=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "I had a fantastic experience with Envision landscaping & Christmas Lighting. The lights made my home stand out. The team was professional, efficient, and clearly knew what they were doing.\nIf you’re looking for a reliable and creative Christmas lighting company, I highly recommend them! They went above and beyond to make sure everything looked perfect.",
+      "createTime": "2025-11-16T21:07:14.425920Z",
+      "updateTime": "2025-11-16T21:07:14.425920Z"
+    },
+    {
+      "id": "AbFvOqnHe298luTCxhfgyYw4ZPBq6UrUQ1iaxXuAkDiUm1DktQq3Xk6XJn8ERlB8zbV7TuCQtyOqFQ",
+      "author": "Jake Leo",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVz7m_TtszP0ogbdpGaKhKelqgRowORvMzhSV04XUiG2YzlnU13=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle is one of the most professional young business owners I’ve met. Always reliable and very professional. Lawn care looks amazing and always is paying attention to the details.",
+      "createTime": "2025-11-16T19:18:37.615717Z",
+      "updateTime": "2025-11-16T19:20:13.248038Z"
+    },
+    {
+      "id": "AbFvOqkm5FnADJRgjJfQOOuCJU7cE9Voo-yrz5U3c939wzOgISpqtpQH-sesGCOdO9kn0jlz_Y2IqA",
+      "author": "Benjamin Monce",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocL7R04XpFcFPRXycsGHbZ0MKuZuFP6DCa_567f7AqQWPrzkMw=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Very responsive and timely. Can’t recommend more",
+      "createTime": "2025-11-16T03:55:23.442348Z",
+      "updateTime": "2025-11-16T03:55:23.442348Z"
+    },
+    {
+      "id": "AbFvOql6FswHgvbvBhx_2nQLBcObeihd4C3ImU9LZpY9ZqJg-e66ZsMNgey2YNb3j4AVauMQyJoiAg",
+      "author": "Brian P",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJzgFuEjlDchhT7J1SkISu-B4omDKecWJeCC_csTDpKfdhbKw=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Just hired envision for the first time, definitely won’t be the last. They did clean and professional job on my property, and their customer service is great.",
+      "createTime": "2025-11-16T03:47:52.749673Z",
+      "updateTime": "2025-11-16T03:47:52.749673Z"
+    },
+    {
+      "id": "AbFvOqn91SpVc6zew7Yxk_KHmZ0-CqGSglqxFOW1P0my1qyUDkD-cNgo7uVipFt9ir9JgVLBaR0o",
+      "author": "Steven Bulluck",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWNW5hhTR7ec6Wh-7uFeEY80pKVt8uHSP2VcRD491DojrkHCxeG=s120-c-rp-mo-ba12-br100",
+      "rating": 5,
+      "text": "I recommend the envision landscaping team as they were incredibly fast and detailed with the work I need done, and listened to my personal requests. Also, Kyle and his team impressed me with their quick and clear communication when scheduling.",
+      "createTime": "2025-11-16T02:50:15.009678Z",
+      "updateTime": "2025-11-16T02:50:15.009678Z"
+    },
+    {
+      "id": "AbFvOqk980XHtnsy28Ii2DxFlXPq0hpIu5ZMvjzzbJIBY8Bchi4uFl-2B26sFNf9oaVkbCxUdipsKw",
+      "author": "Alexander Bunnell-Parker",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLrY630LOaYhKZ2yZ_Wf7j4dUzFmJjN3j7eUc2IdZleUKB7osE=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "This company was amazing. Such helpful insight and such great attitudes. Would very much reccomend!",
+      "createTime": "2025-11-16T02:19:59.933824Z",
+      "updateTime": "2025-11-16T02:19:59.933824Z"
+    },
+    {
+      "id": "AbFvOqlIo9yjhgB899jbWxkwE8Vpg24QdIGUWsV4pCnlPaZJS0DELMs6fXTNgEoPCofnMFYdArCt6g",
+      "author": "Tyler Harris",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJcvUEDhzhU49XzKOwBBOQ5x2zyXFVuoxdEPyZtcR1LHXh0ng=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle and his crew did a great job with our yard! They were always on time and very professional. The service you get for the money is hard to beat! We will definitely be going with Kyle and his crew in the future.",
+      "createTime": "2025-11-16T02:11:15.315798Z",
+      "updateTime": "2025-11-16T02:11:15.315798Z"
+    },
+    {
+      "id": "AbFvOqlFgcSiDQDQfouMNaY7V_jLzhV52zUqDbq9zdw4TyX1A3Mfs4C4sDTr-nbIe8ZoHYnEbRRK",
+      "author": "Nick Costache",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXmVibq8tK5Bp1qbgsbPRnFWdzO6rmvYk9EUqSjdDUiqWYZ01Pj=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle and his team did an awesome job. Super professional, easy to work with, and the quality of the work was way better than what I’ve had in the past. Everything was done on time, the yard looked great after, and they actually pay attention to detail instead of rushing through it. Definitely someone I’d recommend to anyone looking for landscaping or Christmas light setup.",
+      "createTime": "2025-11-16T02:02:13.042334Z",
+      "updateTime": "2025-11-16T02:02:13.042334Z"
+    },
+    {
+      "id": "AbFvOqnq-35YcBsE-OucwF0Tsy635Vn4sj5nk2NporY_5VDY_CfBN1bSst51U7L1xQh3Xh2rXk4i",
+      "author": "michael bulger",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJjZh5CzbakZxY_wIumJOT5NDtlF1JCXoHwK7c9y41wJDRWoA=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Very professional company. Took all of the pressure off of outdoor clean up. Highly recommend",
+      "createTime": "2025-11-16T01:59:19.188430Z",
+      "updateTime": "2025-11-16T01:59:19.188430Z"
+    },
+    {
+      "id": "AbFvOqmX1yOnidjHzW6rthE_lrQoNoKGifaME-fphS11VYC5fY4j_5VlSr7TK53XfWOkqYirwo-JjQ",
+      "author": "Jude Lazarus",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVBS3Qv2pySPlmBz0UN7FgF2RNEZnc1wPjjiRT8L6ouW-7kX7bBUw=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Best landscaping company I’ve ever interacted with. Professional, quick work, and great attention to detail. Definitely call this company ASAP if you are in need of some landscaping.",
+      "createTime": "2025-11-16T01:58:53.480483Z",
+      "updateTime": "2025-11-16T01:58:53.480483Z"
+    },
+    {
+      "id": "AbFvOqnEP4Bcrrx6GtAiKMTMuPofuV_h0m15sEE4hpT0Yu7MqNhlkDOhy107aObLdS0BKq8k_qUnFg",
+      "author": "Jace Womble",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXilAHd52L33uq5B21UWdNc3R63hwftVfsM3_EAFT9koFXmFPOv=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "They did a very good job. They were very professional and efficient in the way they handled their job. I will definitely use their services again.",
+      "createTime": "2025-11-16T01:57:47.367368Z",
+      "updateTime": "2025-11-16T01:57:47.367368Z"
+    },
+    {
+      "id": "AbFvOqlFl-hkgOyCDLaOnB5og-8NJvLovS8xKsjnwrNNM7VJSRpRmQJDJ8Xp2eeZ_sua7QGvVs2OEQ",
+      "author": "Mac helton",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJYfcfYSc8cm2AAr6ef41PIeHJLST3b-ken5mIEOsJ286g3PA=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "I am extremely pleased with the quality of work and professionalism provided by this lawn service. The team is punctual, efficient, and thorough with every visit. They take great care in mowing, edging, trimming, and cleanup, and they consistently exceed expectations. Their attention to detail and reliable scheduling make them a standout choice for lawn maintenance. I highly recommend them to anyone seeking dependable, high-quality lawn care.",
+      "createTime": "2025-11-16T01:56:11.621409Z",
+      "updateTime": "2025-11-16T01:56:11.621409Z"
+    },
+    {
+      "id": "AbFvOqmbE5odSs3Sf3v9jdcx0_76fopxeOe7W3OzsQjaiqdxVFF2a3SOaXaQC8l_82LPDGqkOxFBtg",
+      "author": "Will Bumgarner",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUWMI67v9B6qfcvf8BF2LiMv5QDYjDsfsoQRKs0GioDsitd3jl1=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle’s lawn company is exceptionally professional, delivering high-quality service with consistency and care. The team arrives on time, communicates clearly, and pays close attention to every detail, from clean edging to a perfectly maintained lawn. Their knowledge and dedication are evident in the results, and the overall experience is smooth, reliable, and impressive. I highly recommend Kyle’s company to anyone looking for dependable and top-tier lawn care.",
+      "createTime": "2025-11-16T01:53:19.742323Z",
+      "updateTime": "2025-11-16T01:53:19.742323Z"
+    },
+    {
+      "id": "AbFvOqnYvuR2-X7uRPxPlfY9F3CuMAhmpNKJaWW7joKL7SicqBebOplTW35DtbU4IqDl6DNYXZTskw",
+      "author": "Ryan Manning",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVU4TE2fgtyCYfXmZIoQUOCo9FagfzNWu9nq86Z2fzr0BLun71u=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Put up my Christmas lights in my backyard and they look amazing.",
+      "createTime": "2025-11-16T01:52:23.585816Z",
+      "updateTime": "2025-11-16T01:52:23.585816Z"
+    },
+    {
+      "id": "AbFvOqlD0p87s12yNoZrjxaYvsGXZFzq42oheBzlYrSIuSnsl8RYjZMgASZ0NAfSzVJOtmE5tRoK4w",
+      "author": "Lurmsyy",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUE3hBsTXZtFzm7XLoLELF1ItS-_uuZS2SflyOAtHgXi8aaetHB=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "I recently hired this landscaping company, and the experience was excellent from start to finish. The team arrived on time, communicated clearly, and delivered outstanding results. Their attention to detail and creative approach truly transformed my yard. Most importantly, everyone I interacted with was incredibly professional, making the entire process smooth and stress-free. I highly recommend their services to anyone looking to upgrade their outdoor space.",
+      "createTime": "2025-11-16T01:52:09.482509Z",
+      "updateTime": "2025-11-16T01:52:09.482509Z"
+    },
+    {
+      "id": "AbFvOqlZNQWGZL9A3CJqValF32uW4GzhWvU4WZmajlM9ibytdo_SjkEgwElmiQ8sG6-MArV82YwwBQ",
+      "author": "Juan Pablo Juarez",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKFSHRWAjU5vZzIcClWN4oeT_J4oMIvAuxLr493Q9hltL-k6Q=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Super professional company. Always gets the job done on time with 0 problems",
+      "createTime": "2025-11-16T01:52:08.499934Z",
+      "updateTime": "2025-11-16T01:52:08.499934Z"
+    },
+    {
+      "id": "AbFvOqn8R2t6OFb8Jg87kkxGQe_th8cf8yMg8I1LfwOGSHtaLwqC2MsmhSbT_v8kU7_LiBoQzFq2MA",
+      "author": "logan harmon",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUEWlL8sNkEtHrMc3lejgSw3drAdIniQOqGlhdswlTQWepu2QXyJQ=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Had some overgrown bushes and grass in the yard and the gentleman took care of it as always. Will always recommend them to people in need of some quality landscaping",
+      "createTime": "2025-11-16T01:51:58.767187Z",
+      "updateTime": "2025-11-16T01:51:58.767187Z"
+    },
+    {
+      "id": "AbFvOqnjAr_y-CQdAxLprVfHxFvoV4Kr100zr-wmgeiiHQkhgDWlI7N1HFphRYTfjiC6R6cga4VX",
+      "author": "Landon Diaz",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVesVbnVKmrM0HxpF4ZnePEtgBY4oEvIHwJOjuEjurQa0__jYkS=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Amazing work! The crew was professional, fast, and transformed my yard beyond what I imagined. Everything looks clean, organized, and beautifully maintained. Highly recommend!",
+      "createTime": "2025-11-16T01:51:56.192887Z",
+      "updateTime": "2025-11-16T01:51:56.192887Z"
+    },
+    {
+      "id": "AbFvOql4rMiECIMjlMxx0TO8WVDSSSAbxtU9z7KxBc23iOa5MOsyPachqphIpaxML3njUG8LtK1R",
+      "author": "Sebastian Chao",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXELP_Opoe3tTGlnU85l2b-zRldXdnKGIcw1A4919UUtXQLIlgE=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Very professional transaction. Very prompt and had no issues with every interaction.",
+      "createTime": "2025-11-16T01:51:09.059159Z",
+      "updateTime": "2025-11-16T01:51:09.059159Z"
+    },
+    {
+      "id": "AbFvOqnAoNuGhC9G1oIhFgd8hRXiZQLNxCPv0sLrMNLaO1dFghlqnc2v96kvFOHXaH1Awz-Zb1xN",
+      "author": "Declan O'Brien",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKHPbNVeLz975yLdJjhnhlB-9_Pyh9doCJA1kKpDAgfzbFRaA=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Easily the most professional individual I have ever dealt with. Their attention to detail was more than enough for a 10/5 review, between their crisp lines near sidewalks, and the lawn pattern, I could tell they were professionals. But to add to all of that they were beyond friendly and understanding of my requests. If I could leave a 10/5 I would. Whatever your lawnscaping needs are, these are the people to call.",
+      "createTime": "2025-11-16T01:51:06.207311Z",
+      "updateTime": "2025-11-16T01:51:06.207311Z"
+    },
+    {
+      "id": "AbFvOqmtib4xZ-E9DFUh4VpLJao9-iBSBKO3UZk65HAX_3jsjr20NVavieQ_px59bgjMzeqqrUshwA",
+      "author": "will carpenter",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLgvinPtg-PC6p2RYoUVqTvjolCMllZEGRu0UdINfjQcD07ag=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "They were perfectly on time and did everything I asked. I wasn’t amazing at the speed they put up my lights and the cheap price that came with it!!!!",
+      "createTime": "2025-11-16T01:50:15.835306Z",
+      "updateTime": "2025-11-16T01:50:15.835306Z"
+    },
+    {
+      "id": "AbFvOqmCWvZYRu2L0uMSb55ae3lUzV761bIFYufrTgKVW0owIOnyfUe-csp8ROlBcQRcfldXG2ys",
+      "author": "Jack Armstrong",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUiPoRHjqcvf5rogJc-u-S3Iy9PWIpJSkdOsqdBLhFcpINDMdQ6=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Amazing service, great communication and very professional!",
+      "createTime": "2025-11-16T01:50:06.238966Z",
+      "updateTime": "2025-11-16T01:50:06.238966Z"
+    },
+    {
+      "id": "AbFvOqnajpPmsAAXc5W6ctDdZ3YWpgKtWGSltzdZxPcQXp-EA04Q7wmeVKLoKsPF-5VCaegHwfxZ",
+      "author": "Liam Luedtke",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjU4nvO-3YZ83JAFUXJNOaz4daGesIIqVtBPsC-0OOYk8HMR6bgy=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Envision Landscaping changed my property for the better! Their team did a fantastic job installing lights around my house and they are great to work with. Would highly recommend to anyone looking for light installation or landscaping needs!!",
+      "createTime": "2025-11-16T01:49:26.082021Z",
+      "updateTime": "2025-11-16T01:49:26.082021Z"
+    },
+    {
+      "id": "AbFvOqka4W8r8D8HO7Q6eSAMpMrGZgZyzFTzzFsqd33URFEGcrcv_9vCClTlNfrGQzFSKg488bUlJQ",
+      "author": "Thomas Marshall",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWY435LoxluKGEz_ftCU0Capy4I7pJ23Iqnz8NP8sNqQ1bfzfzi=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle and his associates were incredibly kind, caring, professional, and on top of their game 100%. I have never worked with easier and more pleasant folks. Hanging up my Christmas lights was something I did not know could be done by a service like his, however Kyle and his team puts the customer first and it shows. Its not just a business for them, it was a built relationship and I would recommend them highly to anyone who has any sort of landscaping needs.",
+      "createTime": "2025-11-16T01:47:50.409073Z",
+      "updateTime": "2025-11-16T01:47:50.409073Z"
+    },
+    {
+      "id": "AbFvOqnsqqYrOD57xRxNM-qP7PcOSLtBG_0QXnbSOizp1aKJHQSWyo2oxvE61jxcVj9XePwCkANhlg",
+      "author": "Bryson McBride",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUa1_3SNaIBz4rsDHq768DSvI_EzJV4uEF3qxDMsd0RDuXf2PkAUQ=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Mowed my lawn all last summer. Very professional and always leaves my yard looking clean. No grass buildup. Owner is very personable and they have a very flexible schedule.",
+      "createTime": "2025-11-16T01:47:04.558186Z",
+      "updateTime": "2025-11-16T01:47:04.558186Z"
+    },
+    {
+      "id": "AbFvOqlxrW30LT_3VufQEWdvWFKySxUgwKZK-qqA23p1UBJN_11s0LovzJJ0n5yVa8Z15m09xpbgug",
+      "author": "Nick Jones",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocI3OoM3bvKbMQ2QHERNqT4_MQJ0M-Hpif6pVQHUP6Mg3fNsTg=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Was very pleased with the service. They were on time and very professional with how they handled putting up the lights. They had completed putting up the lights in a very timely manner.",
+      "createTime": "2025-11-14T23:08:05.994208Z",
+      "updateTime": "2025-11-14T23:08:05.994208Z"
+    },
+    {
+      "id": "AbFvOqkwe0dUG-MkKJr2r_cg_EOp7P5DIpf_jk4ilVtOQTKY7PYd-Sr17qWNaMSvHkZeet2vzVjeHw",
+      "author": "Matthew Sipe",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJV0xfx7ox0jhq8wwm8emoLVff7YC9w93Z2onBFWoWK4nu7HQ=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Very appreciative of the service. It was very timely and of good quality. Would recommend for anyone in need of the service and in the area. Very nice looking lights and very symmetrical and neat.",
+      "createTime": "2025-11-14T22:48:38.494613Z",
+      "updateTime": "2025-11-14T22:48:38.494613Z"
+    },
+    {
+      "id": "AbFvOqk3oFhn8XTKfNE9MKXkeAK_-VbKG1-IlVtN_qSWTRDLbpAr5m0IIXABK0h0_d1HG5RGwjVB2g",
+      "author": "Aaron King",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLty5kIThnE7qhw-7yzelUfdrv33tWBmwfk5wurJBJ-PEQn1A=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "We are appreciative of the service. The team was prompt and the work was of good quality. My wife and I would recommend them for anyone looking to have Christmas lights put up in their service area. I can be a bit if a stickler when in comes to the lights looking symmetrical but they did a great job.",
+      "createTime": "2025-11-14T02:27:47.387293Z",
+      "updateTime": "2025-11-14T02:27:47.387293Z"
+    },
+    {
+      "id": "AbFvOqn-rVb4TDE5tjQDhbXT2M5KPbmVsO_4bscCf2TmdChgFfPrcDbh_jOmzOtoAkMkyVnmd5EF",
+      "author": "Ethan King",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLjCbLzHk99XzrlM2dbWzF4nshneL5OdffkhSUScN00Qbp5_A=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "It was a very nice service they were very responsive to any questions or concerns I had, and always professionals in how they acted.",
+      "createTime": "2025-11-06T21:41:57.112734Z",
+      "updateTime": "2025-11-14T00:19:20.594874Z"
+    },
+    {
+      "id": "AbFvOqmIAuQHqC-aN_kDkphrGa7OxFdOfpv6s5s8PCwOSi74cHhLsyABum9tGMnDfwVzNF7aQyLf8A",
+      "author": "Daniel Neuman",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKvfDogId4AY8KmUg_XSdW_I91cPF8SlgboX_9zAGOZVi3G8g=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle with Envision landscaping is very professional, always on time and reliable. They are extremely hardworking and achieve great results!",
+      "createTime": "2025-11-06T21:24:08.697896Z",
+      "updateTime": "2025-11-06T21:24:08.697896Z"
+    },
+    {
+      "id": "AbFvOqnlFZlCyY9mdtQZqZvSI3pPl_PKV8goVzwaz4ktHpeG9Ew9MMpwr7gTP9lDqWLsZihAd7gkog",
+      "author": "Ty High",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLHt99DbjzapK2BaQROuPv0pLO9Vw9BNgJxXG_6Izn2e9q6uw=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle is very professional, him and his crew do great work!",
+      "createTime": "2025-10-16T00:36:34.535328Z",
+      "updateTime": "2025-10-16T00:36:34.535328Z"
+    },
+    {
+      "id": "AbFvOqltuakOFq9OPfneyk4G2vOAsWXXxmgBL_GN6QUIJfOEzYOPumKN8TqP0eiYSmCLxe_BVdgtlA",
+      "author": "Carolyn Dreyer",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJcRbGUcHtJrXgVyk9g7gBGZfwAtMXOHP6WBkauLD3PmrODVA=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "I have worked very closely with the Envision landscaping team and although they are a small company they really do incredible work! The owner Kyle is super easy to talk to and they are always willing to take on any kind of project! They do landscaping, mowing, and mulch at my house and it always looks so neat !",
+      "createTime": "2025-10-15T21:34:19.308373Z",
+      "updateTime": "2025-10-15T21:34:19.308373Z"
+    },
+    {
+      "id": "AbFvOqlbgCXVdUl7Et-bsyxwy0NHIP2UXjivw0dONldRJzIDPT0mAbS1_XlNoirfePHVNX7ra5f7mw",
+      "author": "Peyton Hulighan",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIXQ5FhxROUEGF4gUNuANEXP3fULsGDvfKazKLiEvgP1hkAQA=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle Young runs an incredibly professional and reliable operation. He’s responsive, detail-oriented, and genuinely cares about delivering top-quality work. My yard has never looked better — the design, cleanup, and maintenance are all done with precision and pride. I highly recommend Kyle and his team at Envision Landscaping to anyone looking for excellent service and great results every single time!",
+      "createTime": "2025-10-14T15:43:37.800035Z",
+      "updateTime": "2025-10-14T15:43:37.800035Z"
+    },
+    {
+      "id": "AbFvOqkfU4eCcCKAxGbpjg0WUT3sQP0VYgEFzziYJ3rIfOfA0FkEZv4tXmz9Dt8OUEESaaWiB670sg",
+      "author": "Sarah Denty",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV_6EtU1naLYSAMOIvXqn3-7Hq3Pdlg9zbRTc4DbH1WqtKGySX_=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle and his team maintained my yard this summer. They were always on time, thorough and the yard always looked great! They were also receptive when I pointed out a missed spot on the outside of the fence and they got it every time after that! Super impressed with this company.\nI would definitely recommend his team if you are looking for weekly/bi-weekly yard maintenance.",
+      "createTime": "2025-10-14T13:39:12.886356Z",
+      "updateTime": "2025-10-14T13:39:12.886356Z"
+    },
+    {
+      "id": "AbFvOqk6CVDOmBGmj01y_Yqi53Z8F8V0wtK4qtHVypoTuwUoecRDBQtHkk6c_O1tqCoLKdOFZ4uUzw",
+      "author": "Jared Johnson",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocK3t2TtF8U5Jrfm_u6PsbVYyA-QpGJA7hUlqKGfs4YLKKie-w=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Kyle and his team were fast, professional, and focused. You can tell Kyle is passionate about his clients satisfaction. Would recommend to anyone.",
+      "createTime": "2025-10-14T01:49:37.677079Z",
+      "updateTime": "2025-10-14T01:49:37.677079Z"
+    },
+    {
+      "id": "AbFvOqkLYHuJ1MEEol_lpvrn76P_q-v1I7vikvuMbvQ9BHbU2R4qzVttima5pfSeojvz-AsvIuRq7Q",
+      "author": "Lucas bowman",
+      "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUfmYxX4Ygl8i9_qWl5kVsU6AAlgTy0AoeXGYpUg6Rh2AO4U05I=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Entire experience was 10/10!",
+      "createTime": "2025-10-13T22:37:02.603767Z",
+      "updateTime": "2025-10-13T22:37:02.603767Z"
+    }
+  ]
+}

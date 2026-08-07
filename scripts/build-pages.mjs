@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
-import { copyFile, mkdir, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const origin = 'https://envisionlandscapingllc.com';
+const siteLastModified = '2026-08-07';
 
 const business = {
   name: 'Envision Landscaping LLC',
@@ -13,12 +14,35 @@ const business = {
   owner: 'Kyle Young',
   phone: '(984) 338-6483',
   phoneHref: '+19843386483',
+  email: 'Kyle@envisionlandscapingllc.com',
   instagram: 'https://www.instagram.com/envision_landscaping_llc/',
+  facebook:
+    'https://www.facebook.com/p/Envision-Landscaping-LLC-61571682441315/',
   googleReviews:
-    'https://search.google.com/local/reviews?placeid=ChIJjRfUHps6RysRA6PtjRQlYYc',
+    'https://www.google.com/maps/search/?api=1&query=Envision%20Landscaping%20LLC&query_place_id=ChIJjRfUHps6RysRA6PtjRQlYYc',
+  googleWriteReview:
+    'https://search.google.com/local/writereview?placeid=ChIJjRfUHps6RysRA6PtjRQlYYc',
   publishedHours: 'Monday–Sunday, 8:00 AM–12:00 AM',
   rating: '4.9',
+  reviewCount: 31,
 };
+
+async function loadGoogleReviewData() {
+  try {
+    return JSON.parse(await readFile(join(root, 'data', 'google-reviews.json'), 'utf8'));
+  } catch (error) {
+    if (error?.code !== 'ENOENT') {
+      console.warn('Google review data could not be read; using verified local fallbacks.');
+    }
+    return null;
+  }
+}
+
+const googleReviewData = await loadGoogleReviewData();
+if (googleReviewData?.source === 'google-business-profile') {
+  business.rating = Number(googleReviewData.rating || business.rating).toFixed(1);
+  business.reviewCount = Number(googleReviewData.reviewCount || business.reviewCount);
+}
 
 const areas = [
   {
@@ -127,7 +151,8 @@ const services = [
     slug: 'lawn-maintenance',
     title: 'Lawn Maintenance',
     navTitle: 'Lawn Maintenance',
-    image: '/assets/images/lawn-maintenance.jpg',
+    image: '/assets/images/service-lawn-crew-v2.jpg',
+    imageAlt: 'Envision lawn-care professional mowing a striped Raleigh-area lawn',
     short:
       'Routine mowing, edging, trimming, and cleanup that keeps the property looking sharp.',
     meta:
@@ -160,7 +185,8 @@ const services = [
     slug: 'commercial-lawn-care',
     title: 'Commercial Lawn Care',
     navTitle: 'Commercial Lawn Care',
-    image: '/assets/images/hero-home.jpg',
+    image: '/assets/images/service-commercial-v2.jpg',
+    imageAlt: 'Branded Envision crew maintaining a commercial landscape',
     short:
       'Scheduled lawn and landscape care for businesses and managed properties.',
     meta:
@@ -193,7 +219,8 @@ const services = [
     slug: 'landscape-maintenance',
     title: 'Landscape Maintenance',
     navTitle: 'Landscape Maintenance',
-    image: '/assets/images/landscape-maintenance.jpg',
+    image: '/assets/images/service-landscape-maintenance-v2.jpg',
+    imageAlt: 'Envision landscape professional trimming a residential hedge',
     short:
       'Ongoing bed, shrub, lawn, and seasonal care for a more finished property.',
     meta:
@@ -226,7 +253,8 @@ const services = [
     slug: 'spring-fall-cleanups',
     title: 'Spring & Fall Cleanups',
     navTitle: 'Seasonal Cleanups',
-    image: '/assets/images/seasonal-cleanup.jpg',
+    image: '/assets/images/service-cleanup-crew-v2.jpg',
+    imageAlt: 'Envision crew member gathering leaves during a seasonal yard cleanup',
     short:
       'Seasonal clearing, trimming, and reset work that gets the yard back under control.',
     meta:
@@ -259,7 +287,8 @@ const services = [
     slug: 'mulch-pine-straw',
     title: 'Mulch & Pine Straw',
     navTitle: 'Mulch & Pine Straw',
-    image: '/assets/images/mulching.jpg',
+    image: '/assets/images/service-mulch-crew-v2.jpg',
+    imageAlt: 'Envision landscape professional installing hardwood mulch in a garden bed',
     short:
       'Fresh bed material installed with clean edges and even coverage.',
     meta:
@@ -292,7 +321,8 @@ const services = [
     slug: 'landscape-design-planting',
     title: 'Design & Planting',
     navTitle: 'Design & Planting',
-    image: '/assets/images/about-lawn.jpg',
+    image: '/assets/images/service-planting-v2.jpg',
+    imageAlt: 'Branded Envision landscaper installing a residential garden bed',
     short:
       'Practical landscape planning, plant selection, sod, and installation support.',
     meta:
@@ -325,7 +355,8 @@ const services = [
     slug: 'hardscaping-pavers',
     title: 'Hardscaping & Pavers',
     navTitle: 'Hardscaping & Pavers',
-    image: '/assets/images/hero-home.jpg',
+    image: '/assets/images/service-hardscaping-v2.jpg',
+    imageAlt: 'Finished paver patio and fire pit with an Envision landscaper',
     short:
       'Patios, walkways, retaining features, pavers, and other outdoor improvements.',
     meta:
@@ -358,7 +389,8 @@ const services = [
     slug: 'holiday-lighting',
     title: 'Holiday Lighting',
     navTitle: 'Holiday Lighting',
-    image: '/assets/images/hero-home.jpg',
+    image: '/assets/images/service-holiday-lighting-v2.jpg',
+    imageAlt: 'Envision holiday-lighting installation at a brick home',
     short:
       'Seasonal lighting and decoration help for Raleigh-area homes and properties.',
     meta:
@@ -389,7 +421,338 @@ const services = [
   },
 ];
 
-const reviews = [
+const serviceProfiles = {
+  'lawn-maintenance': {
+    jobHeading: 'Lawn maintenance jobs for a cleaner, more consistent yard',
+    jobIntro:
+      'Each visit is scoped to the property. These are the core lawn-care jobs Raleigh-area homeowners can ask Envision to include.',
+    jobs: [
+      {
+        title: 'Routine lawn mowing',
+        description:
+          'Recurring mowing keeps turf at a practical height and gives the property a consistently cared-for appearance. The visit plan is based on growth, weather, access, and the size of the lawn.',
+        image: '/assets/images/service-lawn-crew-v2.jpg',
+        alt: 'Envision professional mowing a residential lawn in Raleigh',
+      },
+      {
+        title: 'Edging and string trimming',
+        description:
+          'Edges along walks, driveways, beds, fences, and obstacles are addressed so the finished lawn looks intentional instead of simply cut.',
+        image: '/assets/images/lawn-maintenance.jpg',
+        alt: 'Fresh lawn edges along a landscaped Raleigh property',
+      },
+      {
+        title: 'Blowing and final cleanup',
+        description:
+          'Loose clippings are cleared from hard surfaces after mowing and trimming, leaving patios, sidewalks, entrances, and driveways ready to use.',
+        image: '/assets/images/service-cleanup-crew-v2.jpg',
+        alt: 'Envision crew member cleaning lawn debris from a residential property',
+      },
+      {
+        title: 'Overgrown-lawn reset',
+        description:
+          'If regular maintenance has fallen behind, share photos and the property details. Envision can review the height, access, and cleanup needs before defining a one-time reset.',
+        image: '/assets/images/about-lawn.jpg',
+        alt: 'Residential lawn and landscape ready for detailed maintenance',
+      },
+    ],
+    process: [
+      ['Review the lawn', 'Share the address, approximate lawn size, access details, and whether the request is recurring care or a one-time reset.'],
+      ['Set the mowing scope', 'Confirm mowing areas, edge lines, obstacles, gates, and the hard surfaces that should be blown clean.'],
+      ['Complete the lawn-care visit', 'The crew mows, trims, edges, and cleans up according to the approved property-specific scope.'],
+      ['Confirm the next visit', 'For recurring lawn maintenance, timing is adjusted around growth, weather, and the service plan.'],
+    ],
+  },
+  'commercial-lawn-care': {
+    jobHeading: 'Commercial grounds-care jobs built around the property',
+    jobIntro:
+      'Businesses and property managers can combine recurring and seasonal work into a clear commercial lawn-care scope.',
+    jobs: [
+      {
+        title: 'Recurring grounds maintenance',
+        description:
+          'Routine mowing, trimming, edging, and cleanup help keep customer-facing lawns and common areas presentable on a dependable property-specific schedule.',
+        image: '/assets/images/service-commercial-v2.jpg',
+        alt: 'Branded Envision crew performing commercial grounds maintenance',
+      },
+      {
+        title: 'Entrances and curb-appeal areas',
+        description:
+          'High-visibility areas near entrances, signs, sidewalks, and parking edges receive focused detail work so the first impression feels maintained.',
+        image: '/assets/images/service-landscape-maintenance-v2.jpg',
+        alt: 'Envision worker maintaining shrubs near a commercial entrance',
+      },
+      {
+        title: 'Managed-property bed care',
+        description:
+          'Existing shrubs and landscape beds can be included for trimming, bed cleanup, weed removal, edging, and fresh material as approved in the estimate.',
+        image: '/assets/images/service-mulch-crew-v2.jpg',
+        alt: 'Envision professional refreshing a managed landscape bed',
+      },
+      {
+        title: 'Seasonal property resets',
+        description:
+          'Leaf buildup, small fallen branches, tired beds, and seasonal debris can be cleared as a standalone visit or added to an ongoing grounds plan.',
+        image: '/assets/images/service-cleanup-crew-v2.jpg',
+        alt: 'Envision seasonal cleanup at a professionally managed property',
+      },
+    ],
+    process: [
+      ['Walk the property', 'Identify service zones, access requirements, high-visibility areas, and any scheduling considerations for customers or tenants.'],
+      ['Define the recurring scope', 'Document mowing, edging, bed-care, cleanup, and seasonal priorities so the estimate is tied to the actual property.'],
+      ['Schedule around operations', 'Set an approved service rhythm that considers property use, weather, growth, and site access.'],
+      ['Review property condition', 'Use the agreed scope to flag seasonal work or changing conditions that may need a separate estimate.'],
+    ],
+  },
+  'landscape-maintenance': {
+    jobHeading: 'Landscape maintenance for the details beyond mowing',
+    jobIntro:
+      'Envision can focus a maintenance visit on the shrubs, beds, edges, weeds, and seasonal details shaping the overall property.',
+    jobs: [
+      {
+        title: 'Shrub and hedge trimming',
+        description:
+          'Overgrown shrubs and hedges are trimmed to restore cleaner lines, improve access, and keep plants from visually crowding walks, windows, and beds.',
+        image: '/assets/images/service-landscape-maintenance-v2.jpg',
+        alt: 'Envision landscaper trimming a hedge at a Raleigh home',
+      },
+      {
+        title: 'Garden-bed maintenance',
+        description:
+          'Beds can be cleared of visible debris and unwanted growth, then refined around established plants so the landscape reads as one finished space.',
+        image: '/assets/images/service-mulch-crew-v2.jpg',
+        alt: 'Envision professional maintaining a residential garden bed',
+      },
+      {
+        title: 'Bed-edge and weed cleanup',
+        description:
+          'Defined bed lines and targeted weed removal help separate lawn from planting areas and make existing landscaping look more deliberate.',
+        image: '/assets/images/landscape-maintenance.jpg',
+        alt: 'Clean landscaped bed edges at a maintained residential property',
+      },
+      {
+        title: 'Seasonal pruning and debris care',
+        description:
+          'Seasonal growth, leaves, and small debris can be addressed with the timing and plant-care priorities confirmed before work begins.',
+        image: '/assets/images/service-cleanup-crew-v2.jpg',
+        alt: 'Envision worker clearing seasonal landscape debris',
+      },
+    ],
+    process: [
+      ['Identify priority areas', 'Share the shrubs, beds, edges, and problem areas that need attention, along with photos when possible.'],
+      ['Confirm plant and bed scope', 'Review what should be trimmed, cleaned, edged, or left untouched before the estimate is approved.'],
+      ['Perform the detail work', 'The crew completes the approved trimming, bed maintenance, weed cleanup, and debris work.'],
+      ['Review the finished landscape', 'Walk the result and discuss any future seasonal or recurring maintenance needs.'],
+    ],
+  },
+  'spring-fall-cleanups': {
+    jobHeading: 'Seasonal yard-cleanup jobs Envision can combine',
+    jobIntro:
+      'A cleanup can target one problem area or reset the full yard. The final estimate reflects the debris volume, access, and work selected for the property.',
+    jobs: [
+      {
+        title: 'Leaf clearing and collection',
+        description:
+          'Leaves are gathered from the approved lawn and landscape areas so they no longer hide edges, crowd beds, or make the property feel unfinished.',
+        image: '/assets/images/service-cleanup-crew-v2.jpg',
+        alt: 'Envision crew member collecting autumn leaves on a Raleigh lawn',
+      },
+      {
+        title: 'Stick and small storm-debris cleanup',
+        description:
+          'Loose sticks, small fallen branches, and scattered natural debris can be collected as part of a seasonal reset after weather or periods of yard buildup.',
+        image: '/assets/images/seasonal-cleanup.jpg',
+        alt: 'Residential yard prepared for seasonal stick and debris cleanup',
+      },
+      {
+        title: 'Garden-bed cleanup',
+        description:
+          'Beds can be cleared of leaves, visible debris, and spent seasonal material while established plants and the approved bed layout are respected.',
+        image: '/assets/images/service-mulch-crew-v2.jpg',
+        alt: 'Envision worker cleaning and refreshing a garden bed',
+      },
+      {
+        title: 'Shrub and perennial cutbacks',
+        description:
+          'Selected shrubs and spent growth can be trimmed as scoped to reduce overgrowth and prepare the landscape for the next season.',
+        image: '/assets/images/service-landscape-maintenance-v2.jpg',
+        alt: 'Envision professional trimming seasonal landscape growth',
+      },
+    ],
+    process: [
+      ['Estimate the cleanup', 'Share photos and identify the lawn, beds, leaves, sticks, and overgrowth that should be included.'],
+      ['Set collection priorities', 'Confirm the cleanup zones, access points, trimming requests, and any areas that should not be disturbed.'],
+      ['Clear and detail the property', 'The crew gathers approved debris, cleans bed and lawn areas, and completes the scoped cutbacks.'],
+      ['Finish with a property check', 'Review the cleaned areas and decide whether mulch, planting, or recurring maintenance should be estimated separately.'],
+    ],
+  },
+  'mulch-pine-straw': {
+    jobHeading: 'Mulch and pine-straw work from preparation to finish',
+    jobIntro:
+      'A finished installation starts before material is spread. Envision can scope the bed preparation, material choice, coverage, and cleanup together.',
+    jobs: [
+      {
+        title: 'Hardwood mulch installation',
+        description:
+          'Hardwood mulch is placed in approved beds with even coverage and attention around trunks, shrubs, and hard surfaces for a clean finished appearance.',
+        image: '/assets/images/service-mulch-crew-v2.jpg',
+        alt: 'Envision landscaper installing hardwood mulch around residential shrubs',
+      },
+      {
+        title: 'Pine-straw installation',
+        description:
+          'Fresh pine straw can renew established planting areas and create a consistent surface across natural beds after preparation is complete.',
+        image: '/assets/images/mulching.jpg',
+        alt: 'Fresh landscape-bed material installed around established plants',
+      },
+      {
+        title: 'Bed preparation',
+        description:
+          'Visible weeds, leaves, and loose debris can be addressed before installation so new material is not simply placed over an unfinished bed.',
+        image: '/assets/images/service-cleanup-crew-v2.jpg',
+        alt: 'Envision worker preparing a landscape bed before new material',
+      },
+      {
+        title: 'Edge definition and finishing',
+        description:
+          'Bed lines and adjacent hard surfaces are cleaned as scoped to give the mulch or pine-straw installation a deliberate boundary and tidy finish.',
+        image: '/assets/images/landscape-maintenance.jpg',
+        alt: 'Defined garden-bed edge beside a maintained Raleigh lawn',
+      },
+    ],
+    process: [
+      ['Measure and review the beds', 'Identify material preference, bed locations, approximate dimensions, access, and preparation needs.'],
+      ['Prepare the installation areas', 'Complete the approved debris, weed, and edge work before fresh mulch or pine straw is placed.'],
+      ['Install even coverage', 'Spread the selected material consistently around plants and landscape features included in the scope.'],
+      ['Clean adjacent surfaces', 'Finish by clearing loose material from walks, drives, lawn edges, and other approved hard surfaces.'],
+    ],
+  },
+  'landscape-design-planting': {
+    jobHeading: 'Planting and landscape-planning jobs for practical outdoor upgrades',
+    jobIntro:
+      'Projects can begin with one bed or a larger property refresh. Envision scopes the layout, materials, access, and installation work around the space.',
+    jobs: [
+      {
+        title: 'Landscape consultation and layout',
+        description:
+          'Start with the property, the problem you want to solve, and inspiration for the finished space. Existing features can be kept, adjusted, or worked around in the plan.',
+        image: '/assets/images/about-lawn.jpg',
+        alt: 'Finished lawn and garden used for residential landscape planning',
+      },
+      {
+        title: 'Tree and shrub installation',
+        description:
+          'New trees and shrubs can be selected and placed around the site conditions, available space, and visual goals confirmed for the project.',
+        image: '/assets/images/service-planting-v2.jpg',
+        alt: 'Branded Envision landscaper installing plants in a residential bed',
+      },
+      {
+        title: 'Flower and perennial beds',
+        description:
+          'New or refreshed planting beds can add color, structure, and a stronger transition between the home, lawn, and existing landscape.',
+        image: '/assets/images/service-mulch-crew-v2.jpg',
+        alt: 'Envision worker finishing a flower and perennial landscape bed',
+      },
+      {
+        title: 'Sod installation and lawn repair',
+        description:
+          'Bare or disrupted lawn areas can be reviewed for sod installation or repair, with the area and preparation requirements defined before quoting.',
+        image: '/assets/images/lawn-maintenance.jpg',
+        alt: 'Healthy residential turf illustrating a completed sod and lawn project',
+      },
+    ],
+    process: [
+      ['Share the project goal', 'Describe the area, the result you want, current problem spots, and any photos or inspiration that clarify the direction.'],
+      ['Review the site and layout', 'Evaluate dimensions, access, existing features, and the planting or sod areas that belong in the estimate.'],
+      ['Confirm plants and materials', 'Agree on the project scope and selected materials before installation is scheduled.'],
+      ['Install and walk the result', 'Complete the approved planting or sod work, then review the finished areas and basic next-step care.'],
+    ],
+  },
+  'hardscaping-pavers': {
+    jobHeading: 'Hardscape projects shaped around how the outdoor space will be used',
+    jobIntro:
+      'Envision’s published hardscape offering covers several project types. Each one starts with a site review and a property-specific estimate.',
+    jobs: [
+      {
+        title: 'Paver patios',
+        description:
+          'A paver patio can create a defined outdoor gathering area sized around the home, access, intended furniture, and how the space will be used.',
+        image: '/assets/images/service-hardscaping-v2.jpg',
+        alt: 'Finished paver patio and fire-pit area with an Envision landscaper',
+      },
+      {
+        title: 'Walkways and stepping paths',
+        description:
+          'Walkway and path projects can improve movement between entrances, driveways, yards, patios, and other outdoor destinations.',
+        image: '/assets/images/about-lawn.jpg',
+        alt: 'Landscaped residential walkway connecting outdoor spaces',
+      },
+      {
+        title: 'Retaining features',
+        description:
+          'Retaining-wall and related grade features require a review of the location, dimensions, access, and intended function before the scope is defined.',
+        image: '/assets/images/landscape-maintenance.jpg',
+        alt: 'Residential landscape with structured edges and retaining features',
+      },
+      {
+        title: 'Fire pits and outdoor-living planning',
+        description:
+          'Fire-pit and outdoor-living ideas can be discussed as part of a larger hardscape plan, with the final project based on the property and approved scope.',
+        image: '/assets/images/service-hardscaping-v2.jpg',
+        alt: 'Residential outdoor-living area with pavers and a fire pit',
+      },
+    ],
+    process: [
+      ['Discuss the intended use', 'Share the project type, location, approximate size, access, and how you want to use the finished space.'],
+      ['Review the property', 'Evaluate the site conditions, existing landscape, dimensions, and practical scope before preparing an estimate.'],
+      ['Confirm layout and materials', 'Agree on the work, materials, and project boundaries before scheduling begins.'],
+      ['Build and review the feature', 'Complete the approved hardscape work and walk the finished project against the agreed scope.'],
+    ],
+  },
+  'holiday-lighting': {
+    jobHeading: 'Holiday-lighting ideas tailored to the property',
+    jobIntro:
+      'Envision can scope a display around the home or property, the areas you want to highlight, and current seasonal availability.',
+    jobs: [
+      {
+        title: 'Roofline lighting',
+        description:
+          'Roof edges, peaks, and prominent architectural lines can be considered for a clean seasonal outline based on the property and approved display plan.',
+        image: '/assets/images/service-holiday-lighting-v2.jpg',
+        alt: 'Envision holiday-lighting installation along a brick-home roofline',
+      },
+      {
+        title: 'Tree and shrub accents',
+        description:
+          'Selected trees and shrubs can be highlighted to extend the display into the landscape and create depth beyond the house itself.',
+        image: '/assets/images/service-holiday-lighting-v2.jpg',
+        alt: 'Holiday lights accenting trees and shrubs around a Raleigh home',
+      },
+      {
+        title: 'Entry and landscape highlights',
+        description:
+          'Entrances, columns, planting areas, and other focal points can be included to guide attention through a coordinated property-specific display.',
+        image: '/assets/images/hero-home.jpg',
+        alt: 'Residential entry and landscape ready for seasonal lighting accents',
+      },
+      {
+        title: 'Custom display planning',
+        description:
+          'Share inspiration photos, preferred colors, and the parts of the property that matter most. Availability and the exact installation scope are confirmed before scheduling.',
+        image: '/assets/images/service-holiday-lighting-v2.jpg',
+        alt: 'Completed custom holiday-light display installed by Envision',
+      },
+    ],
+    process: [
+      ['Share the display idea', 'Send property photos, inspiration, preferred colors, and the areas you want to highlight.'],
+      ['Review the property and timing', 'Confirm the installation areas, access, display priorities, and current seasonal availability.'],
+      ['Approve the display scope', 'Review the property-specific plan and estimate before an installation date is scheduled.'],
+      ['Install and check the display', 'Complete the approved lighting work and review the visible result with the property owner.'],
+    ],
+  },
+};
+
+const fallbackReviews = [
   {
     name: 'Alison W.',
     service: 'Mulch installation',
@@ -409,6 +772,24 @@ const reviews = [
       'The review notes prompt scheduling, a reasonable estimate, and a clean finished result.',
   },
 ];
+
+const reviews = googleReviewData?.reviews?.length
+  ? googleReviewData.reviews
+      .filter(
+        (review) => review.text?.trim() && Number(review.rating) === 5,
+      )
+      .map((review) => ({
+        name: review.author || 'Google reviewer',
+        service: review.createTime
+          ? new Date(review.createTime).toLocaleDateString('en-US', {
+              month: 'short',
+              year: 'numeric',
+            })
+          : 'Verified Google review',
+        highlight: review.text.trim(),
+        rating: Number(review.rating || 5),
+      }))
+  : fallbackReviews.map((review) => ({ ...review, rating: 5 }));
 
 const homepageFaqs = [
   [
@@ -436,10 +817,14 @@ const homepageFaqs = [
 const icons = {
   arrow: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg>`,
   phone: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7.5 3.8 10 8l-2.2 2.2c1.4 2.8 3.2 4.6 6 6l2.2-2.2 4.2 2.5-.7 3.2c-.2.8-.9 1.3-1.7 1.3C9.6 20.6 3.4 14.4 3 6.2c0-.8.5-1.5 1.3-1.7l3.2-.7Z"/></svg>`,
+  mail: `<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>`,
+  chat: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 15a3 3 0 0 1-3 3H9l-5 3v-6a3 3 0 0 1-1-2.2V7a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v8Z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>`,
+  send: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/></svg>`,
   pin: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.6"/></svg>`,
   clock: `<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
   star: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.9-5.4 2.9 1-6-4.3-4.2 6-.9L12 3Z"/></svg>`,
   instagram: `<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>`,
+  facebook: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 8H18V4h-3.5C11.2 4 9 6.2 9 9.7V12H6v4h3v7h4v-7h4l.7-4H13V9.8c0-1.2.5-1.8 1.5-1.8Z"/></svg>`,
   menu: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>`,
   close: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>`,
   check: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>`,
@@ -450,10 +835,20 @@ const icons = {
   locate: `<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="8"/></svg>`,
   fullscreen: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5"/></svg>`,
   quote: `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9.5 6H5v6h4v6H3v-6c0-3.4 2.2-6 6.5-6ZM21 6h-4.5v6h4v6h-6v-6c0-3.4 2.2-6 6.5-6Z"/></svg>`,
+  google: `<svg class="google-mark" aria-hidden="true" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.07 5.07 0 0 1-2.2 3.31v2.77h3.56c2.09-1.92 3.28-4.74 3.28-8.09Z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.77c-.99.66-2.24 1.06-3.72 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/><path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.13-1.43.34-2.1V7.06H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.94l3.66-2.84Z"/><path fill="#EA4335" d="M12 5.37c1.62 0 3.06.56 4.2 1.64l3.15-3.15A10.56 10.56 0 0 0 12 1a11 11 0 0 0-9.82 6.06L5.84 9.9C6.71 7.3 9.14 5.37 12 5.37Z"/></svg>`,
 };
 
 function cleanPath(path) {
   return path === 'index' ? '/' : `/${path}`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
 function pageUrl(path) {
@@ -464,11 +859,13 @@ function localBusinessSchema(extra = {}) {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
+    '@id': `${origin}/#business`,
     name: business.name,
     url: origin,
     image: `${origin}/assets/images/hero-home.jpg`,
     logo: `${origin}/assets/images/envision-logo.png`,
     telephone: business.phoneHref,
+    email: business.email,
     founder: {
       '@type': 'Person',
       name: business.owner,
@@ -483,13 +880,8 @@ function localBusinessSchema(extra = {}) {
       '@type': 'City',
       name: `${area.name}, ${area.region}`,
     })),
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: business.rating,
-      bestRating: '5',
-      reviewCount: '31',
-    },
-    sameAs: [business.instagram, business.googleReviews],
+    sameAs: [business.instagram, business.facebook, business.googleReviews],
+    knowsAbout: services.map((service) => service.title),
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -526,18 +918,65 @@ function faqSchema(items) {
 }
 
 function serviceSchema(service) {
+  const profile = serviceProfiles[service.slug];
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: service.title,
     description: service.meta,
     areaServed: areas.map((area) => `${area.name}, ${area.region}`),
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `${service.title} jobs`,
+      itemListElement: profile.jobs.map((job) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: job.title,
+          description: job.description,
+          areaServed: areas.map((area) => `${area.name}, ${area.region}`),
+        },
+      })),
+    },
     provider: {
       '@type': 'LocalBusiness',
+      '@id': `${origin}/#business`,
       name: business.name,
       telephone: business.phoneHref,
       url: origin,
     },
+  };
+}
+
+function websiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${origin}/#website`,
+    url: `${origin}/`,
+    name: business.name,
+    inLanguage: 'en-US',
+    publisher: { '@id': `${origin}/#business` },
+  };
+}
+
+function webPageSchema(path, title, description, image) {
+  const url = pageUrl(path);
+  return {
+    '@context': 'https://schema.org',
+    '@type': path === 'contact' ? 'ContactPage' : path === 'about' ? 'AboutPage' : 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    inLanguage: 'en-US',
+    isPartOf: { '@id': `${origin}/#website` },
+    about: { '@id': `${origin}/#business` },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: `${origin}${image}`,
+    },
+    dateModified: siteLastModified,
   };
 }
 
@@ -570,6 +1009,7 @@ function siteHeader(currentPath) {
         <div class="utility-group utility-actions">
           <a href="${business.googleReviews}" target="_blank" rel="noopener">${icons.star}<span>${business.rating} on Google</span></a>
           <a href="${business.instagram}" target="_blank" rel="noopener">${icons.instagram}<span>Instagram</span></a>
+          <a href="${business.facebook}" target="_blank" rel="noopener">${icons.facebook}<span>Facebook</span></a>
         </div>
       </div>
     </div>
@@ -639,8 +1079,45 @@ function siteHeader(currentPath) {
       <div class="mobile-menu-meta">
         <span>${icons.pin} Raleigh, NC &amp; surrounding areas</span>
         <span>${icons.clock} ${business.publishedHours}</span>
+        <a href="mailto:${business.email}">${icons.mail} ${business.email}</a>
       </div>
     </aside>`;
+}
+
+function siteAssistant() {
+  return `<aside class="site-concierge" data-concierge
+      data-phone="${business.phoneHref}"
+      data-phone-display="${business.phone}"
+      data-email="${business.email}"
+      data-google-reviews="${business.googleReviews}"
+      data-google-write-review="${business.googleWriteReview}">
+    <button class="concierge-launcher" type="button" aria-label="Open Envision service assistant" aria-expanded="false" aria-controls="envision-concierge-panel">
+      <span class="concierge-launcher-icon">${icons.chat}</span>
+      <span><strong>Ask Envision</strong><small>Service &amp; estimate guide</small></span>
+    </button>
+    <section class="concierge-panel" id="envision-concierge-panel" role="dialog" aria-modal="false" aria-labelledby="concierge-title" hidden>
+      <header class="concierge-header">
+        <div class="concierge-identity">
+          <span class="concierge-logo"><img src="/assets/images/envision-logo.png" alt="Envision Landscaping" width="76" height="44"></span>
+          <span><strong id="concierge-title">Envision assistant</strong><small><i aria-hidden="true"></i> Website concierge</small></span>
+        </div>
+        <button class="concierge-close" type="button" aria-label="Close Envision assistant">${icons.close}</button>
+      </header>
+      <div class="concierge-log" data-concierge-log role="log" aria-live="polite" aria-relevant="additions"></div>
+      <div class="concierge-suggestions" data-concierge-suggestions aria-label="Suggested questions">
+        <button type="button" data-concierge-prompt="I need help choosing a service">Choose a service</button>
+        <button type="button" data-concierge-prompt="Do you serve my area?">Check my area</button>
+        <button type="button" data-concierge-prompt="I want an estimate">Build an estimate request</button>
+        <button type="button" data-concierge-prompt="Show me your Google reviews">Google reviews</button>
+      </div>
+      <form class="concierge-form" data-concierge-form>
+        <label class="sr-only" for="concierge-message">Ask Envision a question</label>
+        <input id="concierge-message" name="message" type="text" maxlength="320" autocomplete="off" placeholder="Ask about a service, area, or estimate…" required>
+        <button type="submit" aria-label="Send question">${icons.send}</button>
+      </form>
+      <p class="concierge-disclaimer">Uses verified website information. Kyle confirms live scheduling, pricing, and project fit.</p>
+    </section>
+  </aside>`;
 }
 
 function siteFooter() {
@@ -652,6 +1129,7 @@ function siteFooter() {
           <p>Owner-led lawn and landscape care for Raleigh and surrounding Triangle communities.</p>
           <div class="social-row">
             <a href="${business.instagram}" target="_blank" rel="noopener" aria-label="Envision Landscaping on Instagram">${icons.instagram}</a>
+            <a href="${business.facebook}" target="_blank" rel="noopener" aria-label="Envision Landscaping on Facebook">${icons.facebook}</a>
             <a href="${business.googleReviews}" target="_blank" rel="noopener" aria-label="Read Envision Landscaping Google reviews">${icons.star}</a>
           </div>
         </div>
@@ -681,6 +1159,7 @@ function siteFooter() {
           <h2>Contact</h2>
           <ul class="contact-list">
             <li><a href="tel:${business.phoneHref}">${icons.phone}<span>${business.phone}</span></a></li>
+            <li><a href="mailto:${business.email}">${icons.mail}<span>${business.email}</span></a></li>
             <li>${icons.pin}<span>Raleigh, NC<br>Serving the Triangle</span></li>
             <li>${icons.clock}<span>${business.publishedHours}</span></li>
           </ul>
@@ -691,6 +1170,7 @@ function siteFooter() {
         <div><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sitemap.xml">Sitemap</a></div>
       </div>
     </footer>
+    ${siteAssistant()}
     <div class="mobile-cta-bar" aria-label="Quick actions">
       <a href="tel:${business.phoneHref}">${icons.phone}<span>Call</span></a>
       <a href="/contact">${icons.arrow}<span>Estimate</span></a>
@@ -707,6 +1187,11 @@ function pageShell({
   bodyClass = '',
 }) {
   const canonical = pageUrl(path);
+  const pageSchemas = [
+    ...(path === 'index' ? [websiteSchema()] : []),
+    ...schemas,
+    webPageSchema(path, title, description, image),
+  ];
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -733,15 +1218,16 @@ function pageShell({
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/maplibre-gl.css?v=5.12.0">
-  <link rel="stylesheet" href="/assets/styles.css?v=20260725-4">
-  ${renderSchemas(schemas)}
+  <link rel="stylesheet" href="/assets/styles.css?v=20260807-7">
+  ${renderSchemas(pageSchemas)}
 </head>
 <body class="${bodyClass}">
   ${siteHeader(path)}
   <main id="main-content">${body}</main>
   ${siteFooter()}
   <script src="/assets/vendor/maplibre-gl.js?v=5.12.0" defer></script>
-  <script src="/assets/site.js?v=20260725-4" defer></script>
+  <script src="/assets/site.js?v=20260807-4" defer></script>
+  <script type="module" src="/assets/concierge.js?v=20260807-2"></script>
 </body>
 </html>`;
 }
@@ -764,44 +1250,39 @@ function buttonPair(primaryText = 'Request a free estimate') {
 function trustRail() {
   const items = [
     {
-      icon: icons.star,
-      metric: business.rating,
-      title: 'Google rating',
-      copy: 'See what Raleigh-area customers say about the finished work.',
+      display: `<span class="trust-display-number">${business.rating}</span><span class="trust-display-words">stars<br>on Google</span>`,
+      title: 'Top-rated service',
+      copy: 'Our clients love the finished work. See what Raleigh-area customers say on Google.',
       link: business.googleReviews,
-      label: 'Read reviews',
+      label: 'Our reviews',
     },
     {
-      icon: icons.check,
-      metric: 'Owner-led',
-      title: `By ${business.owner}`,
-      copy: 'Direct accountability from the first conversation through the final walkthrough.',
+      display: `<span class="trust-display-main">Owner-led</span><span class="trust-display-sub">by ${business.owner}</span>`,
+      title: 'Local & accountable',
+      copy: 'Work directly with Kyle from the first conversation through the final walkthrough.',
       link: '/about',
-      label: 'Meet Envision',
+      label: 'About us',
     },
     {
-      icon: icons.pin,
-      metric: `${areas.length} areas`,
-      title: 'Across the Triangle',
-      copy: 'Raleigh, Cary, Apex, Durham, Chapel Hill, and surrounding communities.',
+      display: `<span class="trust-display-number">${areas.length}</span><span class="trust-display-words">Triangle<br>areas</span>`,
+      title: 'Raleigh & beyond',
+      copy: 'Serving Raleigh, Cary, Apex, Durham, Chapel Hill, and surrounding Triangle communities.',
       link: '/service-areas',
-      label: 'View service area',
+      label: 'Service area',
     },
     {
-      icon: icons.clock,
-      metric: '7 days',
+      display: '<span class="trust-display-main">Mon–Sun</span><span class="trust-display-sub">8 AM–12 AM</span>',
       title: 'Published availability',
-      copy: 'Current published hours run Monday through Sunday.',
+      copy: 'Published hours run seven days a week, with availability from 8 AM to midnight.',
       link: '/contact',
-      label: 'Check the schedule',
+      label: 'Get an estimate',
     },
   ];
   return `<section class="trust-rail shell" aria-label="Why customers contact Envision">
     ${items
       .map(
-        (item) => `<a class="trust-card reveal" href="${item.link}">
-          <span class="trust-icon">${item.icon}</span>
-          <strong class="trust-metric">${item.metric}</strong>
+        (item, index) => `<a class="trust-card trust-card-${index + 1} reveal" href="${item.link}">
+          <strong class="trust-display">${item.display}</strong>
           <h2>${item.title}</h2>
           <p>${item.copy}</p>
           <span class="text-link">${item.label} ${icons.arrow}</span>
@@ -811,21 +1292,21 @@ function trustRail() {
   </section>`;
 }
 
-function serviceGrid(limit = services.length) {
-  return `<div class="service-grid">
+function serviceGrid(limit = services.length, className = '') {
+  return `<div class="service-grid${className ? ` ${className}` : ''}">
     ${services
       .slice(0, limit)
       .map(
-        (service, index) => `<article class="service-card reveal" style="--i:${index}" tabindex="0">
-          <img src="${service.image}" alt="${service.title} project by Envision Landscaping" loading="lazy" width="900" height="1100">
+        (service, index) => `<a class="service-card reveal" style="--i:${index}" href="/services/${service.slug}">
+          <img src="${service.image}" alt="${service.imageAlt || `${service.title} service from Envision Landscaping`}" loading="lazy" width="900" height="1100">
           <div class="service-card-shade"></div>
           <div class="service-card-copy">
             <span>${String(index + 1).padStart(2, '0')}</span>
             <h3>${service.title}</h3>
             <p>${service.short}</p>
-            <a href="/services/${service.slug}">View service ${icons.arrow}</a>
+            <span class="service-card-link">View service ${icons.arrow}</span>
           </div>
-        </article>`,
+        </a>`,
       )
       .join('')}
   </div>`;
@@ -855,33 +1336,110 @@ function processSection(heading = 'How working with Envision starts') {
   </section>`;
 }
 
+function serviceHero(service) {
+  return `<section class="service-page-hero">
+    <div class="service-page-hero-media">
+      <img src="${service.image}" alt="${service.imageAlt || `${service.title} service from Envision Landscaping`}" width="1800" height="1200" fetchpriority="high" decoding="async">
+    </div>
+    <div class="service-page-hero-panel">
+      <div class="service-page-hero-content reveal">
+        <p class="eyebrow eyebrow-light">Raleigh &amp; Triangle service</p>
+        <h1>${service.h1}</h1>
+        <p>${service.short}</p>
+        ${buttonPair()}
+      </div>
+    </div>
+  </section>`;
+}
+
+function serviceJobsSection(service) {
+  const profile = serviceProfiles[service.slug];
+  return `<section class="service-jobs section-pad" aria-labelledby="${service.slug}-jobs-heading">
+    <div class="shell">
+      <div class="service-jobs-heading reveal">
+        <p class="eyebrow">Inside this service</p>
+        <h2 id="${service.slug}-jobs-heading">${profile.jobHeading}</h2>
+        <p>${profile.jobIntro}</p>
+      </div>
+      <div class="service-job-grid">
+        ${profile.jobs
+          .map(
+            (job, index) => `<article class="service-job-card reveal" style="--i:${index}">
+              <img src="${job.image}" alt="${job.alt}" loading="lazy" width="1200" height="800">
+              <div class="service-job-card-copy">
+                <span>${String(index + 1).padStart(2, '0')}</span>
+                <h3>${job.title}</h3>
+                <p>${job.description}</p>
+              </div>
+            </article>`,
+          )
+          .join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function serviceProcessSection(service) {
+  const profile = serviceProfiles[service.slug];
+  return `<section class="service-process section-pad">
+    <div class="shell service-process-grid">
+      <div class="service-process-visual reveal">
+        <img src="${service.image}" alt="${service.imageAlt || `${service.title} work by Envision Landscaping`}" loading="lazy" width="1200" height="900">
+        <div><span>Property-specific scope</span><strong>Clear steps before work begins.</strong></div>
+      </div>
+      <div class="service-process-copy">
+        ${sectionHeading('How the work moves', `${service.title}: estimate to final check`, 'The exact job changes by property, but the planning stays straightforward.')}
+        <ol class="service-process-list">
+          ${profile.process
+            .map(
+              ([title, body], index) => `<li class="reveal">
+                <span>${String(index + 1).padStart(2, '0')}</span>
+                <div><h3>${title}</h3><p>${body}</p></div>
+              </li>`,
+            )
+            .join('')}
+        </ol>
+      </div>
+    </div>
+  </section>`;
+}
+
 function reviewSection() {
-  return `<section class="reviews section-pad">
+  const featuredReviews = reviews.slice(0, 11);
+  return `<section class="reviews section-pad" id="reviews" aria-labelledby="review-heading">
     <div class="shell">
       <div class="reviews-top">
-        ${sectionHeading('Customer feedback', 'Local work earns local trust.', 'These highlights summarize reviews already published on Envision’s current website.')}
+        <div class="section-heading reveal">
+          <p class="eyebrow">Verified Google reviews</p>
+          <h2 id="review-heading">Raleigh-area customers tell the story.</h2>
+          <p>Browse recent feedback pulled directly from Envision’s Google Business Profile.</p>
+        </div>
         <div class="review-score reveal">
+          ${icons.google}
           <span>${business.rating}</span>
-          <div><div class="stars">${icons.star.repeat(5)}</div><p>Published Google rating</p></div>
+          <div><div class="stars">${icons.star.repeat(5)}</div><p>${business.reviewCount} Google reviews</p></div>
         </div>
       </div>
-      <div class="review-track-wrap reveal">
-        <button class="carousel-button carousel-prev" type="button" aria-label="Previous reviews">${icons.arrow}</button>
-        <div class="review-track" data-review-track>
-          ${reviews
+      <div class="review-stack reveal" data-review-stack aria-live="polite">
+        <div class="review-stack-cards">
+          ${featuredReviews
             .map(
-              (review) => `<article class="review-card">
-                <div class="review-card-top"><span>${icons.quote}</span><span class="stars">${icons.star.repeat(5)}</span></div>
-                <p>${review.highlight}</p>
-                <footer><strong>${review.name}</strong><span>${review.service}</span></footer>
+              (review, index) => `<article class="stack-review-card" data-review-card data-review-rating="${review.rating || 5}" data-review-index="${index}" style="--position:${index - 5}">
+                <div class="stack-review-top">${icons.google}<span class="stars">${icons.star.repeat(Math.max(1, Math.min(5, review.rating || 5)))}</span></div>
+                <blockquote>“${escapeHtml(review.highlight)}”</blockquote>
+                <footer><span class="review-avatar" aria-hidden="true">${escapeHtml(review.name).charAt(0)}</span><p><strong>${escapeHtml(review.name)}</strong><span>${escapeHtml(review.service)}</span></p></footer>
               </article>`,
             )
             .join('')}
         </div>
-        <button class="carousel-button carousel-next" type="button" aria-label="Next reviews">${icons.arrow}</button>
+        <div class="review-stack-controls">
+          <button class="stack-review-prev" type="button" aria-label="Previous Google review">${icons.arrow}</button>
+          <button class="stack-review-next" type="button" aria-label="Next Google review">${icons.arrow}</button>
+        </div>
       </div>
-      <div class="center-row">
-        <a class="button button-navy" href="${business.googleReviews}" target="_blank" rel="noopener"><span>Read Google reviews</span>${icons.arrow}</a>
+      <div class="center-row review-cta-row">
+        <a class="button button-navy" href="${business.googleReviews}" target="_blank" rel="noopener">${icons.google}<span>Read all ${business.reviewCount} reviews</span>${icons.arrow}</a>
+        <a class="button button-primary" href="${business.googleWriteReview}" target="_blank" rel="noopener">${icons.google}<span>Leave a Google review</span>${icons.arrow}</a>
       </div>
     </div>
   </section>`;
@@ -973,7 +1531,7 @@ function areaSection() {
           data-area-longitude="${area.longitude}"
           data-area-copy="${area.intro}"
           data-area-services="${area.services.join('|')}"
-          data-area-href="/service-areas/${area.slug}"
+          data-area-href="/service-areas#${area.slug}"
           aria-label="View Envision services in ${area.name}"
           aria-pressed="${index === 0 ? 'true' : 'false'}">
           <span class="signal-dot" aria-hidden="true"></span><span class="signal-label">${area.name}</span>
@@ -986,7 +1544,7 @@ function areaSection() {
           ${areas
             .map(
               (area) =>
-                `<a href="/service-areas/${area.slug}" data-area-select="${area.slug}"><span>${area.name}</span>${icons.arrow}</a>`,
+                `<a href="/service-areas#${area.slug}" data-area-select="${area.slug}"><span>${area.name}</span>${icons.arrow}</a>`,
             )
             .join('')}
         </div>
@@ -1006,7 +1564,7 @@ function areaSection() {
           <div class="map-signals" hidden>
             ${areas.map(mapButton).join('')}
           </div>
-          <noscript><p class="map-noscript">Enable JavaScript to use the live map. Every service-area page remains available in the city list.</p></noscript>
+          <noscript><p class="map-noscript">Enable JavaScript to use the live map. Every published community remains listed on the service-area page.</p></noscript>
         </div>
         <div class="area-map-panel">
           <div>
@@ -1016,7 +1574,7 @@ function areaSection() {
           </div>
           <div class="area-map-panel-actions">
             <div class="area-service-chips" data-map-area-services>${defaultArea.services.map((service) => `<span>${service}</span>`).join('')}</div>
-            <a href="/service-areas/${defaultArea.slug}" data-map-area-link><span>Explore ${defaultArea.name}</span>${icons.arrow}</a>
+            <a href="/service-areas#${defaultArea.slug}" data-map-area-link><span>Explore ${defaultArea.name}</span>${icons.arrow}</a>
           </div>
         </div>
       </div>
@@ -1071,7 +1629,10 @@ function contactSection() {
         <p class="eyebrow">Start with the property</p>
         <h2>Tell Envision what needs work.</h2>
         <p>Send the service, property area, and project details. The form prepares a text message so nothing is claimed as submitted until you send it from your device.</p>
-        <a class="contact-phone" href="tel:${business.phoneHref}">${icons.phone}<span><small>Prefer to call?</small><strong>${business.phone}</strong></span></a>
+        <div class="contact-direct">
+          <a class="contact-phone" href="tel:${business.phoneHref}">${icons.phone}<span><small>Prefer to call?</small><strong>${business.phone}</strong></span></a>
+          <a class="contact-email" href="mailto:${business.email}">${icons.mail}<span><small>Prefer email?</small><strong>${business.email}</strong></span></a>
+        </div>
         <dl>
           <div><dt>Based in</dt><dd>Raleigh, NC</dd></div>
           <div><dt>Published hours</dt><dd>${business.publishedHours}</dd></div>
@@ -1113,12 +1674,19 @@ function breadcrumb(items) {
 
 function homePage() {
   const hero = `<section class="home-hero home-hero-truck">
-    <img class="home-hero-image" src="/assets/images/hero-truck-v1.jpg" alt="Envision Landscaping branded pickup and landscaping trailer at a manicured Raleigh-area home" width="1672" height="941" fetchpriority="high" decoding="async">
+    <picture class="home-hero-visual">
+      <source media="(max-width: 720px)" srcset="/assets/images/envision-truck-cutout-v2.png">
+      <img class="home-hero-image" src="/assets/images/hero-truck-v1.jpg" alt="Envision Landscaping branded pickup and landscaping trailer" width="1672" height="941" fetchpriority="high" decoding="async">
+    </picture>
     <div class="home-hero-shade"></div>
     <div class="shell home-hero-content">
       <div class="hero-rating reveal"><span class="stars">${icons.star.repeat(5)}</span><a href="${business.googleReviews}" target="_blank" rel="noopener">${business.rating} on Google</a></div>
       <p class="eyebrow eyebrow-light reveal">Professional lawn &amp; landscape care</p>
-      <h1 class="reveal">Raleigh lawns. Raised standards.</h1>
+      <h1 class="liquid-title reveal" aria-label="Expert lawn and landscape care in Raleigh, North Carolina">
+        <span data-text="Expert lawn care">Expert lawn care</span>
+        <span data-text="&amp; landscaping in">&amp; landscaping in</span>
+        <span data-text="Raleigh, NC">Raleigh, NC</span>
+      </h1>
       <p class="hero-copy reveal">Owner-led lawn maintenance, seasonal cleanup, mulch, planting, and landscape care across Raleigh and the Triangle.</p>
       <div class="hero-action-wrap reveal">
         <div class="button-row">
@@ -1128,33 +1696,50 @@ function homePage() {
         <a class="hero-phone-link" href="tel:${business.phoneHref}">${icons.phone}<span>Prefer to talk? <strong>${business.phone}</strong></span></a>
       </div>
     </div>
-    <a class="hero-scroll" href="#services" aria-label="Scroll to services"><span>See the work</span>${icons.arrow}</a>
   </section>`;
 
-  const intro = `<section class="intro section-pad">
+  const intro = `<section class="intro section-pad" aria-labelledby="intro-title">
     <div class="shell intro-grid">
       <div class="intro-copy">
-        ${sectionHeading('Owner-led in Raleigh', 'The yard gets the same care Kyle would expect at his own.', 'Envision Landscaping is led by Kyle Young and built around showing up, doing the work right, and treating every property with care.')}
+        <div class="section-heading">
+          <p class="eyebrow">Owner-led in Raleigh</p>
+          <h2 id="intro-title">Exceptional landscape care, every visit.</h2>
+          <p>Envision Landscaping is led by Kyle Young and built around showing up, doing the work right, and treating every property with care.</p>
+        </div>
         <div class="intro-points">
           <div><span>01</span><p>Clear scope before the work begins</p></div>
           <div><span>02</span><p>Detail-focused service from curb to bed line</p></div>
           <div><span>03</span><p>Routine care and one-time projects</p></div>
         </div>
-        <a class="button button-navy" href="/about"><span>Meet Envision</span><span class="button-icon">${icons.arrow}</span></a>
+        <div class="intro-actions">
+          <a class="button button-primary" href="/contact"><span>Get a free estimate</span><span class="button-icon">${icons.arrow}</span></a>
+          <a class="intro-phone" href="tel:${business.phoneHref}">${icons.phone}<span>${business.phone}</span></a>
+        </div>
       </div>
       <div class="intro-visual reveal">
-        <div class="image-shell"><img src="/assets/images/about-lawn.jpg" alt="Striped lawn maintained by Envision Landscaping" loading="lazy" width="900" height="1300"></div>
+        <div class="image-shell"><img src="/assets/images/lawn-maintenance.jpg" alt="Freshly maintained lawn at a Raleigh-area home" loading="lazy" width="1200" height="900"></div>
         <div class="intro-badge"><strong>Raleigh</strong><span>&amp; the Triangle</span></div>
       </div>
     </div>
   </section>`;
 
-  const serviceSection = `<section class="services section-pad" id="services">
-    <div class="shell services-heading-row">
-      ${sectionHeading('What Envision handles', 'One crew. The work your exterior needs.', 'Start with routine care or ask about a larger yard project.')}
-      <a class="text-link" href="/services">Explore every service ${icons.arrow}</a>
+  const serviceSection = `<section class="services home-services section-pad" id="services">
+    <div class="shell home-services-intro">
+      <div class="home-services-copy reveal">
+        <p class="eyebrow eyebrow-light">Full-service exterior care</p>
+        <h2>Professional lawn maintenance &amp; landscaping services in Raleigh, NC</h2>
+        <span class="lime-rule" aria-hidden="true"></span>
+        <p>Spend less time maintaining the property and more time enjoying it. Envision handles recurring lawn care, cleanups, mulch, planting, hardscaping, and seasonal projects across Raleigh and the Triangle.</p>
+        <div class="button-row">
+          <a class="button button-primary" href="/contact"><span>Request a free estimate</span>${icons.arrow}</a>
+          <a class="button button-ghost-light" href="/services"><span>Explore all services</span>${icons.arrow}</a>
+        </div>
+      </div>
+      <div class="home-services-truck reveal">
+        <img src="/assets/images/envision-truck-cutout-v2.png" alt="Envision Landscaping branded truck and trailer" loading="lazy" width="1672" height="941">
+      </div>
     </div>
-    <div class="shell">${serviceGrid()}</div>
+    <div class="shell">${serviceGrid(services.length, 'home-service-grid')}</div>
   </section>`;
 
   const consultation = `<section class="consultation shell reveal">
@@ -1347,13 +1932,13 @@ function reviewsPage() {
         </div>
         <div class="review-wall">
           ${reviews
-            .concat(reviews)
+            .slice(0, 24)
             .map(
-              (review, index) => `<article class="review-card reveal"><div class="review-card-top"><span>${icons.quote}</span><span class="stars">${icons.star.repeat(5)}</span></div><p>${review.highlight}</p><footer><strong>${review.name}</strong><span>${index < 3 ? review.service : 'Published customer feedback'}</span></footer></article>`,
+              (review) => `<article class="review-card reveal" data-review-rating="${review.rating || 5}"><div class="review-card-top"><span>${icons.google}</span><span class="stars">${icons.star.repeat(Math.max(1, Math.min(5, review.rating || 5)))}</span></div><p>“${escapeHtml(review.highlight)}”</p><footer><strong>${escapeHtml(review.name)}</strong><span>${escapeHtml(review.service)}</span></footer></article>`,
             )
             .join('')}
         </div>
-        <div class="center-row"><a class="button button-primary" href="${business.googleReviews}" target="_blank" rel="noopener"><span>Read all Google reviews</span>${icons.arrow}</a></div>
+        <div class="center-row review-cta-row"><a class="button button-navy" href="${business.googleReviews}" target="_blank" rel="noopener">${icons.google}<span>Read all ${business.reviewCount} Google reviews</span>${icons.arrow}</a><a class="button button-primary" href="${business.googleWriteReview}" target="_blank" rel="noopener">${icons.google}<span>Leave a Google review</span>${icons.arrow}</a></div>
       </div></section>` +
       transformationCta('Ready to see the difference on your property?') +
       contactSection(),
@@ -1365,12 +1950,13 @@ function contactPage() {
     path: 'contact',
     title: 'Request a Lawn Care Estimate in Raleigh | Envision',
     description:
-      'Call Envision Landscaping at (984) 338-6483 or prepare a text request for lawn and landscaping work in Raleigh and the Triangle.',
+      'Call (984) 338-6483, email Kyle@envisionlandscapingllc.com, or prepare a text request for Raleigh lawn and landscaping work.',
     schemas: [
       localBusinessSchema({
         contactPoint: {
           '@type': 'ContactPoint',
           telephone: business.phoneHref,
+          email: business.email,
           contactType: 'customer service',
           areaServed: 'US-NC',
         },
@@ -1387,9 +1973,11 @@ function contactPage() {
       breadcrumb([['Contact']]) +
       `<section class="contact-page section-pad"><div class="shell contact-page-grid">
         <div class="contact-page-details">
-          ${sectionHeading('Request an estimate', 'Give Kyle the details needed to understand the job.', 'No public email or third-party form inbox was verified, so this site uses the confirmed phone number as the conversion path.')}
+          ${sectionHeading('Request an estimate', 'Give Kyle the details needed to understand the job.', 'Call, email, or prepare a text request with the service, property location, timing, and project details.')}
           <a class="contact-method reveal" href="tel:${business.phoneHref}"><span>${icons.phone}</span><div><small>Call Envision</small><strong>${business.phone}</strong><p>Best for a quick fit and schedule check.</p></div>${icons.arrow}</a>
+          <a class="contact-method reveal" href="mailto:${business.email}"><span>${icons.mail}</span><div><small>Email Kyle</small><strong>${business.email}</strong><p>Send photos, measurements, timing, and project details.</p></div>${icons.arrow}</a>
           <a class="contact-method reveal" href="${business.instagram}" target="_blank" rel="noopener"><span>${icons.instagram}</span><div><small>Instagram</small><strong>@envision_landscaping_llc</strong><p>See the profile and send a social message.</p></div>${icons.arrow}</a>
+          <a class="contact-method reveal" href="${business.facebook}" target="_blank" rel="noopener"><span>${icons.facebook}</span><div><small>Facebook</small><strong>Envision Landscaping LLC</strong><p>Visit the Facebook page and send a message.</p></div>${icons.arrow}</a>
           <div class="contact-facts">
             <div><span>${icons.pin}</span><p><strong>Based in Raleigh</strong>Serving Raleigh and surrounding Triangle communities.</p></div>
             <div><span>${icons.clock}</span><p><strong>Published hours</strong>${business.publishedHours}</p></div>
@@ -1421,7 +2009,7 @@ function serviceAreasPage() {
         <div class="area-card-grid">
           ${areas
             .map(
-              (area, index) => `<a class="area-card reveal" href="/service-areas/${area.slug}"><span>${String(index + 1).padStart(2, '0')}</span><h2>${area.name}, ${area.region}</h2><p>${area.intro}</p><i>${icons.arrow}</i></a>`,
+              (area, index) => `<a class="area-card reveal" id="${area.slug}" href="/contact" aria-label="Confirm service for a ${area.name} property"><span>${String(index + 1).padStart(2, '0')}</span><h2>${area.name}, ${area.region}</h2><p>${area.intro}</p><i>${icons.arrow}</i></a>`,
             )
             .join('')}
         </div>
@@ -1442,31 +2030,42 @@ function servicePage(service) {
       serviceSchema(service),
       faqSchema(service.faqs),
     ],
+    bodyClass: 'service-page',
     body:
-      innerHero({
-        eyebrow: 'Raleigh service',
-        title: service.h1,
-        copy: service.short,
-        image: service.image,
-      }) +
+      serviceHero(service) +
       breadcrumb([
         ['Services', '/services'],
         [service.title],
       ]) +
-      `<section class="service-detail section-pad"><div class="shell service-detail-grid">
-        <div class="service-detail-copy">
-          ${sectionHeading('What the service covers', service.title, service.intro)}
+      `<section class="service-overview section-pad"><div class="shell service-overview-grid">
+        <div class="service-overview-copy">
+          ${sectionHeading('Service overview', service.title, service.intro)}
+          <a class="text-link" href="#${service.slug}-jobs-heading">See the jobs inside this service ${icons.arrow}</a>
+        </div>
+        <div class="service-scope-panel reveal">
+          <p class="eyebrow">Common scope</p>
+          <h2>Build the visit around your property.</h2>
           <ul class="check-list">
             ${service.includes
               .map((item) => `<li>${icons.check}<span>${item}</span></li>`)
               .join('')}
           </ul>
-          <a class="button button-primary" href="/contact"><span>Request a ${service.title.toLowerCase()} estimate</span>${icons.arrow}</a>
+          <a class="button button-primary" href="/contact"><span>Request an estimate</span>${icons.arrow}</a>
         </div>
-        <div class="service-detail-image reveal"><img src="${service.image}" alt="${service.title} work by Envision Landscaping" width="1200" height="1400"><div><span>${icons.pin}</span><p><strong>Serving Raleigh &amp; the Triangle</strong>Confirm the exact property when booking.</p></div></div>
       </div></section>` +
-      processSection(`What to expect for ${service.title.toLowerCase()}`) +
+      serviceJobsSection(service) +
+      serviceProcessSection(service) +
       `<section class="related-services section-pad"><div class="shell">${sectionHeading('Keep planning', 'Related property services')}${serviceGrid(4)}</div></section>` +
+      `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
+        ${sectionHeading('Where Envision works', `${service.title} across Raleigh &amp; the Triangle`, 'Choose the closest listed community, then confirm the exact property and project when requesting an estimate.')}
+        <div class="service-area-link-list">
+          ${areas
+            .map(
+              (area) => `<a href="/service-areas#${area.slug}"><span>${icons.pin}<strong>${area.name}, ${area.region}</strong></span>${icons.arrow}</a>`,
+            )
+            .join('')}
+        </div>
+      </div></section>` +
       faqSection(service.faqs, `${service.title} questions`) +
       contactSection(),
   });
@@ -1507,7 +2106,7 @@ function areaPage(area) {
         <div>${sectionHeading('Local service', `Property care in ${area.name}`, `${area.intro} Choose the closest service below, then share the address and project details.`)}<a class="button button-primary" href="/contact"><span>Request a ${area.name} estimate</span>${icons.arrow}</a></div>
         <div class="local-stat reveal"><span>${icons.pin}</span><strong>${area.name}</strong><p>Published Envision service community</p><small>Scheduling and project fit are confirmed property by property.</small></div>
       </div></section>` +
-      `<section class="services section-pad"><div class="shell">${sectionHeading('Available services', `Outdoor work for ${area.name} homes and properties`)}${serviceGrid(6)}</div></section>` +
+      `<section class="services section-pad"><div class="shell">${sectionHeading('Available services', `Outdoor work for ${area.name} homes and properties`)}${serviceGrid()}</div></section>` +
       reviewSection() +
       faqSection(
         [
@@ -1538,11 +2137,11 @@ function legalPage(kind) {
         ],
         [
           'Third-party links',
-          'Links to Google, Instagram, phone, and text services are controlled by those providers. Their privacy policies apply after you leave this site.',
+          'Links to Google, Facebook, Instagram, phone, and text services are controlled by those providers. Their privacy policies apply after you leave this site.',
         ],
         [
           'Contact details',
-          `For privacy questions about this website, call ${business.phone}. No public email address has been published here.`,
+          `For privacy questions about this website, call ${business.phone} or email ${business.email}.`,
         ],
       ]
     : [
@@ -1568,11 +2167,7 @@ function legalPage(kind) {
       innerHero({
         eyebrow: 'Website information',
         title,
-        copy: `Last updated ${new Date().toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        })}.`,
+        copy: 'Last updated August 7, 2026.',
         image: '/assets/images/hero-home.jpg',
         ctas: false,
       }) +
@@ -1596,14 +2191,13 @@ function notFoundPage() {
 }
 
 function sitemapXml(paths) {
-  const updated = new Date().toISOString().slice(0, 10);
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths
   .map(
     (path) => `  <url>
     <loc>${pageUrl(path)}</loc>
-    <lastmod>${updated}</lastmod>
+    <lastmod>${siteLastModified}</lastmod>
   </url>`,
   )
   .join('\n')}
@@ -1619,14 +2213,23 @@ function llmsText(full = false) {
 ## Contact
 
 - Phone: ${business.phone}
+- Email: ${business.email}
 - Published hours: ${business.publishedHours}
 - Primary market: Raleigh, NC and surrounding Triangle communities
 - Instagram: ${business.instagram}
+- Facebook: ${business.facebook}
 - Google reviews: ${business.googleReviews}
+- Google rating: ${business.rating}/5 from ${business.reviewCount} reviews
+- Leave a Google review: ${business.googleWriteReview}
 
 ## Services
 
-${services.map((service) => `- ${service.title}: ${service.short}`).join('\n')}
+${services
+  .map(
+    (service) =>
+      `- ${service.title}: ${service.short}\n  - Jobs covered: ${serviceProfiles[service.slug].jobs.map((job) => job.title).join(', ')}`,
+  )
+  .join('\n')}
 
 ## Service areas
 
@@ -1634,7 +2237,7 @@ ${areas.map((area) => `- ${area.name}, ${area.region}`).join('\n')}
 
 ## Important accuracy notes
 
-- No public email address or verified street address is published on this website.
+- No verified street address is published on this website because Envision operates as a service-area business.
 - Service availability, scheduling, estimate scope, price, and promotional eligibility must be confirmed directly with Envision.
 - The quote form prepares an SMS message on the visitor's device; it does not claim that a request was sent.
 `;
@@ -1694,8 +2297,11 @@ const pageEntries = [
     `services/${service.slug}`,
     servicePage(service),
   ]),
-  ...areas.map((area) => [`service-areas/${area.slug}`, areaPage(area)]),
 ];
+
+// City details now live in one authoritative service-area hub. Remove the old
+// generated city directory so duplicate doorway-style pages cannot be shipped.
+await rm(join(root, 'service-areas'), { recursive: true, force: true });
 
 for (const [path, html] of pageEntries) {
   await write(path === 'index' ? 'index.html' : `${path}.html`, html);

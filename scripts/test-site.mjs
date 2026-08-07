@@ -40,12 +40,31 @@ try {
     if (!html.includes('https://envisionlandscapingllc.com')) {
       throw new Error(`${pathname} is missing production URL metadata`)
     }
-    assertions += 3
+    if (!html.includes('/assets/concierge.js') || !html.includes('data-concierge')) {
+      throw new Error(`${pathname} is missing the Envision concierge`)
+    }
+    if (!html.includes('mailto:Kyle@envisionlandscapingllc.com')) {
+      throw new Error(`${pathname} is missing Kyle's email link`)
+    }
+    assertions += 5
+
+    if (pathname.startsWith('/services/')) {
+      const jobCards = (html.match(/<article class="service-job-card/g) || []).length
+      if (jobCards !== 4) throw new Error(`${pathname} has ${jobCards} service-job cards`)
+      if (!html.includes('class="service-page-hero"')) {
+        throw new Error(`${pathname} is missing its service-page hero`)
+      }
+      if (!html.includes('"hasOfferCatalog"')) {
+        throw new Error(`${pathname} is missing its offer catalog schema`)
+      }
+      assertions += 3
+    }
   }
 
   for (const asset of [
     '/assets/styles.css',
     '/assets/site.js',
+    '/assets/concierge.js',
     '/assets/vendor/maplibre-gl.css',
     '/assets/vendor/maplibre-gl.js',
     '/assets/images/hero-home.jpg',

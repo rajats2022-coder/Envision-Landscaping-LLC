@@ -2,6 +2,16 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/service-areas/raleigh-nc", "destination": "/service-areas#raleigh-nc", "permanent": true },
+    { "source": "/service-areas/cary-nc", "destination": "/service-areas#cary-nc", "permanent": true },
+    { "source": "/service-areas/apex-nc", "destination": "/service-areas#apex-nc", "permanent": true },
+    { "source": "/service-areas/morrisville-nc", "destination": "/service-areas#morrisville-nc", "permanent": true },
+    { "source": "/service-areas/fuquay-varina-nc", "destination": "/service-areas#fuquay-varina-nc", "permanent": true },
+    { "source": "/service-areas/holly-springs-nc", "destination": "/service-areas#holly-springs-nc", "permanent": true },
+    { "source": "/service-areas/durham-nc", "destination": "/service-areas#durham-nc", "permanent": true },
+    { "source": "/service-areas/chapel-hill-nc", "destination": "/service-areas#chapel-hill-nc", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -6,9 +6,14 @@
   "scripts": {
     "build": "node scripts/build-pages.mjs && node scripts/prepare-vercel-output.mjs",
     "dev": "node serve.mjs",
+    "reviews:sync": "node scripts/sync-google-reviews.mjs",
+    "seo:search-console": "node scripts/search-console-readiness.mjs",
+    "seo:prepare-verification": "node scripts/search-console-readiness.mjs --prepare-verification",
+    "links:google": "node scripts/check-google-links.mjs",
     "serve": "node serve.mjs",
     "audit": "node scripts/audit-site.mjs",
-    "test": "node scripts/test-site.mjs",
+    "test": "node scripts/test-concierge.mjs && node scripts/test-site.mjs",
+    "test:concierge": "node scripts/test-concierge.mjs",
     "screenshot": "node screenshot.mjs",
     "screenshot:mobile": "node screenshot-mobile.mjs"
   },

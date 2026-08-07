@@ -119,8 +119,19 @@ try {
     if (ready?.result?.value === true) break;
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
-  await send('Runtime.evaluate', { expression: 'window.scrollTo(0, 0)' });
-  await new Promise((resolve) => setTimeout(resolve, 150));
+  const pageHash = new URL(baseUrl).hash;
+  if (!pageHash) {
+    await send('Runtime.evaluate', { expression: 'window.scrollTo(0, 0)' });
+  } else {
+    await send('Runtime.evaluate', {
+      expression: `(() => { const target = document.querySelector(${JSON.stringify(pageHash)}); if (target) { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY); } })()`,
+    });
+    await new Promise((resolve) => setTimeout(resolve, 450));
+    await send('Runtime.evaluate', {
+      expression: `(() => { const target = document.querySelector(${JSON.stringify(pageHash)}); if (target) window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY); })()`,
+    });
+  }
+  await new Promise((resolve) => setTimeout(resolve, 350));
 
   const result = await send('Page.captureScreenshot', {
     format: 'png',
