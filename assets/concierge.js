@@ -95,6 +95,15 @@ const serviceResponses = {
 }
 
 const action = (label, href) => ({ label, href })
+const contactFormAction = () => action('Open contact form', '/contact')
+
+const withContactForm = (response) => ({
+  ...response,
+  actions: [
+    ...(response.actions || []).filter((item) => item.href !== '/contact'),
+    contactFormAction(),
+  ],
+})
 
 export function normalizeMessage(value) {
   return String(value || '')
@@ -118,7 +127,7 @@ export function classifyIntent(value) {
   if (/\b(reviews?|ratings?|testimonials?|feedback)\b/.test(input)) return 'reviews'
   if (/\b(weather|rain|raining|storm delay|same day|today|available|availability|how soon|when can)\b/.test(input)) return 'availability'
   if (/\b(hour|open|close|closing|weekend|sunday|saturday)\b/.test(input)) return 'hours'
-  if (/\b(serve|service area|my area|zip|city|location|raleigh|cary|apex|morrisville|fuquay|holly springs|durham|chapel hill)\b/.test(input)) return 'area'
+  if (/\b(serve|service area|my area|address|zip|city|location|raleigh|cary|apex|morrisville|fuquay|holly springs|durham|chapel hill)\b/.test(input)) return 'area'
   if (/\b(estimate|quote|cost|price|pricing|how much|budget)\b/.test(input)) return 'estimate'
   if (/\b(power wash(?:ing)?|pressure wash(?:ing)?|soft wash(?:ing)?|hard wash(?:ing)?|gutter clean(?:ing)?|roof clean(?:ing)?|irrigation|sprinkler|fertiliz(?:e|ing|ation)|pest control|snow removal|tree removal|stump grind(?:ing)?|grading)\b/.test(input)) return 'unlisted-service'
   if (/\b(coupons?|discounts?|specials?|promos?|promotions?|offer code|current offer|deals?)\b/.test(input)) return 'offers'
@@ -136,12 +145,9 @@ export function classifyIntent(value) {
   return 'fallback'
 }
 
-export function responseFor(value, config = defaultConciergeConfig) {
+function rawResponseFor(value, config = defaultConciergeConfig) {
   const intent = classifyIntent(value)
-  const contactActions = [
-    action('Call Kyle', `tel:${config.phone}`),
-    action('Email Kyle', `mailto:${config.email}`),
-  ]
+  const contactActions = [contactFormAction()]
 
   if (serviceResponses[intent]) {
     const service = serviceResponses[intent]
@@ -164,8 +170,8 @@ export function responseFor(value, config = defaultConciergeConfig) {
     case 'thanks':
       return {
         intent,
-        text: 'You’re welcome. If you are ready, I can help prepare the next step for Kyle.',
-        actions: [action('Request an estimate', '/contact'), action('Email Kyle', `mailto:${config.email}`)],
+        text: 'You’re welcome. Use the contact form when you are ready to send the property details to Kyle.',
+        actions: [],
       }
     case 'service-picker':
       return {
@@ -176,15 +182,14 @@ export function responseFor(value, config = defaultConciergeConfig) {
     case 'area':
       return {
         intent,
-        text: 'The published service area includes Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Chapel Hill. Kyle confirms the exact address, travel fit, and project scope before scheduling.',
-        actions: [action('Check service areas', '/service-areas'), action('Ask Kyle about my address', `mailto:${config.email}?subject=${encodeURIComponent('Service-area question')}`)],
+        text: 'The published service area includes Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Chapel Hill. To confirm an exact address, open the contact form and add the property city or ZIP plus the street address in the project details.',
+        actions: [action('Check service areas', '/service-areas')],
       }
     case 'estimate':
       return {
         intent,
-        text: 'I can prepare a project summary for text or email. First, what service or yard problem do you need help with?',
-        actions: [action('View the estimate form', '/contact')],
-        startEstimate: true,
+        text: 'The contact form is the secure next step for an estimate. Add the service, property city or ZIP, street address, preferred timing, and a short description so Kyle can review the request.',
+        actions: [],
       }
     case 'availability':
       return {
@@ -214,7 +219,7 @@ export function responseFor(value, config = defaultConciergeConfig) {
       return {
         intent,
         text: 'The site currently shows WELCOME15 for 15% off a first lawn-care service package and SEASON50 for $50 off a seasonal maintenance package. Kyle must confirm eligibility, conditions, and availability.',
-        actions: [action('View current offers', '/#special-offers'), action('Ask about eligibility', `mailto:${config.email}?subject=${encodeURIComponent('Offer eligibility question')}`)],
+        actions: [action('View current offers', '/#special-offers')],
       }
     case 'schedule-change':
       return {
@@ -225,8 +230,8 @@ export function responseFor(value, config = defaultConciergeConfig) {
     case 'customer-care':
       return {
         intent,
-        text: 'I’m sorry the visit needs attention. I cannot view customer records, so please contact Kyle with the property address, service date, and a short description. Photos are helpful by email.',
-        actions: [action('Email Kyle', `mailto:${config.email}?subject=${encodeURIComponent('Service follow-up')}`), action('Call Kyle', `tel:${config.phone}`)],
+        text: 'I’m sorry the visit needs attention. I cannot view customer records. Open the contact form and include the property address, service date, and a short description so Kyle can follow up.',
+        actions: [],
       }
     case 'billing':
       return {
@@ -243,14 +248,14 @@ export function responseFor(value, config = defaultConciergeConfig) {
     case 'gallery':
       return {
         intent,
-        text: 'The gallery shows Envision lawn, landscape, cleanup, planting, hardscape, and seasonal work. For a project similar to yours, email photos of the property to Kyle.',
-        actions: [action('Open the gallery', '/gallery'), action('Email property photos', `mailto:${config.email}`)],
+        text: 'The gallery shows Envision lawn, landscape, cleanup, planting, hardscape, and seasonal work. Use the contact form to describe the property and the result you want.',
+        actions: [action('Open the gallery', '/gallery')],
       }
     case 'careers':
       return {
         intent,
-        text: 'The website does not list current openings. Email Kyle with your name, experience, availability, and the kind of work you are seeking.',
-        actions: [action('Email Kyle', `mailto:${config.email}?subject=${encodeURIComponent('Employment inquiry')}`)],
+        text: 'The website does not list current openings. Use the contact form with your name, experience, availability, and the kind of work you are seeking.',
+        actions: [],
       }
     case 'contact':
       return {
@@ -273,8 +278,8 @@ export function responseFor(value, config = defaultConciergeConfig) {
     case 'urgent':
       return {
         intent,
-        text: 'This website is not an emergency service. If anyone is in danger or a utility line is involved, move to a safe location and contact 911 or the appropriate utility first. Contact Kyle only after the immediate hazard is handled.',
-        actions: [action('Call Envision', `tel:${config.phone}`)],
+        text: 'This website is not an emergency service. If anyone is in danger or a utility line is involved, move to a safe location and contact 911 or the appropriate utility first. Use the contact form only after the immediate hazard is handled.',
+        actions: [],
       }
     default:
       return {
@@ -285,27 +290,17 @@ export function responseFor(value, config = defaultConciergeConfig) {
   }
 }
 
-export function buildEstimateHandoff(quote, config = defaultConciergeConfig) {
+export function responseFor(value, config = defaultConciergeConfig) {
+  return withContactForm(rawResponseFor(value, config))
+}
+
+export function buildEstimateHandoff(quote) {
   const service = String(quote.service || 'Not specified').trim()
   const location = String(quote.location || 'Not specified').trim()
-  const details = String(quote.details || 'Not specified').trim()
-  const message = [
-    'Hi Envision Landscaping, I would like a free estimate.',
-    `Service or yard need: ${service}`,
-    `Property location: ${location}`,
-    `Project details and timing: ${details}`,
-  ].join('\n')
 
   return {
-    summary: `I prepared a request for ${service} at ${location}. Review the message and add your name, phone number, photos, or measurements before sending it.`,
-    actions: [
-      action('Send by text', `sms:${config.phone}?body=${encodeURIComponent(message)}`),
-      action(
-        'Email Kyle',
-        `mailto:${config.email}?subject=${encodeURIComponent(`Estimate request: ${service}`)}&body=${encodeURIComponent(message)}`,
-      ),
-      action('Open full estimate form', '/contact'),
-    ],
+    summary: `Use the contact form to send Kyle the complete ${service} request for ${location}, including the street address, timing, and project details.`,
+    actions: [contactFormAction()],
   }
 }
 
@@ -327,7 +322,6 @@ function initConcierge() {
   const form = root.querySelector('[data-concierge-form]')
   const input = form?.querySelector('input')
   const suggestions = root.querySelector('[data-concierge-suggestions]')
-  const state = { quoteStep: null, quote: {} }
   let closeTimer
 
   if (!launcher || !panel || !closeButton || !log || !form || !input) return
@@ -359,65 +353,9 @@ function initConcierge() {
     log.scrollTop = log.scrollHeight
   }
 
-  const resetQuote = () => {
-    state.quoteStep = null
-    state.quote = {}
-  }
-
-  const handleQuoteStep = (rawMessage) => {
-    const normalized = normalizeMessage(rawMessage)
-    if (/\b(cancel|stop|start over|never mind|nevermind)\b/.test(normalized)) {
-      resetQuote()
-      return {
-        text: 'The estimate draft was cleared. What else can I help with?',
-        actions: [action('Browse services', '/services')],
-      }
-    }
-
-    if (state.quoteStep === 'service') {
-      state.quote.service = rawMessage.trim()
-      state.quoteStep = 'location'
-      return {
-        text: 'What city, ZIP code, or property address should Kyle use to check the service area?',
-        actions: [action('See published service areas', '/service-areas')],
-      }
-    }
-
-    if (state.quoteStep === 'location') {
-      state.quote.location = rawMessage.trim()
-      state.quoteStep = 'details'
-      return {
-        text: 'What should be done, how large is the area, and when are you hoping to have it completed? Mention access issues or visible debris too.',
-        actions: [],
-      }
-    }
-
-    state.quote.details = rawMessage.trim()
-    const handoff = buildEstimateHandoff(state.quote, config)
-    resetQuote()
-    return { text: handoff.summary, actions: handoff.actions }
-  }
-
   const answerMessage = (rawMessage) => {
     appendMessage('user', rawMessage)
-
-    if (state.quoteStep) {
-      const result = handleQuoteStep(rawMessage)
-      window.setTimeout(() => appendMessage('bot', result.text, result.actions), 180)
-      return
-    }
-
     const answer = responseFor(rawMessage, config)
-    if (answer.startEstimate) {
-      const matchedService = detectService(rawMessage)
-      if (matchedService) {
-        state.quote.service = matchedService.label
-        state.quoteStep = 'location'
-        answer.text = `I’ll start the request with ${matchedService.label}. What city, ZIP code, or property address should Kyle check?`
-      } else {
-        state.quoteStep = 'service'
-      }
-    }
     window.setTimeout(() => appendMessage('bot', answer.text, answer.actions), 180)
   }
 
@@ -463,8 +401,8 @@ function initConcierge() {
 
   appendMessage(
     'bot',
-    'Hi — I’m Envision’s website concierge. Tell me what is happening at the property, and I’ll point you to the right service or help prepare a request for Kyle.',
-    [action('Browse services', '/services'), action('Email Kyle', `mailto:${config.email}`)],
+    'Hi — I’m Envision’s website concierge. Tell me what is happening at the property, and I’ll point you to the right service. When you are ready, the contact form sends the full request to Kyle.',
+    [action('Browse services', '/services'), contactFormAction()],
   )
 }
 

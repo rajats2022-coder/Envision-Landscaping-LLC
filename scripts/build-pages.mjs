@@ -1227,7 +1227,7 @@ function pageShell({
   ${siteFooter()}
   <script src="/assets/vendor/maplibre-gl.js?v=5.12.0" defer></script>
   <script src="/assets/site.js?v=20260807-4" defer></script>
-  <script type="module" src="/assets/concierge.js?v=20260807-2"></script>
+  <script type="module" src="/assets/concierge.js?v=20260807-3"></script>
 </body>
 </html>`;
 }

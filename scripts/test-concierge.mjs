@@ -41,6 +41,11 @@ const intentCases = [
 
 for (const [message, expected] of intentCases) {
   assert.equal(classifyIntent(message), expected, `Unexpected intent for: ${message}`)
+  assert.equal(
+    responseFor(message).actions.some((item) => item.href === '/contact'),
+    true,
+    `Missing contact-form handoff for: ${message}`,
+  )
 }
 
 assert.equal(detectService('mowing quote')?.label, 'Lawn maintenance')
@@ -48,7 +53,8 @@ assert.equal(detectService('retaining wall project')?.label, 'Hardscaping and pa
 
 const estimate = responseFor('I need a lawn mowing estimate')
 assert.equal(estimate.intent, 'estimate')
-assert.equal(estimate.startEstimate, true)
+assert.equal(estimate.startEstimate, undefined)
+assert.equal(estimate.actions.at(-1).href, '/contact')
 
 const readReviews = responseFor('Show me customer reviews')
 assert.equal(readReviews.actions[0].href, defaultConciergeConfig.googleReviews)
@@ -64,9 +70,7 @@ const handoff = buildEstimateHandoff({
   details: 'Leaves in the front and back yard before next month',
 })
 assert.match(handoff.summary, /Seasonal cleanup/)
-assert.match(handoff.actions[0].href, /^sms:\+19843386483\?body=/)
-assert.match(handoff.actions[1].href, /^mailto:Kyle@envisionlandscapingllc\.com/)
-assert.match(decodeURIComponent(handoff.actions[1].href), /Cary, NC 27513/)
+assert.equal(handoff.actions.length, 1)
+assert.equal(handoff.actions[0].href, '/contact')
 
-console.log(`Concierge tests passed: ${intentCases.length + 10} assertions.`)
-
+console.log(`Concierge tests passed: ${intentCases.length * 2 + 12} assertions.`)
