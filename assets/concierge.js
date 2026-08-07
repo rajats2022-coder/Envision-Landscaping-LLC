@@ -127,7 +127,7 @@ export function classifyIntent(value) {
   if (/\b(reviews?|ratings?|testimonials?|feedback)\b/.test(input)) return 'reviews'
   if (/\b(weather|rain|raining|storm delay|same day|today|available|availability|how soon|when can)\b/.test(input)) return 'availability'
   if (/\b(hour|open|close|closing|weekend|sunday|saturday)\b/.test(input)) return 'hours'
-  if (/\b(serve|service area|my area|address|zip|city|location|raleigh|cary|apex|morrisville|fuquay|holly springs|durham|chapel hill)\b/.test(input)) return 'area'
+  if (/\b(serve|service area|my area|address|zip|city|location|raleigh|cary|apex|morrisville|fuquay|holly springs|durham|garner)\b/.test(input)) return 'area'
   if (/\b(estimate|quote|cost|price|pricing|how much|budget)\b/.test(input)) return 'estimate'
   if (/\b(power wash(?:ing)?|pressure wash(?:ing)?|soft wash(?:ing)?|hard wash(?:ing)?|gutter clean(?:ing)?|roof clean(?:ing)?|irrigation|sprinkler|fertiliz(?:e|ing|ation)|pest control|snow removal|tree removal|stump grind(?:ing)?|grading)\b/.test(input)) return 'unlisted-service'
   if (/\b(coupons?|discounts?|specials?|promos?|promotions?|offer code|current offer|deals?)\b/.test(input)) return 'offers'
@@ -182,7 +182,7 @@ function rawResponseFor(value, config = defaultConciergeConfig) {
     case 'area':
       return {
         intent,
-        text: 'The published service area includes Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Chapel Hill. To confirm an exact address, open the contact form and add the property city or ZIP plus the street address in the project details.',
+        text: 'The published service area includes Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Garner. To confirm an exact address, open the contact form and add the property city or ZIP plus the street address in the project details.',
         actions: [action('Check service areas', '/service-areas')],
       }
     case 'estimate':
@@ -200,7 +200,7 @@ function rawResponseFor(value, config = defaultConciergeConfig) {
     case 'hours':
       return {
         intent,
-        text: 'Envision’s published hours are Monday through Sunday, 8:00 AM to 12:00 AM. Live response and service availability still need to be confirmed directly.',
+        text: 'Public business hours have not been owner-confirmed. Call or text Envision to confirm current response and service availability.',
         actions: contactActions,
       }
     case 'reviews':

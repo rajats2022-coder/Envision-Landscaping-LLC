@@ -795,7 +795,7 @@ const reviews = googleReviewData?.reviews?.length
 const homepageFaqs = [
   [
     'What areas does Envision Landscaping serve?',
-    'Envision serves Raleigh and surrounding Triangle communities, including Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Chapel Hill.',
+      'Envision serves Raleigh and surrounding Triangle communities, including Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Garner.',
   ],
   [
     'What lawn and landscaping services are available?',
@@ -989,7 +989,7 @@ function siteHeader(currentPath) {
       <div class="shell utility-inner">
         <div class="utility-group">
           <span>${icons.pin}<span>Raleigh, NC &amp; the Triangle</span></span>
-          <span class="utility-hours">${icons.clock}<span>Mon–Sun: 8 AM–12 AM</span></span>
+          <span class="utility-hours">${icons.clock}<span>${business.availabilityNote}</span></span>
         </div>
         <div class="utility-group utility-actions">
           <a href="${business.googleReviews}" target="_blank" rel="noopener">${icons.star}<span>${business.rating} on Google</span></a>
@@ -1252,14 +1252,14 @@ function trustRail() {
     {
       display: `<span class="trust-display-number">${areas.length}</span><span class="trust-display-words">Triangle<br>areas</span>`,
       title: 'Raleigh & beyond',
-      copy: 'Serving Raleigh, Cary, Apex, Durham, Chapel Hill, and surrounding Triangle communities.',
+      copy: 'Serving Raleigh, Cary, Apex, Durham, Garner, and surrounding Triangle communities.',
       link: '/service-areas',
       label: 'Service area',
     },
     {
-      display: '<span class="trust-display-main">Mon–Sun</span><span class="trust-display-sub">8 AM–12 AM</span>',
-      title: 'Published availability',
-      copy: 'Published hours run seven days a week, with availability from 8 AM to midnight.',
+      display: '<span class="trust-display-main">Call or text</span><span class="trust-display-sub">to confirm</span>',
+      title: 'Current availability',
+      copy: 'Contact Envision directly to confirm current scheduling and availability.',
       link: '/contact',
       label: 'Get an estimate',
     },
@@ -1981,7 +1981,7 @@ function serviceAreasPage() {
     path: 'service-areas',
     title: 'Raleigh & Triangle Lawn Care Service Area | Envision',
     description:
-      'Envision Landscaping serves Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Chapel Hill.',
+      'Envision Landscaping serves Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Garner.',
     body:
       innerHero({
         eyebrow: 'Service area',
@@ -2133,7 +2133,7 @@ function legalPage(kind) {
     : [
         [
           'Website information',
-          'Service descriptions, service areas, published hours, ratings, and offers are presented from current public business information. Availability, eligibility, scope, timing, and price must be confirmed directly with Envision Landscaping.',
+          'Service descriptions, service areas, ratings, and offers are presented from current public business information. Availability, eligibility, scope, timing, and price must be confirmed directly with Envision Landscaping.',
         ],
         [
           'Estimates and messages',

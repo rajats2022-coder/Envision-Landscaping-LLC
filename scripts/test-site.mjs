@@ -52,10 +52,19 @@ try {
     if (html.includes('ChIJjRfUHps6RysRA6PtjRQlYYc')) {
       throw new Error(`${pathname} contains the stale Google place ID`)
     }
-    if (html.includes('openingHoursSpecification') || html.includes('Monday–Sunday, 8:00 AM–12:00 AM')) {
+    if (
+      html.includes('openingHoursSpecification') ||
+      html.includes('Monday–Sunday, 8:00 AM–12:00 AM') ||
+      html.includes('Mon–Sun: 8 AM–12 AM') ||
+      html.includes('8 AM to midnight') ||
+      html.includes('Published hours')
+    ) {
       throw new Error(`${pathname} contains unconfirmed published hours`)
     }
-    assertions += 8
+    if (html.includes('Chapel Hill')) {
+      throw new Error(`${pathname} contains a service-area claim not configured on the connected Google Business Profile`)
+    }
+    assertions += 9
 
     if (pathname.startsWith('/services/')) {
       const jobCards = (html.match(/<article class="service-job-card/g) || []).length

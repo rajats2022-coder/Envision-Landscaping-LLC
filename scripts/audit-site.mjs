@@ -65,8 +65,17 @@ for (const pathname of urls) {
   if (!html.includes(connectedGooglePlaceId)) {
     findings.push(`${pathname}: missing connected Google place ID`)
   }
-  if (html.includes('openingHoursSpecification') || html.includes('Monday–Sunday, 8:00 AM–12:00 AM')) {
+  if (
+    html.includes('openingHoursSpecification') ||
+    html.includes('Monday–Sunday, 8:00 AM–12:00 AM') ||
+    html.includes('Mon–Sun: 8 AM–12 AM') ||
+    html.includes('8 AM to midnight') ||
+    html.includes('Published hours')
+  ) {
     findings.push(`${pathname}: contains unconfirmed published hours`)
+  }
+  if (html.includes('Chapel Hill')) {
+    findings.push(`${pathname}: contains a service-area claim not configured on the connected Google Business Profile`)
   }
   if (html.includes('"aggregateRating"')) {
     findings.push(`${pathname}: contains self-serving LocalBusiness aggregate rating markup`)

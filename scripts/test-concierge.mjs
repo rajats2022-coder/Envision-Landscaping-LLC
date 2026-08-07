@@ -69,6 +69,14 @@ const leaveReview = responseFor('I want to write a Google review')
 assert.equal(leaveReview.actions[0].href, defaultConciergeConfig.googleWriteReview)
 assert.match(leaveReview.actions[0].href, /^https:\/\/search\.google\.com\/local\/writereview/)
 
+const area = responseFor('Do you serve Garner?')
+assert.match(area.text, /Garner/)
+assert.doesNotMatch(area.text, /Chapel Hill/)
+
+const hours = responseFor('What time are you open Sunday?')
+assert.match(hours.text, /not been owner-confirmed/)
+assert.doesNotMatch(hours.text, /8:00|12:00|midnight/)
+
 const handoff = buildEstimateHandoff({
   service: 'Seasonal cleanup',
   location: 'Cary, NC 27513',
@@ -78,4 +86,4 @@ assert.match(handoff.summary, /Seasonal cleanup/)
 assert.equal(handoff.actions.length, 1)
 assert.equal(handoff.actions[0].href, '/contact')
 
-console.log(`Concierge tests passed: ${intentCases.length * 2 + 12} assertions.`)
+console.log(`Concierge tests passed: ${intentCases.length * 2 + 16} assertions.`)
