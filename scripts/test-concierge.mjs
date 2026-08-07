@@ -7,6 +7,11 @@ import {
   responseFor,
 } from '../assets/concierge.js'
 
+assert.match(defaultConciergeConfig.googleReviews, /ChIJ3xWsRgz1rIkR7xzJrM3_Fy0/)
+assert.match(defaultConciergeConfig.googleWriteReview, /ChIJ3xWsRgz1rIkR7xzJrM3_Fy0/)
+assert.doesNotMatch(defaultConciergeConfig.googleReviews, /ChIJjRfUHps6RysRA6PtjRQlYYc/)
+assert.doesNotMatch(defaultConciergeConfig.googleWriteReview, /ChIJjRfUHps6RysRA6PtjRQlYYc/)
+
 const intentCases = [
   ['Hi there', 'greeting'],
   ['Thanks for the help', 'thanks'],

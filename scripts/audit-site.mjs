@@ -19,6 +19,9 @@ const pagePath = (pathname) => {
   return path.extname(clean) ? clean : `${clean}.html`
 }
 
+const connectedGooglePlaceId = 'ChIJ3xWsRgz1rIkR7xzJrM3_Fy0'
+const staleGooglePlaceId = 'ChIJjRfUHps6RysRA6PtjRQlYYc'
+
 const stripFragments = (href) => href.split('#')[0].split('?')[0]
 
 for (const pathname of urls) {
@@ -55,6 +58,15 @@ for (const pathname of urls) {
   }
   if (html.includes('search.google.com/local/reviews?placeid=')) {
     findings.push(`${pathname}: contains obsolete Google review-reading URL`)
+  }
+  if (html.includes(staleGooglePlaceId)) {
+    findings.push(`${pathname}: contains stale Google place ID`)
+  }
+  if (!html.includes(connectedGooglePlaceId)) {
+    findings.push(`${pathname}: missing connected Google place ID`)
+  }
+  if (html.includes('openingHoursSpecification') || html.includes('Monday–Sunday, 8:00 AM–12:00 AM')) {
+    findings.push(`${pathname}: contains unconfirmed published hours`)
   }
   if (html.includes('"aggregateRating"')) {
     findings.push(`${pathname}: contains self-serving LocalBusiness aggregate rating markup`)
@@ -153,6 +165,12 @@ if (!home.includes('https://www.google.com/maps/search/?api=1&query=Envision%20L
 }
 if (!home.includes('mailto:Kyle@envisionlandscapingllc.com')) {
   findings.push('homepage Kyle email link is missing')
+}
+if (!home.includes('meta name="google-site-verification" content="-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA"')) {
+  findings.push('homepage Search Console verification tag is missing')
+}
+if (!home.includes('data-area-slug="garner-nc"') || home.includes('data-area-slug="chapel-hill-nc"')) {
+  findings.push('homepage service-area signals do not match the connected Google Business Profile')
 }
 for (const image of [
   'service-lawn-crew-v2.jpg',

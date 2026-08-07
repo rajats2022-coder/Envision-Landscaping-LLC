@@ -46,7 +46,16 @@ try {
     if (!html.includes('mailto:Kyle@envisionlandscapingllc.com')) {
       throw new Error(`${pathname} is missing Kyle's email link`)
     }
-    assertions += 5
+    if (!html.includes('ChIJ3xWsRgz1rIkR7xzJrM3_Fy0')) {
+      throw new Error(`${pathname} is missing the connected Google place ID`)
+    }
+    if (html.includes('ChIJjRfUHps6RysRA6PtjRQlYYc')) {
+      throw new Error(`${pathname} contains the stale Google place ID`)
+    }
+    if (html.includes('openingHoursSpecification') || html.includes('Monday–Sunday, 8:00 AM–12:00 AM')) {
+      throw new Error(`${pathname} contains unconfirmed published hours`)
+    }
+    assertions += 8
 
     if (pathname.startsWith('/services/')) {
       const jobCards = (html.match(/<article class="service-job-card/g) || []).length
@@ -78,6 +87,15 @@ try {
   const missingHtml = await missing.text()
   if (missing.status !== 404 || !missingHtml.includes('Page Not Found')) {
     throw new Error('Custom 404 response failed')
+  }
+  assertions += 2
+
+  const home = await fetch(baseUrl).then((response) => response.text())
+  if (!home.includes('meta name="google-site-verification" content="-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA"')) {
+    throw new Error('Homepage Search Console verification tag is missing')
+  }
+  if (!home.includes('data-area-slug="garner-nc"') || home.includes('data-area-slug="chapel-hill-nc"')) {
+    throw new Error('Homepage service-area signals do not match the connected Google Business Profile')
   }
   assertions += 2
 

@@ -10,7 +10,13 @@
     { "source": "/service-areas/fuquay-varina-nc", "destination": "/service-areas#fuquay-varina-nc", "permanent": true },
     { "source": "/service-areas/holly-springs-nc", "destination": "/service-areas#holly-springs-nc", "permanent": true },
     { "source": "/service-areas/durham-nc", "destination": "/service-areas#durham-nc", "permanent": true },
-    { "source": "/service-areas/chapel-hill-nc", "destination": "/service-areas#chapel-hill-nc", "permanent": true }
+    { "source": "/service-areas/garner-nc", "destination": "/service-areas#garner-nc", "permanent": true },
+    { "source": "/service-areas/chapel-hill-nc", "destination": "/service-areas", "permanent": true },
+    { "source": "/contact-us", "destination": "/contact", "permanent": true },
+    { "source": "/about-us", "destination": "/about", "permanent": true },
+    { "source": "/booking", "destination": "/contact", "permanent": true },
+    { "source": "/services/mulch-installation", "destination": "/services/mulch-pine-straw", "permanent": true },
+    { "source": "/services/springfall-cleanups", "destination": "/services/spring-fall-cleanups", "permanent": true }
   ],
   "headers": [
     {

@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const origin = 'https://envisionlandscapingllc.com';
 const siteLastModified = '2026-08-07';
+const googleSiteVerification = '-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA';
 
 const business = {
   name: 'Envision Landscaping LLC',
@@ -19,10 +20,10 @@ const business = {
   facebook:
     'https://www.facebook.com/p/Envision-Landscaping-LLC-61571682441315/',
   googleReviews:
-    'https://www.google.com/maps/search/?api=1&query=Envision%20Landscaping%20LLC&query_place_id=ChIJjRfUHps6RysRA6PtjRQlYYc',
+    'https://www.google.com/maps/search/?api=1&query=Envision%20Landscaping%20LLC&query_place_id=ChIJ3xWsRgz1rIkR7xzJrM3_Fy0',
   googleWriteReview:
-    'https://search.google.com/local/writereview?placeid=ChIJjRfUHps6RysRA6PtjRQlYYc',
-  publishedHours: 'Monday–Sunday, 8:00 AM–12:00 AM',
+    'https://search.google.com/local/writereview?placeid=ChIJ3xWsRgz1rIkR7xzJrM3_Fy0',
+  availabilityNote: 'Call or text to confirm current availability',
   rating: '4.9',
   reviewCount: 31,
 };
@@ -116,14 +117,14 @@ const areas = [
       'Envision serves Durham-area properties with lawn maintenance, cleanups, mulch, and landscape project support.',
   },
   {
-    slug: 'chapel-hill-nc',
-    name: 'Chapel Hill',
+    slug: 'garner-nc',
+    name: 'Garner',
     region: 'NC',
-    latitude: 35.9131542,
-    longitude: -79.05578,
-    services: ['Recurring yard care', 'Mulch', 'Seasonal cleanups', 'Planting'],
+    latitude: 35.7112642,
+    longitude: -78.6141709,
+    services: ['Lawn maintenance', 'Landscape care', 'Mulch', 'Seasonal cleanups'],
     intro:
-      'Chapel Hill customers can contact Envision for recurring yard care and scheduled landscape improvements.',
+      'Garner customers can contact Envision for lawn maintenance, landscape care, mulch, and seasonal cleanups.',
   },
 ];
 
@@ -882,22 +883,6 @@ function localBusinessSchema(extra = {}) {
     })),
     sameAs: [business.instagram, business.facebook, business.googleReviews],
     knowsAbout: services.map((service) => service.title),
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday',
-        ],
-        opens: '08:00',
-        closes: '23:59',
-      },
-    ],
     ...extra,
   };
 }
@@ -1078,7 +1063,7 @@ function siteHeader(currentPath) {
       </nav>
       <div class="mobile-menu-meta">
         <span>${icons.pin} Raleigh, NC &amp; surrounding areas</span>
-        <span>${icons.clock} ${business.publishedHours}</span>
+        <span>${icons.clock} ${business.availabilityNote}</span>
         <a href="mailto:${business.email}">${icons.mail} ${business.email}</a>
       </div>
     </aside>`;
@@ -1161,7 +1146,7 @@ function siteFooter() {
             <li><a href="tel:${business.phoneHref}">${icons.phone}<span>${business.phone}</span></a></li>
             <li><a href="mailto:${business.email}">${icons.mail}<span>${business.email}</span></a></li>
             <li>${icons.pin}<span>Raleigh, NC<br>Serving the Triangle</span></li>
-            <li>${icons.clock}<span>${business.publishedHours}</span></li>
+            <li>${icons.clock}<span>${business.availabilityNote}</span></li>
           </ul>
         </div>
       </div>
@@ -1202,6 +1187,7 @@ function pageShell({
   <meta name="description" content="${description}">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="${canonical}">
+  ${path === 'index' ? `<meta name="google-site-verification" content="${googleSiteVerification}">` : ''}
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="${business.name}">
   <meta property="og:title" content="${title}">
@@ -1635,7 +1621,7 @@ function contactSection() {
         </div>
         <dl>
           <div><dt>Based in</dt><dd>Raleigh, NC</dd></div>
-          <div><dt>Published hours</dt><dd>${business.publishedHours}</dd></div>
+          <div><dt>Availability</dt><dd>${business.availabilityNote}</dd></div>
           <div><dt>Service area</dt><dd>Raleigh &amp; surrounding Triangle communities</dd></div>
         </dl>
       </div>
@@ -1980,7 +1966,7 @@ function contactPage() {
           <a class="contact-method reveal" href="${business.facebook}" target="_blank" rel="noopener"><span>${icons.facebook}</span><div><small>Facebook</small><strong>Envision Landscaping LLC</strong><p>Visit the Facebook page and send a message.</p></div>${icons.arrow}</a>
           <div class="contact-facts">
             <div><span>${icons.pin}</span><p><strong>Based in Raleigh</strong>Serving Raleigh and surrounding Triangle communities.</p></div>
-            <div><span>${icons.clock}</span><p><strong>Published hours</strong>${business.publishedHours}</p></div>
+            <div><span>${icons.clock}</span><p><strong>Availability</strong>${business.availabilityNote}</p></div>
           </div>
         </div>
         <div class="quote-panel quote-panel-large reveal"><p class="quote-panel-kicker">Quote by text</p><h2>Build the message.</h2>${quoteForm('contact-quote-form')}</div>
@@ -2214,7 +2200,7 @@ function llmsText(full = false) {
 
 - Phone: ${business.phone}
 - Email: ${business.email}
-- Published hours: ${business.publishedHours}
+- Availability: ${business.availabilityNote}
 - Primary market: Raleigh, NC and surrounding Triangle communities
 - Instagram: ${business.instagram}
 - Facebook: ${business.facebook}

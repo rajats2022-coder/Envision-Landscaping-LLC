@@ -3,9 +3,9 @@ export const defaultConciergeConfig = Object.freeze({
   phoneDisplay: '(984) 338-6483',
   email: 'Kyle@envisionlandscapingllc.com',
   googleReviews:
-    'https://www.google.com/maps/search/?api=1&query=Envision%20Landscaping%20LLC&query_place_id=ChIJjRfUHps6RysRA6PtjRQlYYc',
+    'https://www.google.com/maps/search/?api=1&query=Envision%20Landscaping%20LLC&query_place_id=ChIJ3xWsRgz1rIkR7xzJrM3_Fy0',
   googleWriteReview:
-    'https://search.google.com/local/writereview?placeid=ChIJjRfUHps6RysRA6PtjRQlYYc',
+    'https://search.google.com/local/writereview?placeid=ChIJ3xWsRgz1rIkR7xzJrM3_Fy0',
 })
 
 const serviceMatches = [
