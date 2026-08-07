@@ -130,7 +130,7 @@ async function run() {
 
   const report = {
     checkedAt: new Date().toISOString(),
-    status: property ? 'connected' : 'needs-verification',
+    status: property ? 'connected' : 'needs-access-or-verification',
     recommendedProperty: propertyCandidates[0],
     property: property
       ? { siteUrl: property.siteUrl, permissionLevel: property.permissionLevel }
@@ -189,7 +189,7 @@ async function run() {
   console.log(
     property
       ? `Search Console connected: ${property.siteUrl} (${property.permissionLevel}).`
-      : `Search Console needs verification for ${report.recommendedProperty}${verificationFile ? `; prepared ${verificationFile}` : ''}.`,
+      : `Search Console property is not visible to the S4 OAuth principal for ${report.recommendedProperty}${verificationFile ? `; prepared ${verificationFile}` : ''}.`,
   );
 }
 
