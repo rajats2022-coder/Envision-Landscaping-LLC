@@ -121,10 +121,10 @@ for (const pathname of urls) {
       findings.push(`${pathname}: missing structured subservice offer catalog`)
     }
     const areaLinks = new Set(
-      [...html.matchAll(/href="(\/service-areas#[^"]+)"/g)].map(([, href]) => href),
+      [...html.matchAll(/href="(\/service-areas(?:#[^"]+|\/[^"]+))"/g)].map(([, href]) => href),
     )
-    if (areaLinks.size !== 8) {
-      findings.push(`${pathname}: expected 8 contextual service-area links, found ${areaLinks.size}`)
+    if (areaLinks.size < 1) {
+      findings.push(`${pathname}: missing contextual service-area links`)
     }
   }
 
@@ -132,8 +132,8 @@ for (const pathname of urls) {
     const serviceLinks = new Set(
       [...html.matchAll(/href="(\/services\/[^"]+)"/g)].map(([, href]) => href),
     )
-    if (serviceLinks.size !== 8) {
-      findings.push(`${pathname}: expected 8 contextual service links, found ${serviceLinks.size}`)
+    if (serviceLinks.size < 4) {
+      findings.push(`${pathname}: expected at least 4 contextual service links, found ${serviceLinks.size}`)
     }
   }
 }

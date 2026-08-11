@@ -53,6 +53,17 @@ const areas = [
     latitude: 35.7803977,
     longitude: -78.6390989,
     services: ['Lawn maintenance', 'Landscape care', 'Mulch', 'Seasonal cleanups'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'commercial-lawn-care',
+      'landscape-maintenance',
+      'aeration-overseeding',
+      'spring-fall-cleanups',
+      'mulch-pine-straw',
+      'landscape-design-planting',
+      'hardscaping-pavers',
+      'holiday-lighting',
+    ],
     intro:
       'Envision provides lawn maintenance, seasonal cleanup, mulch, and landscape care for properties across Raleigh.',
   },
@@ -63,6 +74,12 @@ const areas = [
     latitude: 35.7882893,
     longitude: -78.7812081,
     services: ['Recurring lawn care', 'Mulch', 'Design and planting', 'Cleanups'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'mulch-pine-straw',
+      'landscape-design-planting',
+      'spring-fall-cleanups',
+    ],
     intro:
       'Homeowners and property managers in Cary can call Envision for routine lawn care and one-time landscape projects.',
   },
@@ -73,6 +90,12 @@ const areas = [
     latitude: 35.7325352,
     longitude: -78.8505516,
     services: ['Mowing and edging', 'Bed care', 'Mulch', 'Landscape maintenance'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'landscape-maintenance',
+      'mulch-pine-straw',
+      'spring-fall-cleanups',
+    ],
     intro:
       'Envision serves Apex with dependable mowing, bed care, seasonal cleanup, mulch, and landscape maintenance.',
   },
@@ -83,6 +106,12 @@ const areas = [
     latitude: 35.824341,
     longitude: -78.8300321,
     services: ['Recurring lawn service', 'Landscape care', 'Cleanups', 'Outdoor improvements'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'landscape-maintenance',
+      'spring-fall-cleanups',
+      'landscape-design-planting',
+    ],
     intro:
       'Envision helps Morrisville properties stay neat with recurring lawn service and focused outdoor improvements.',
   },
@@ -93,6 +122,12 @@ const areas = [
     latitude: 35.5843849,
     longitude: -78.7998691,
     services: ['Lawn maintenance', 'Seasonal cleanups', 'Mulch', 'Commercial care'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'spring-fall-cleanups',
+      'mulch-pine-straw',
+      'commercial-lawn-care',
+    ],
     intro:
       'From routine lawn maintenance to seasonal cleanup, Envision serves homes and businesses in Fuquay-Varina.',
   },
@@ -103,6 +138,12 @@ const areas = [
     latitude: 35.6512655,
     longitude: -78.8336218,
     services: ['Lawn maintenance', 'Bed care', 'Trimming', 'Seasonal cleanups'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'landscape-maintenance',
+      'mulch-pine-straw',
+      'spring-fall-cleanups',
+    ],
     intro:
       'Envision provides practical, detail-focused lawn and landscape care throughout Holly Springs.',
   },
@@ -113,6 +154,12 @@ const areas = [
     latitude: 35.996653,
     longitude: -78.9018053,
     services: ['Lawn maintenance', 'Cleanups', 'Mulch', 'Landscape projects'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'spring-fall-cleanups',
+      'mulch-pine-straw',
+      'landscape-design-planting',
+    ],
     intro:
       'Envision serves Durham-area properties with lawn maintenance, cleanups, mulch, and landscape project support.',
   },
@@ -123,6 +170,12 @@ const areas = [
     latitude: 35.7112642,
     longitude: -78.6141709,
     services: ['Lawn maintenance', 'Landscape care', 'Mulch', 'Seasonal cleanups'],
+    serviceSlugs: [
+      'lawn-maintenance',
+      'landscape-maintenance',
+      'mulch-pine-straw',
+      'spring-fall-cleanups',
+    ],
     intro:
       'Garner customers can contact Envision for lawn maintenance, landscape care, mulch, and seasonal cleanups.',
   },
@@ -2175,7 +2228,7 @@ function serviceAreasPage() {
         <div class="area-card-grid">
           ${areas
             .map(
-              (area, index) => `<a class="area-card reveal" id="${area.slug}" href="/contact" aria-label="Confirm service for a ${area.name} property"><span>${String(index + 1).padStart(2, '0')}</span><h2>${area.name}, ${area.region}</h2><p>${area.intro}</p><i>${icons.arrow}</i></a>`,
+              (area, index) => `<a class="area-card reveal" id="${area.slug}" href="${area.slug === 'raleigh-nc' ? '/contact' : `/service-areas/${area.slug}`}" aria-label="${area.slug === 'raleigh-nc' ? 'Confirm service for' : 'View lawn and landscape services in'} ${area.name}, ${area.region}"><span>${String(index + 1).padStart(2, '0')}</span><h2>${area.name}, ${area.region}</h2><p>${area.intro}</p><i>${icons.arrow}</i></a>`,
             )
             .join('')}
         </div>
@@ -2226,8 +2279,9 @@ function servicePage(service) {
         ${sectionHeading('Where Envision works', `${service.title} across Raleigh &amp; the Triangle`, 'Choose the closest listed community, then confirm the exact property and project when requesting an estimate.')}
         <div class="service-area-link-list">
           ${areas
+            .filter((area) => area.serviceSlugs.includes(service.slug))
             .map(
-              (area) => `<a href="/service-areas#${area.slug}"><span>${icons.pin}<strong>${area.name}, ${area.region}</strong></span>${icons.arrow}</a>`,
+              (area) => `<a href="${area.slug === 'raleigh-nc' ? `/service-areas#${area.slug}` : `/service-areas/${area.slug}`}"><span>${icons.pin}<strong>${service.title} in ${area.name}, ${area.region}</strong></span>${icons.arrow}</a>`,
             )
             .join('')}
         </div>
@@ -2238,10 +2292,28 @@ function servicePage(service) {
 }
 
 function areaPage(area) {
+  const localServices = area.serviceSlugs
+    .map((slug) => services.find((service) => service.slug === slug))
+    .filter(Boolean);
+  const localFaqs = [
+    [
+      `Does Envision Landscaping serve ${area.name}?`,
+      `Yes. ${area.name}, ${area.region} is listed in Envision’s published service area. Share the exact property address and requested service so Envision can confirm project fit and scheduling.`,
+    ],
+    [
+      `What lawn and landscape services are available in ${area.name}?`,
+      `Envision’s published ${area.name} service coverage includes ${localServices.map((service) => service.title.toLowerCase()).join(', ')}. The exact visit is scoped to the property before scheduling.`,
+    ],
+    [
+      `How do I request an estimate for a ${area.name} property?`,
+      `Call or text ${business.phone} with the property location, the work you need, and any helpful photos. Envision will confirm availability and the estimate process directly.`,
+    ],
+    ...homepageFaqs.slice(1, 3),
+  ];
   return pageShell({
     path: `service-areas/${area.slug}`,
-    title: `Lawn Care & Landscaping in ${area.name}, ${area.region} | Envision`,
-    description: `${area.intro} Call Envision Landscaping at ${business.phone}.`,
+    title: `${area.name}, NC Lawn Care & Landscaping | Envision`,
+    description: `Lawn care and landscaping in ${area.name}, NC. View Envision’s listed local services and call or text ${business.phone} to confirm your property.`,
     schemas: [
       localBusinessSchema({
         areaServed: {
@@ -2249,41 +2321,50 @@ function areaPage(area) {
           name: `${area.name}, ${area.region}`,
         },
       }),
-      faqSchema([
-        [
-          `Does Envision Landscaping serve ${area.name}?`,
-          `Yes. ${area.name}, ${area.region} is listed in Envision’s published service area. Confirm the exact property when requesting an estimate.`,
-        ],
-        ...homepageFaqs.slice(1, 4),
-      ]),
+      faqSchema(localFaqs),
     ],
     body:
       innerHero({
-        eyebrow: `${area.name}, ${area.region}`,
-        title: `Lawn and landscape care for ${area.name} properties`,
-        copy: area.intro,
-        image: '/assets/images/hero-home.jpg',
+        eyebrow: `Serving ${area.name}, ${area.region}`,
+        title: `Lawn care and landscaping in ${area.name}, NC`,
+        copy: `${area.intro} Browse the services Envision currently lists for this community, then confirm the exact property when requesting an estimate.`,
+        image: localServices[0]?.image || '/assets/images/hero-home.jpg',
       }) +
       breadcrumb([
         ['Service Areas', '/service-areas'],
         [`${area.name}, ${area.region}`],
       ]) +
       `<section class="local-service section-pad"><div class="shell local-service-grid">
-        <div>${sectionHeading('Local service', `Property care in ${area.name}`, `${area.intro} Choose the closest service below, then share the address and project details.`)}<a class="button button-primary" href="/contact"><span>Request a ${area.name} estimate</span>${icons.arrow}</a></div>
+        <div>${sectionHeading(`${area.name} service area`, `Property care built around the actual job`, `${area.intro} Envision confirms the address, requested work, scope, and scheduling before service.`)}<a class="button button-primary" href="/contact"><span>Request a ${area.name} estimate</span>${icons.arrow}</a></div>
         <div class="local-stat reveal"><span>${icons.pin}</span><strong>${area.name}</strong><p>Published Envision service community</p><small>Scheduling and project fit are confirmed property by property.</small></div>
       </div></section>` +
-      `<section class="services section-pad"><div class="shell">${sectionHeading('Available services', `Outdoor work for ${area.name} homes and properties`)}${serviceGrid()}</div></section>` +
+      `<section class="services section-pad"><div class="shell">${sectionHeading('Available services', `Lawn and landscape services in ${area.name}, NC`, `These are the service categories Envision currently publishes for ${area.name}. Choose the closest match for full service details.`)}<div class="service-grid local-service-grid-cards">
+        ${localServices
+          .map(
+            (service, index) => `<a class="service-card reveal" style="--i:${index}" href="/services/${service.slug}">
+              <img src="${service.image}" alt="${service.title} available for ${area.name}, North Carolina properties" loading="lazy" width="900" height="1100">
+              <div class="service-card-shade"></div>
+              <div class="service-card-copy">
+                <span>${String(index + 1).padStart(2, '0')}</span>
+                <h3>${service.title} in ${area.name}, NC</h3>
+                <p>${service.short}</p>
+                <span class="service-card-link">View ${service.title.toLowerCase()} details ${icons.arrow}</span>
+              </div>
+            </a>`,
+          )
+          .join('')}
+      </div></div></section>` +
+      `<section class="service-overview section-pad"><div class="shell service-overview-grid">
+        <div>${sectionHeading('Request local service', `How to start a ${area.name} lawn or landscape estimate`, 'A useful request gives Envision enough detail to confirm whether the property and project fit the current schedule.')}</div>
+        <div class="service-scope-panel reveal"><ol class="check-list">
+          <li>${icons.check}<span>Share the ${area.name} property address.</span></li>
+          <li>${icons.check}<span>Name the service and the areas that need work.</span></li>
+          <li>${icons.check}<span>Include photos, timing, and access details when helpful.</span></li>
+          <li>${icons.check}<span>Confirm the scope and estimate directly with Envision.</span></li>
+        </ol><a class="button button-primary" href="/contact"><span>Contact Envision</span>${icons.arrow}</a></div>
+      </div></section>` +
       reviewSection() +
-      faqSection(
-        [
-          [
-            `Does Envision Landscaping serve ${area.name}?`,
-            `Yes. ${area.name}, ${area.region} is listed in Envision’s published service area. Confirm the exact property when requesting an estimate.`,
-          ],
-          ...homepageFaqs.slice(1, 4),
-        ],
-        `${area.name} service questions`,
-      ) +
+      faqSection(localFaqs, `${area.name} lawn care and landscaping questions`) +
       contactSection(),
   });
 }
@@ -2463,10 +2544,13 @@ const pageEntries = [
     `services/${service.slug}`,
     servicePage(service),
   ]),
+  ...areas
+    .filter((area) => area.slug !== 'raleigh-nc')
+    .map((area) => [`service-areas/${area.slug}`, areaPage(area)]),
 ];
 
-// City details now live in one authoritative service-area hub. Remove the old
-// generated city directory so duplicate doorway-style pages cannot be shipped.
+// Rebuild the selected city directory from the verified service-area data so
+// stale or unsupported city pages cannot survive between builds.
 await rm(join(root, 'service-areas'), { recursive: true, force: true });
 
 for (const [path, html] of pageEntries) {
