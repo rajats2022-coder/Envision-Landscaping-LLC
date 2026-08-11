@@ -8,6 +8,40 @@ const findings = []
 const read = (relativePath) => fs.readFileSync(path.join(root, relativePath), 'utf8')
 const exists = (relativePath) => fs.existsSync(path.join(root, relativePath))
 
+const extractBalancedElement = (html, startIndex, tagName) => {
+  const tagPattern = new RegExp(`<\\/?${tagName}\\b[^>]*>`, 'gi')
+  tagPattern.lastIndex = startIndex
+  let depth = 0
+  for (let match = tagPattern.exec(html); match; match = tagPattern.exec(html)) {
+    const tag = match[0]
+    if (tag.startsWith('</')) {
+      depth -= 1
+      if (depth === 0) {
+        return { html: html.slice(startIndex, tagPattern.lastIndex), start: startIndex, end: tagPattern.lastIndex }
+      }
+    } else if (!tag.endsWith('/>')) {
+      depth += 1
+    }
+  }
+  return null
+}
+
+const findElementByClass = (html, className) => {
+  const openingTagPattern = /<([a-z][\w:-]*)\b[^>]*>/gi
+  for (let match = openingTagPattern.exec(html); match; match = openingTagPattern.exec(html)) {
+    const classes = match[0].match(/\bclass\s*=\s*(["'])(.*?)\1/i)?.[2]?.split(/\s+/) || []
+    if (!classes.includes(className)) continue
+    return extractBalancedElement(html, match.index, match[1])
+  }
+  return null
+}
+
+const imageSources = (html) =>
+  [...html.matchAll(/<img\b[^>]*\bsrc\s*=\s*(["'])(.*?)\1/gi)].map(([, , src]) => src)
+
+const isRealFinishedProjectImage = (src) =>
+  src.startsWith('/assets/images/projects/') && !/(?:^|[\/_\-.])(?:before|during)(?:[\/_\-.]|$)/i.test(src)
+
 const sitemap = read('sitemap.xml')
 const urls = [...sitemap.matchAll(/<loc>https:\/\/envisionlandscapingllc\.com([^<]*)<\/loc>/g)].map(
   ([, pathname]) => pathname || '/'
@@ -80,6 +114,27 @@ for (const pathname of urls) {
   if (html.includes('Chapel Hill')) {
     findings.push(`${pathname}: contains a service-area claim not configured on the connected Google Business Profile`)
   }
+  for (const removedService of ['Commercial Lawn Care', 'Hardscaping & Pavers', 'Holiday Lighting']) {
+    if (html.includes(removedService)) {
+      findings.push(`${pathname}: contains removed service ${removedService}`)
+    }
+  }
+  for (const syntheticAsset of [
+    'hero-truck-v1.jpg',
+    'envision-truck-cutout-v2.png',
+    'service-cleanup-crew-v2.jpg',
+    'service-commercial-v2.jpg',
+    'service-hardscaping-v2.jpg',
+    'service-holiday-lighting-v2.jpg',
+    'service-landscape-maintenance-v2.jpg',
+    'service-lawn-crew-v2.jpg',
+    'service-mulch-crew-v2.jpg',
+    'service-planting-v2.jpg',
+  ]) {
+    if (html.includes(syntheticAsset)) {
+      findings.push(`${pathname}: references synthetic image asset ${syntheticAsset}`)
+    }
+  }
   if (html.includes('"aggregateRating"')) {
     findings.push(`${pathname}: contains self-serving LocalBusiness aggregate rating markup`)
   }
@@ -120,8 +175,35 @@ for (const pathname of urls) {
     if (!html.includes('class="service-page-hero"')) {
       findings.push(`${pathname}: missing mobile-first service hero`)
     }
+    const serviceHero = findElementByClass(html, 'service-page-hero')
+    if (serviceHero) {
+      const heroImages = imageSources(serviceHero.html)
+      if (heroImages.length !== 1) {
+        findings.push(`${pathname}: service hero must contain exactly one finished project image, found ${heroImages.length}`)
+      } else if (!isRealFinishedProjectImage(heroImages[0])) {
+        findings.push(`${pathname}: service hero must use one finished /assets/images/projects/ image, found ${heroImages[0]}`)
+      }
+      if (
+        pathname === '/services/aeration-overseeding' &&
+        heroImages[0] !== '/assets/images/projects/backyard-makeover-after.jpg'
+      ) {
+        findings.push(`${pathname}: service hero must use the approved finished backyard result`)
+      }
+      if (
+        serviceHero.html.includes('data-before-after') ||
+        serviceHero.html.includes('before-after-range') ||
+        serviceHero.html.includes('service-page-hero-slider')
+      ) {
+        findings.push(`${pathname}: before-and-after interaction must appear below the service hero`)
+      }
+    }
     if (!html.includes('"hasOfferCatalog"')) {
       findings.push(`${pathname}: missing structured subservice offer catalog`)
+    }
+    for (const [, image] of html.matchAll(/<article class="service-job-card[\s\S]*?<img src="([^"]+)"/g)) {
+      if (/(?:before|during|seasonal-cleanup)/i.test(image)) {
+        findings.push(`${pathname}: uses non-finished ${image} as a standalone service-job image`)
+      }
     }
     const areaLinks = new Set(
       [...html.matchAll(/href="(\/service-areas(?:#[^"]+|\/[^"]+))"/g)].map(([, href]) => href),
@@ -138,6 +220,49 @@ for (const pathname of urls) {
     if (serviceLinks.size < 4) {
       findings.push(`${pathname}: expected at least 4 contextual service links, found ${serviceLinks.size}`)
     }
+  }
+}
+
+for (const [pathname, before, after] of [
+  ['/services/landscape-maintenance', 'walkway-refresh-before.jpg', 'walkway-refresh-after.jpg'],
+  ['/services/aeration-overseeding', 'backyard-makeover-before.jpg', 'backyard-makeover-after.jpg'],
+  ['/services/spring-fall-cleanups', 'front-refresh-before.jpg', 'front-refresh-after.jpg'],
+]) {
+  const html = read(pagePath(pathname))
+  const serviceHero = findElementByClass(html, 'service-page-hero')
+  const belowHero = serviceHero ? html.slice(serviceHero.end) : ''
+  const proof = findElementByClass(belowHero, 'service-proof')
+  const slider = proof ? findElementByClass(proof.html, 'service-proof-slider') : null
+  const proofImages = slider ? imageSources(slider.html) : []
+  if (!proof) {
+    findings.push(`${pathname}: missing its below-hero service-proof section`)
+  } else if (
+    !slider ||
+    !slider.html.includes('data-before-after') ||
+    !slider.html.includes('before-after-range') ||
+    !proofImages.some((src) => src.endsWith(`/${before}`)) ||
+    !proofImages.some((src) => src.endsWith(`/${after}`))
+  ) {
+    findings.push(`${pathname}: service-proof is missing its correct interactive verified pair (${before} / ${after})`)
+  }
+}
+
+const homeHtml = read('index.html')
+const homeHero = findElementByClass(homeHtml, 'home-hero')
+const homeHeroVisual = homeHero ? findElementByClass(homeHero.html, 'home-hero-visual') : null
+const homeHeroImages = homeHeroVisual ? imageSources(homeHeroVisual.html) : []
+if (!homeHero) {
+  findings.push('/: missing homepage hero')
+} else {
+  if (
+    homeHero.html.includes('data-before-after') ||
+    homeHero.html.includes('before-after-range') ||
+    homeHero.html.includes('home-hero-slider')
+  ) {
+    findings.push('/: homepage hero must be a clean finished image, not a before-and-after slider')
+  }
+  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/finished-lawn-wide.jpg') {
+    findings.push('/: homepage hero visual must use only /assets/images/projects/finished-lawn-wide.jpg')
   }
 }
 
@@ -160,7 +285,10 @@ const vercelConfig = JSON.parse(read('vercel.json'))
 for (const [source, destination] of [
   ['/service-areas/holland-nc', '/service-areas'],
   ['/services/mulching-services', '/services/mulch-pine-straw'],
-  ['/services/commercial-lawn-care-services', '/services/commercial-lawn-care'],
+  ['/services/commercial-lawn-care-services', '/services'],
+  ['/services/commercial-lawn-care', '/services'],
+  ['/services/hardscaping-pavers', '/services'],
+  ['/services/holiday-lighting', '/services'],
   ['/services/landscaping-consultationdesign', '/services/landscape-design-planting'],
   ['/services/residential-lawn-care-services', '/services/lawn-maintenance'],
   ['/projects/lawn-care-and-maintenance-project', '/gallery'],
@@ -182,6 +310,10 @@ if (!home.includes('data-map-view="state"')) findings.push('homepage North Carol
 if (home.includes('hero-scroll') || home.includes('See the work')) {
   findings.push('homepage still contains the removed See the work control')
 }
+const homeIntro = findElementByClass(home, 'intro')
+if (!homeIntro?.html.includes('/assets/images/projects/landscape-entry-after.jpg')) {
+  findings.push('homepage intro is missing its approved bright finished-property photo')
+}
 if (!home.includes('data-review-stack')) findings.push('homepage staggered Google review stack is missing')
 if (!home.includes('42 Google reviews')) findings.push('homepage synced Google review count is missing')
 if (!home.includes('https://search.google.com/local/writereview?placeid=')) {
@@ -201,16 +333,32 @@ if (!home.includes('data-area-slug="garner-nc"') || home.includes('data-area-slu
 }
 for (const image of [
   'projects/striped-lawn-hero.jpg',
-  'projects/commercial-parking-after.jpg',
+  'projects/landscape-entry-after.jpg',
   'projects/front-refresh-after.jpg',
-  'projects/aeration-machine.jpg',
-  'service-cleanup-crew-v2.jpg',
+  'projects/backyard-makeover-after.jpg',
   'projects/mulch-curved-bed.jpg',
   'projects/backyard-makeover-after-wide.jpg',
-  'service-hardscaping-v2.jpg',
-  'service-holiday-lighting-v2.jpg',
 ]) {
   if (!home.includes(`/assets/images/${image}`)) findings.push(`homepage is missing ${image}`)
+}
+
+const gallery = read('gallery.html')
+const featuredStory = findElementByClass(gallery, 'project-story')
+const expectedStageImages = [
+  'backyard-makeover-during-2.jpg',
+  'backyard-makeover-before.jpg',
+  'backyard-makeover-after.jpg',
+]
+if (!featuredStory) {
+  findings.push('gallery is missing its featured three-stage project')
+} else {
+  const featuredImages = imageSources(featuredStory.html).map((src) => src.split('/').pop())
+  if (
+    featuredImages.length !== expectedStageImages.length ||
+    expectedStageImages.some((image, index) => featuredImages[index] !== image)
+  ) {
+    findings.push(`gallery featured stages have the wrong order: ${featuredImages.join(', ')}`)
+  }
 }
 
 const areaSignals = [...home.matchAll(/<button class="map-signal[^>]+data-area-signal[^>]+>/g)].map(
