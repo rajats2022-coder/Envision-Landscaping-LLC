@@ -6,6 +6,13 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const origin = 'https://envisionlandscapingllc.com';
+const jobberEmbedId = '152dfe43-b7b8-4665-b208-c0f34dac1803-2057108';
+const jobberEmbedCss =
+  'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css';
+const jobberEmbedScript =
+  'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js';
+const jobberFormUrl =
+  'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108';
 const siteLastModified = '2026-08-11';
 const googleSiteVerification = '-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA';
 
@@ -45,6 +52,15 @@ if (googleReviewData?.source === 'google-business-profile') {
   business.reviewCount = Number(googleReviewData.reviewCount || business.reviewCount);
 }
 
+const publishedServiceSlugs = [
+  'lawn-maintenance',
+  'landscape-maintenance',
+  'aeration-overseeding',
+  'spring-fall-cleanups',
+  'mulch-pine-straw',
+  'landscape-design-planting',
+];
+
 const areas = [
   {
     slug: 'raleigh-nc',
@@ -53,16 +69,20 @@ const areas = [
     latitude: 35.7803977,
     longitude: -78.6390989,
     services: ['Lawn maintenance', 'Landscape care', 'Mulch', 'Seasonal cleanups'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'landscape-maintenance',
-      'aeration-overseeding',
-      'spring-fall-cleanups',
-      'mulch-pine-straw',
-      'landscape-design-planting',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision provides lawn maintenance, seasonal cleanup, mulch, and landscape care for properties across Raleigh.',
+    planning: {
+      title: 'Account for curb access, established trees, and daily property use.',
+      body:
+        'For a Raleigh estimate, identify anything that changes how the crew reaches or works around the property. Street parking, mature canopy, active irrigation, pedestrian traffic, and narrow side access can all affect the visit plan when they are present. Photos of the front approach and work area help Kyle separate routine service from extra preparation.',
+      checks: [
+        'Mark street-parking limits, gates, pets, and the preferred equipment route.',
+        'Point out irrigation heads, exposed roots, low branches, and utility covers.',
+        'Explain which curb, sidewalk, driveway, or patio surfaces need final cleanup.',
+        'Share any event date or access window that matters before scheduling.',
+      ],
+    },
   },
   {
     slug: 'cary-nc',
@@ -71,14 +91,20 @@ const areas = [
     latitude: 35.7882893,
     longitude: -78.7812081,
     services: ['Recurring lawn care', 'Mulch', 'Design and planting', 'Cleanups'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'mulch-pine-straw',
-      'landscape-design-planting',
-      'spring-fall-cleanups',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'Homeowners in Cary can call Envision for routine lawn care and one-time landscape projects.',
+    planning: {
+      title: 'Clarify gates, irrigation, and finish expectations before the visit.',
+      body:
+        'A Cary request is easier to scope when the estimate shows how the crew will enter, where irrigation components sit, and which finished surfaces border the work. If an HOA, shared drive, locked gate, invisible fence, or pet routine affects access, include it with the first message. Those details help avoid a generic plan that misses how the property is actually used.',
+      checks: [
+        'Photograph side gates, fence latches, tight turns, and any shared access point.',
+        'Flag sprinkler heads, valve boxes, lighting wire, and invisible-fence markers.',
+        'Name the sidewalks, patios, porches, or driveway edges that must stay clean.',
+        'Provide applicable HOA timing, parking, or material-placement requirements.',
+      ],
+    },
   },
   {
     slug: 'apex-nc',
@@ -87,14 +113,20 @@ const areas = [
     latitude: 35.7325352,
     longitude: -78.8505516,
     services: ['Mowing and edging', 'Bed care', 'Mulch', 'Landscape maintenance'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'landscape-maintenance',
-      'mulch-pine-straw',
-      'spring-fall-cleanups',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision serves Apex with dependable mowing, bed care, seasonal cleanup, mulch, and landscape maintenance.',
+    planning: {
+      title: 'Map slopes, curved beds, and tree-root zones clearly.',
+      body:
+        'For an Apex property, wide photos from the curb and closer views of the work area make the estimate more useful. Note sloped turf, curving bed lines, surface roots, corner-lot exposure, or heavy leaf collection when any of those conditions apply. Kyle can then review where hand work, material placement, or a different equipment approach may belong in the approved scope.',
+      checks: [
+        'Show grade changes, retaining edges, drainage paths, and low or soft ground.',
+        'Identify roots, shallow edging, stepping stones, and delicate border plants.',
+        'Explain where debris or delivered material can be staged without blocking traffic.',
+        'Call out public sidewalks, corner visibility, and frequently used entrances.',
+      ],
+    },
   },
   {
     slug: 'morrisville-nc',
@@ -103,14 +135,20 @@ const areas = [
     latitude: 35.824341,
     longitude: -78.8300321,
     services: ['Recurring lawn service', 'Landscape care', 'Cleanups', 'Outdoor improvements'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'landscape-maintenance',
-      'spring-fall-cleanups',
-      'landscape-design-planting',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision helps Morrisville properties stay neat with recurring lawn service and focused outdoor improvements.',
+    planning: {
+      title: 'Plan compact work areas and adjoining-property boundaries.',
+      body:
+        'Morrisville estimates should make tight access and shared surroundings easy to understand. If the property is a townhome, has limited parking, sits close to neighboring turf, or offers only a narrow route to the backyard, mention that before the visit. Clear boundary photos help Kyle define where Envision’s responsibility begins and ends without assuming that every visible lawn or bed belongs to the request.',
+      checks: [
+        'Confirm assigned parking, loading space, alley access, and community restrictions.',
+        'Mark shared turf lines, adjoining beds, utility cabinets, and common walkways.',
+        'Measure the narrowest gate or passage if larger equipment may be needed.',
+        'Choose a safe temporary location for tools, debris, or packaged material.',
+      ],
+    },
   },
   {
     slug: 'fuquay-varina-nc',
@@ -119,14 +157,20 @@ const areas = [
     latitude: 35.5843849,
     longitude: -78.7998691,
     services: ['Lawn maintenance', 'Seasonal cleanups', 'Mulch', 'Landscape care'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'spring-fall-cleanups',
-      'mulch-pine-straw',
-      'landscape-maintenance',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'From routine lawn maintenance to seasonal cleanup, Envision serves properties throughout Fuquay-Varina.',
+    planning: {
+      title: 'Break larger properties into clear work zones.',
+      body:
+        'A Fuquay-Varina request may be easier to price when front, side, and rear areas are described separately. If the site includes a long drive, detached structure, drainage ditch, broad open lawn, septic area, or a distant equipment entrance, show it in the estimate photos. Dividing the property into zones keeps an expansive request understandable and makes optional work easier to separate.',
+      checks: [
+        'Label each lawn, bed, outbuilding, fence line, and remote corner in the request.',
+        'Note ditch banks, culverts, wet spots, steep grades, and septic-field boundaries.',
+        'Explain trailer access, turnaround room, long carrying distances, and locked entries.',
+        'Separate priority work from acreage or outer areas that may be optional.',
+      ],
+    },
   },
   {
     slug: 'holly-springs-nc',
@@ -135,14 +179,20 @@ const areas = [
     latitude: 35.6512655,
     longitude: -78.8336218,
     services: ['Lawn maintenance', 'Bed care', 'Trimming', 'Seasonal cleanups'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'landscape-maintenance',
-      'mulch-pine-straw',
-      'spring-fall-cleanups',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision provides practical, detail-focused lawn and landscape care throughout Holly Springs.',
+    planning: {
+      title: 'Show fenced access, turf transitions, and drainage concerns.',
+      body:
+        'For a Holly Springs estimate, include the route to fenced backyards and any place where sod, seed, beds, or natural areas meet. Play equipment, downspout outlets, compacted ground, new planting zones, and drainage near the foundation can change how a project should be approached when present. A few labeled photos help distinguish appearance concerns from soil, water, or access constraints.',
+      checks: [
+        'Measure fence openings and identify locks, steps, playsets, or patio pinch points.',
+        'Photograph thin turf, sod seams, bare patches, and transitions into natural areas.',
+        'Trace downspouts, runoff routes, foundation edges, and recurring puddle locations.',
+        'Mark recently planted material or young grass that needs careful protection.',
+      ],
+    },
   },
   {
     slug: 'durham-nc',
@@ -151,14 +201,20 @@ const areas = [
     latitude: 35.996653,
     longitude: -78.9018053,
     services: ['Lawn maintenance', 'Cleanups', 'Mulch', 'Landscape projects'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'spring-fall-cleanups',
-      'mulch-pine-straw',
-      'landscape-design-planting',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision serves Durham-area properties with lawn maintenance, cleanups, mulch, and landscape project support.',
+    planning: {
+      title: 'Document shade, roots, leaf volume, and uneven terrain.',
+      body:
+        'A Durham estimate benefits from photos taken at different points across the work area, especially when tree canopy creates mixed sun and shade. Large roots, heavy leaf accumulation, irregular grade, older edging, or separate street and alley access should be shown rather than left to assumption. Those conditions can affect cleanup volume, turf expectations, hand-work needs, and the practical route through the property.',
+      checks: [
+        'Show dense canopy, shaded turf, exposed roots, stumps, and low overhead limbs.',
+        'Estimate leaf or debris volume and identify an approved collection location.',
+        'Flag uneven ground, stone borders, older pathways, and concealed drop-offs.',
+        'Confirm whether the best entrance is from the street, driveway, alley, or side yard.',
+      ],
+    },
   },
   {
     slug: 'garner-nc',
@@ -167,21 +223,27 @@ const areas = [
     latitude: 35.7112642,
     longitude: -78.6141709,
     services: ['Lawn maintenance', 'Landscape care', 'Mulch', 'Seasonal cleanups'],
-    serviceSlugs: [
-      'lawn-maintenance',
-      'landscape-maintenance',
-      'mulch-pine-straw',
-      'spring-fall-cleanups',
-    ],
+    serviceSlugs: publishedServiceSlugs,
     intro:
       'Garner customers can contact Envision for lawn maintenance, landscape care, mulch, and seasonal cleanups.',
+    planning: {
+      title: 'Define open lawn edges, drainage features, and equipment access.',
+      body:
+        'For a Garner estimate, show the full relationship between the lawn, driveway, roadside edge, and planting beds. Open sun, broad front areas, drainage swales, ditch banks, driveway islands, or deep setbacks can influence travel and finishing time when they are part of the property. The request should also show where equipment can enter without crossing soft ground or obstructing the road.',
+      checks: [
+        'Photograph roadside edges, swales, culverts, mailbox beds, and driveway islands.',
+        'Mark soggy ground, washouts, steep banks, and places that should stay untouched.',
+        'Confirm trailer parking, equipment entry, turnaround space, and setback distance.',
+        'Identify the exact boundary between maintained turf and rough or natural growth.',
+      ],
+    },
   },
 ];
 
 const commonProcess = [
   {
     title: 'Tell us what the property needs',
-    body: 'Call or send a text request with the property location, service, and a few details about the work.',
+    body: 'Call or submit an estimate request with the property location, service, and a few details about the work.',
   },
   {
     title: 'Review the scope',
@@ -257,7 +319,7 @@ const services = [
       'Routine mowing, edging, trimming, and cleanup that keeps the property looking sharp.',
     meta:
       'Reliable lawn maintenance in Raleigh, NC, including mowing, edging, trimming, and property cleanup.',
-    h1: 'Lawn maintenance that keeps Raleigh properties sharp',
+    h1: 'Lawn Maintenance in Raleigh, NC',
     intro:
       'A clean lawn depends on consistent work. Envision handles the recurring details—mowing, edging, trimming, and blowing—so the property stays ready week after week.',
     includes: [
@@ -291,7 +353,7 @@ const services = [
       'Ongoing bed, shrub, lawn, and seasonal care for a more finished property.',
     meta:
       'Landscape maintenance in Raleigh, NC, including pruning, trimming, weed care, lawn work, and seasonal service.',
-    h1: 'Landscape maintenance down to the last detail',
+    h1: 'Landscape Maintenance in Raleigh, NC',
     intro:
       'Landscape maintenance goes beyond mowing. Envision can help manage beds, shrubs, weeds, seasonal debris, and the small details that shape the whole property.',
     includes: [
@@ -321,11 +383,16 @@ const services = [
     navTitle: 'Aeration & Overseeding',
     image: projectImage('backyard-makeover-after.jpg'),
     imageAlt: 'Established green backyard after lawn renovation, aeration, and overseeding work',
+    heroImage: projectImage('aeration-overseeding-hero.jpg'),
+    heroImageAlt: 'Finished striped residential lawn selected for Aeration and Overseeding',
+    heroImageWidth: 998,
+    heroImageHeight: 1280,
+    heroPosition: 'center 61%',
     short:
       'Core aeration and overseeding work planned around the lawn, season, and property conditions.',
     meta:
       'Lawn aeration and overseeding in Raleigh, NC, with property-specific preparation and service planning.',
-    h1: 'Aeration and overseeding for a stronger Raleigh lawn',
+    h1: 'Aeration & Overseeding in Raleigh, NC',
     intro:
       'Compacted soil and thin turf can keep a lawn from filling in evenly. Envision can review the property, prepare the lawn, complete core aeration, and overseed the approved areas as one coordinated service.',
     includes: [
@@ -359,7 +426,7 @@ const services = [
       'Seasonal clearing, trimming, and reset work that gets the yard back under control.',
     meta:
       'Spring and fall yard cleanup services in Raleigh, NC, including debris removal, trimming, and landscape-bed cleanup.',
-    h1: 'Seasonal cleanups without the weekend-long yard project',
+    h1: 'Spring & Fall Cleanups in Raleigh, NC',
     intro:
       'Leaves, branches, overgrowth, and tired beds can make a property feel unfinished. Envision clears the buildup and resets the landscape for the season ahead.',
     includes: [
@@ -393,7 +460,7 @@ const services = [
       'Fresh bed material installed with clean edges and even coverage.',
     meta:
       'Mulch and pine-straw installation in Raleigh, NC, with bed preparation, clean edges, and even coverage.',
-    h1: 'Fresh mulch and pine straw, installed cleanly',
+    h1: 'Mulch & Pine Straw in Raleigh, NC',
     intro:
       'A clean bed line and even material can change the whole front of a property. Envision prepares the area, installs the selected material, and leaves the surrounding surfaces tidy.',
     includes: [
@@ -427,7 +494,7 @@ const services = [
       'Practical landscape planning, plant selection, sod, and installation support.',
     meta:
       'Landscape consultation, design, planting, and sod support for Raleigh-area outdoor projects.',
-    h1: 'A practical plan for the landscape you want',
+    h1: 'Design & Planting in Raleigh, NC',
     intro:
       'Whether the goal is a cleaner front bed, new plantings, sod, or a larger yard refresh, Envision starts with the property and the outcome you have in mind.',
     includes: [
@@ -526,13 +593,6 @@ const serviceProfiles = {
           'Defined bed lines and targeted weed removal help separate lawn from planting areas and make existing landscaping look more deliberate.',
         image: projectImage('walkway-refresh-after.jpg'),
         alt: 'Finished landscape and clean bed lines along a residential walkway',
-      },
-      {
-        title: 'Seasonal pruning and debris care',
-        description:
-          'Seasonal growth, leaves, and small debris can be addressed with the timing and plant-care priorities confirmed before work begins.',
-        image: projectImage('landscape-entry-after.jpg'),
-        alt: 'Finished entry landscape after trimming, bed, and edge maintenance',
       },
     ],
     process: [
@@ -770,7 +830,7 @@ const homepageFaqs = [
   ],
   [
     'How do I request an estimate?',
-    'Call (984) 338-6483 or use the quote form to prepare a text message with your service, property area, and project details.',
+    'Call (984) 338-6483 or use the estimate form to send your service, property area, and project details to Envision.',
   ],
   [
     'Does Envision offer recurring lawn care?',
@@ -823,6 +883,16 @@ function pageUrl(path) {
   return `${origin}${cleanPath(path)}`;
 }
 
+function localizedServicePath(service, area) {
+  return area.slug === 'raleigh-nc'
+    ? `/services/${service.slug}`
+    : `/services/${service.slug}/${area.slug}`;
+}
+
+function localizedServiceEntryPath(service, area) {
+  return localizedServicePath(service, area).replace(/^\//, '');
+}
+
 function localBusinessSchema(extra = {}) {
   return {
     '@context': 'https://schema.org',
@@ -869,24 +939,37 @@ function faqSchema(items) {
   };
 }
 
-function serviceSchema(service) {
+function serviceSchema(service, area = null) {
   const profile = serviceProfiles[service.slug];
+  const servedAreas = area ? [area] : areas;
+  const localizedName = area
+    ? `${service.title} in ${area.name}, ${area.region}`
+    : service.title;
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: service.title,
-    description: service.meta,
-    areaServed: areas.map((area) => `${area.name}, ${area.region}`),
+    name: localizedName,
+    description: area
+      ? `${service.short} Available for properties in ${area.name}, ${area.region}, subject to project fit and scheduling.`
+      : service.meta,
+    url: area ? pageUrl(localizedServiceEntryPath(service, area)) : pageUrl(`services/${service.slug}`),
+    areaServed: servedAreas.map((servedArea) => ({
+      '@type': 'City',
+      name: `${servedArea.name}, ${servedArea.region}`,
+    })),
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: `${service.title} jobs`,
+      name: `${localizedName} jobs`,
       itemListElement: profile.jobs.map((job) => ({
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
           name: job.title,
           description: job.description,
-          areaServed: areas.map((area) => `${area.name}, ${area.region}`),
+          areaServed: servedAreas.map((servedArea) => ({
+            '@type': 'City',
+            name: `${servedArea.name}, ${servedArea.region}`,
+          })),
         },
       })),
     },
@@ -897,6 +980,19 @@ function serviceSchema(service) {
       telephone: business.phoneHref,
       url: origin,
     },
+  };
+}
+
+function breadcrumbSchema(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map(([name, path], index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name,
+      item: pageUrl(path),
+    })),
   };
 }
 
@@ -1169,9 +1265,12 @@ function pageShell({
   <link rel="apple-touch-icon" href="/assets/images/envision-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://d3ey4dbjkt2f6s.cloudfront.net" crossorigin>
+  <link rel="preconnect" href="https://clienthub.getjobber.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="${jobberEmbedCss}" media="screen">
   <link rel="stylesheet" href="/assets/vendor/maplibre-gl.css?v=5.12.0">
-  <link rel="stylesheet" href="/assets/styles.css?v=20260811-5">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260811-8">
   ${renderSchemas(pageSchemas)}
 </head>
 <body class="${bodyClass}">
@@ -1179,7 +1278,7 @@ function pageShell({
   <main id="main-content">${body}</main>
   ${siteFooter()}
   <script src="/assets/vendor/maplibre-gl.js?v=5.12.0" defer></script>
-  <script src="/assets/site.js?v=20260810-1" defer></script>
+  <script src="/assets/site.js?v=20260811-3" defer></script>
   <script type="module" src="/assets/concierge.js?v=20260807-3"></script>
 </body>
 </html>`;
@@ -1303,16 +1402,29 @@ function comparisonSlider(comparison, { className = '', title, priority = false,
   </div>`;
 }
 
-function serviceHero(service) {
+function serviceHero(service, area = null) {
+  const heroImage = service.heroImage || service.image;
+  const heroImageAlt = service.heroImageAlt || service.imageAlt || `${service.title} service from Envision Landscaping`;
+  const heroImageWidth = service.heroImageWidth || 1800;
+  const heroImageHeight = service.heroImageHeight || 1200;
+  const eyebrow = area
+    ? `Serving ${area.name}, ${area.region}`
+    : 'Raleigh &amp; Triangle service';
+  const heading = area
+    ? `${service.title} in ${area.name}, ${area.region}`
+    : service.h1;
+  const copy = area
+    ? `${service.short} Envision confirms the exact ${area.name} property, project fit, and scheduling before service.`
+    : service.short;
   return `<section class="service-page-hero">
     <div class="service-page-hero-media">
-      <img src="${service.image}" alt="${service.imageAlt || `${service.title} service from Envision Landscaping`}" width="1800" height="1200" fetchpriority="high" decoding="async">
+      <img src="${heroImage}" alt="${heroImageAlt}" width="${heroImageWidth}" height="${heroImageHeight}"${service.heroPosition ? ` style="object-position:${service.heroPosition}"` : ''} fetchpriority="high" decoding="async">
     </div>
     <div class="service-page-hero-panel">
       <div class="service-page-hero-content reveal">
-        <p class="eyebrow eyebrow-light">Raleigh &amp; Triangle service</p>
-        <h1>${service.h1}</h1>
-        <p>${service.short}</p>
+        <p class="eyebrow eyebrow-light">${eyebrow}</p>
+        <h1>${heading}</h1>
+        <p>${copy}</p>
         ${buttonPair()}
       </div>
     </div>
@@ -1332,7 +1444,7 @@ function serviceProofSection(service) {
     'aeration-overseeding': {
       eyebrow: 'Real lawn result',
       title: 'From bare ground to established turf.',
-      body: 'Use the slider to compare this Raleigh-area backyard before a larger lawn-renovation project and after the new grass became established.',
+      body: 'Use the slider to compare this Triangle-area backyard before a larger lawn-renovation project and after the new grass became established.',
     },
     'spring-fall-cleanups': {
       eyebrow: 'Real cleanup result',
@@ -1363,14 +1475,20 @@ function serviceProofSection(service) {
   </section>`;
 }
 
-function serviceJobsSection(service) {
+function serviceJobsSection(service, area = null) {
   const profile = serviceProfiles[service.slug];
+  const heading = area
+    ? `${service.title} work Envision can scope in ${area.name}`
+    : profile.jobHeading;
+  const intro = area
+    ? `${profile.jobIntro.replaceAll('Raleigh-area homeowners', `${area.name} property owners`).replaceAll('Raleigh-area', `${area.name}-area`)} The final visit is based on the exact address and approved estimate.`
+    : profile.jobIntro;
   return `<section class="service-jobs section-pad" aria-labelledby="${service.slug}-jobs-heading">
     <div class="shell">
       <div class="service-jobs-heading reveal">
         <p class="eyebrow">Inside this service</p>
-        <h2 id="${service.slug}-jobs-heading">${profile.jobHeading}</h2>
-        <p>${profile.jobIntro}</p>
+        <h2 id="${service.slug}-jobs-heading">${heading}</h2>
+        <p>${intro}</p>
       </div>
       <div class="service-job-grid">
         ${profile.jobs
@@ -1390,8 +1508,14 @@ function serviceJobsSection(service) {
   </section>`;
 }
 
-function serviceProcessSection(service) {
+function serviceProcessSection(service, area = null) {
   const profile = serviceProfiles[service.slug];
+  const heading = area
+    ? `${service.title} in ${area.name}: estimate to final check`
+    : `${service.title}: estimate to final check`;
+  const copy = area
+    ? `The exact ${area.name} job changes by property, but Envision uses the same clear planning steps before work begins.`
+    : 'The exact job changes by property, but the planning stays straightforward.';
   return `<section class="service-process section-pad">
     <div class="shell service-process-grid">
       <div class="service-process-visual reveal">
@@ -1399,7 +1523,7 @@ function serviceProcessSection(service) {
         <div><span>Property-specific scope</span><strong>Clear steps before work begins.</strong></div>
       </div>
       <div class="service-process-copy">
-        ${sectionHeading('How the work moves', `${service.title}: estimate to final check`, 'The exact job changes by property, but the planning stays straightforward.')}
+        ${sectionHeading('How the work moves', heading, copy)}
         <ol class="service-process-list">
           ${profile.process
             .map(
@@ -1647,7 +1771,7 @@ function faqSection(items = homepageFaqs, heading = 'Questions before you book?'
   return `<section class="faq-section section-pad">
     <div class="shell faq-grid">
       <div class="faq-intro">
-        ${sectionHeading('Straight answers', heading, 'If your question is specific to the property, call or start a text request.')}
+        ${sectionHeading('Straight answers', heading, 'If your question is specific to the property, call or send an estimate request.')}
         <a class="button button-primary" href="/contact"><span>Ask Envision</span>${icons.arrow}</a>
       </div>
       <div class="accordion faq-accordion" data-accordion>
@@ -1664,23 +1788,12 @@ function faqSection(items = homepageFaqs, heading = 'Questions before you book?'
   </section>`;
 }
 
-function quoteForm(id = 'quote-form') {
-  return `<form class="quote-form" id="${id}" data-quote-form novalidate>
-    <div class="field-grid">
-      <label><span>Name</span><input type="text" name="name" autocomplete="name" required><small data-error-for="name"></small></label>
-      <label><span>Phone</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" required><small data-error-for="phone"></small></label>
-    </div>
-    <div class="field-grid">
-      <label><span>Property city or ZIP</span><input type="text" name="location" autocomplete="postal-code" required><small data-error-for="location"></small></label>
-      <label><span>Service</span><select name="service" required><option value="">Choose a service</option>${services
-        .map((service) => `<option>${service.title}</option>`)
-        .join('')}<option>Something else</option></select><small data-error-for="service"></small></label>
-    </div>
-    <label><span>What would you like done?</span><textarea name="details" rows="5" required placeholder="Share the property area, project, timing, and anything Kyle should know."></textarea><small data-error-for="details"></small></label>
-    <button class="button button-primary button-wide" type="submit"><span>Start a text request</span><span class="button-icon">${icons.arrow}</span></button>
-    <p class="form-note">This prepares a text to ${business.phone}. Your device will ask you to review and send it.</p>
-    <div class="form-status" role="status" aria-live="polite"></div>
-  </form>`;
+function jobberRequestForm() {
+  return `<div class="jobber-request-shell" id="jobber-request" data-jobber-request>
+    <div id="${jobberEmbedId}" data-jobber-mount></div>
+    <p class="jobber-request-fallback">Having trouble loading the form? <a href="${jobberFormUrl}" target="_blank" rel="noopener">Open Envision’s secure Jobber request form</a>.</p>
+  </div>
+  <script src="${jobberEmbedScript}" clienthub_id="${jobberEmbedId}" form_url="${jobberFormUrl}"></script>`;
 }
 
 function contactSection() {
@@ -1689,7 +1802,7 @@ function contactSection() {
       <div class="contact-copy reveal">
         <p class="eyebrow">Start with the property</p>
         <h2>Tell Envision what needs work.</h2>
-        <p>Send the service, property area, and project details. The form prepares a text message so nothing is claimed as submitted until you send it from your device.</p>
+        <p>Send the service, property area, and project details directly into Envision’s Jobber request queue. Kyle will review the request and follow up about fit, scope, and scheduling.</p>
         <div class="contact-direct">
           <a class="contact-phone" href="tel:${business.phoneHref}">${icons.phone}<span><small>Prefer to call?</small><strong>${business.phone}</strong></span></a>
           <a class="contact-email" href="mailto:${business.email}">${icons.mail}<span><small>Prefer email?</small><strong>${business.email}</strong></span></a>
@@ -1702,8 +1815,8 @@ function contactSection() {
       </div>
       <div class="quote-panel reveal">
         <p class="quote-panel-kicker">Request an estimate</p>
-        <h3>Build your text request</h3>
-        ${quoteForm('home-quote-form')}
+        <h3>Send your project details</h3>
+        ${jobberRequestForm()}
       </div>
     </div>
   </section>`;
@@ -1837,7 +1950,7 @@ function homePage() {
     <div class="shell transformation-content reveal">
       <p class="eyebrow eyebrow-light">Ready for a cleaner property?</p>
       <h2>Let Envision handle the outside work.</h2>
-      <p>Start with a call or send the property details in a text request.</p>
+      <p>Start with a call or send the property details through the estimate form.</p>
       ${buttonPair('Request my estimate')}
     </div>
   </section>`;
@@ -2007,7 +2120,7 @@ function contactPage() {
     path: 'contact',
     title: 'Request a Lawn Care Estimate in Raleigh | Envision',
     description:
-      'Call (984) 338-6483, email Kyle@envisionlandscapingllc.com, or prepare a text request for Raleigh lawn and landscaping work.',
+      'Call (984) 338-6483, email Kyle@envisionlandscapingllc.com, or submit an estimate request for Raleigh lawn and landscaping work.',
     schemas: [
       localBusinessSchema({
         contactPoint: {
@@ -2023,14 +2136,14 @@ function contactPage() {
       innerHero({
         eyebrow: 'Contact Envision',
         title: 'Start with the property and the work you want done.',
-        copy: 'Call now or build a text request with the service, location, and project details.',
+        copy: 'Call now or send an estimate request with the service, location, and project details.',
         image: '/assets/images/lawn-maintenance.jpg',
         ctas: false,
       }) +
       breadcrumb([['Contact']]) +
       `<section class="contact-page section-pad"><div class="shell contact-page-grid">
         <div class="contact-page-details">
-          ${sectionHeading('Request an estimate', 'Give Kyle the details needed to understand the job.', 'Call, email, or prepare a text request with the service, property location, timing, and project details.')}
+          ${sectionHeading('Request an estimate', 'Give Kyle the details needed to understand the job.', 'Call, email, or submit the estimate form with the service, property location, timing, and project details.')}
           <a class="contact-method reveal" href="tel:${business.phoneHref}"><span>${icons.phone}</span><div><small>Call Envision</small><strong>${business.phone}</strong><p>Best for a quick fit and schedule check.</p></div>${icons.arrow}</a>
           <a class="contact-method reveal" href="mailto:${business.email}"><span>${icons.mail}</span><div><small>Email Kyle</small><strong>${business.email}</strong><p>Send photos, measurements, timing, and project details.</p></div>${icons.arrow}</a>
           <a class="contact-method reveal" href="${business.instagram}" target="_blank" rel="noopener"><span>${icons.instagram}</span><div><small>Instagram</small><strong>@envision_landscaping_llc</strong><p>See the profile and send a social message.</p></div>${icons.arrow}</a>
@@ -2040,7 +2153,7 @@ function contactPage() {
             <div><span>${icons.clock}</span><p><strong>Availability</strong>${business.availabilityNote}</p></div>
           </div>
         </div>
-        <div class="quote-panel quote-panel-large reveal"><p class="quote-panel-kicker">Quote by text</p><h2>Build the message.</h2>${quoteForm('contact-quote-form')}</div>
+        <div class="quote-panel quote-panel-large reveal"><p class="quote-panel-kicker">Estimate request</p><h2>Send the project details.</h2>${jobberRequestForm()}</div>
       </div></section>` +
       areaSection() +
       faqSection(homepageFaqs),
@@ -2081,11 +2194,16 @@ function servicePage(service) {
     path: `services/${service.slug}`,
     title: `${service.title} in Raleigh, NC | Envision Landscaping`,
     description: service.meta,
-    image: service.image,
+    image: service.heroImage || service.image,
     schemas: [
       localBusinessSchema(),
-      serviceSchema(service),
+      serviceSchema(service, areas[0]),
       faqSchema(service.faqs),
+      breadcrumbSchema([
+        ['Home', 'index'],
+        ['Services', 'services'],
+        [service.title, `services/${service.slug}`],
+      ]),
     ],
     bodyClass: 'service-page',
     body:
@@ -2118,14 +2236,132 @@ function servicePage(service) {
         ${sectionHeading('Where Envision works', `${service.title} across Raleigh &amp; the Triangle`, 'Choose the closest listed community, then confirm the exact property and project when requesting an estimate.')}
         <div class="service-area-link-list">
           ${areas
-            .filter((area) => area.serviceSlugs.includes(service.slug))
             .map(
-              (area) => `<a href="${area.slug === 'raleigh-nc' ? `/service-areas#${area.slug}` : `/service-areas/${area.slug}`}"><span>${icons.pin}<strong>${service.title} in ${area.name}, ${area.region}</strong></span>${icons.arrow}</a>`,
+              (area) => `<a href="${localizedServicePath(service, area)}"><span>${icons.pin}<strong>${service.title} in ${area.name}, ${area.region}</strong></span>${icons.arrow}</a>`,
             )
             .join('')}
         </div>
       </div></section>` +
       faqSection(service.faqs, `${service.title} questions`) +
+      contactSection(),
+  });
+}
+
+function readableList(items) {
+  if (items.length < 2) return items[0] || '';
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
+}
+
+function localizedServiceFaqs(service, area) {
+  return [
+    [
+      `Does Envision provide ${service.title.toLowerCase()} in ${area.name}?`,
+      `Yes. ${area.name}, ${area.region} is in Envision’s published service area, and ${service.title.toLowerCase()} is a listed service. Envision confirms the exact property, project fit, scope, and scheduling before work begins.`,
+    ],
+    [
+      `What can ${service.title.toLowerCase()} include for a ${area.name} property?`,
+      `The property-specific scope can include ${readableList(service.includes.map((item) => item.toLowerCase()))}. The estimate identifies the approved work before scheduling.`,
+    ],
+    [
+      `How do I request a ${service.title.toLowerCase()} estimate in ${area.name}?`,
+      `Call or text ${business.phone} with the ${area.name} property address, the areas that need work, timing, access details, and helpful photos. Envision reviews the request and confirms the next estimate step directly.`,
+    ],
+    [
+      `Can ${service.title.toLowerCase()} be combined with another service?`,
+      `Yes. Include the full property request when you contact Envision so related work can be reviewed together and clearly separated in the approved scope when needed.`,
+    ],
+  ];
+}
+
+function localizedServicePage(service, area) {
+  const path = localizedServiceEntryPath(service, area);
+  const title = `${service.title} in ${area.name}, ${area.region} | Envision`;
+  const description = `Get ${service.title.toLowerCase()} in ${area.name}, ${area.region} from Envision Landscaping. Review the work, process, and property-specific estimate steps.`;
+  const localFaqs = localizedServiceFaqs(service, area);
+  const relatedServices = services.filter((candidate) => candidate.slug !== service.slug);
+  const otherAreas = areas.filter((candidate) => candidate.slug !== area.slug);
+
+  return pageShell({
+    path,
+    title,
+    description,
+    image: service.heroImage || service.image,
+    schemas: [
+      localBusinessSchema({
+        areaServed: {
+          '@type': 'City',
+          name: `${area.name}, ${area.region}`,
+        },
+      }),
+      serviceSchema(service, area),
+      faqSchema(localFaqs),
+      breadcrumbSchema([
+        ['Home', 'index'],
+        ['Services', 'services'],
+        [service.title, `services/${service.slug}`],
+        [`${area.name}, ${area.region}`, path],
+      ]),
+    ],
+    bodyClass: 'service-page localized-service-page',
+    body:
+      serviceHero(service, area) +
+      breadcrumb([
+        ['Services', '/services'],
+        [service.title, `/services/${service.slug}`],
+        [`${area.name}, ${area.region}`],
+      ]) +
+      `<section class="service-overview section-pad"><div class="shell service-overview-grid">
+        <div class="service-overview-copy">
+          ${sectionHeading(`${area.name} service overview`, service.title, `${area.intro} This page explains the ${service.title.toLowerCase()} work Envision can review for a ${area.name} property. Service depends on the address, project fit, and current schedule.`)}
+          <a class="text-link" href="/service-areas/${area.slug}">View all services in ${area.name} ${icons.arrow}</a>
+        </div>
+        <div class="service-scope-panel reveal">
+          <p class="eyebrow">Common scope</p>
+          <h2>Build the ${area.name} estimate around the property.</h2>
+          <ul class="check-list">
+            ${service.includes
+              .map((item) => `<li>${icons.check}<span>${item}</span></li>`)
+              .join('')}
+          </ul>
+          <a class="button button-primary" href="/contact"><span>Request a ${area.name} estimate</span>${icons.arrow}</a>
+        </div>
+      </div></section>` +
+      serviceProofSection(service) +
+      serviceJobsSection(service, area) +
+      serviceProcessSection(service, area) +
+      `<section class="service-overview section-pad"><div class="shell service-overview-grid">
+        <div>${sectionHeading(`Planning in ${area.name}`, area.planning.title, area.planning.body)}</div>
+        <div class="service-scope-panel reveal">
+          <ul class="check-list">
+            ${area.planning.checks
+              .map((item) => `<li>${icons.check}<span>${item}</span></li>`)
+              .join('')}
+          </ul>
+          <a class="button button-primary" href="/contact"><span>Start the estimate request</span>${icons.arrow}</a>
+        </div>
+      </div></section>` +
+      `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
+        ${sectionHeading('More property needs', `Related services in ${area.name}, NC`, `Use the service that best matches the work, or include multiple needs in one estimate request.`)}
+        <div class="service-area-link-list">
+          ${relatedServices
+            .map(
+              (candidate) => `<a href="${localizedServicePath(candidate, area)}"><span>${icons.check}<strong>${candidate.title} in ${area.name}, ${area.region}</strong></span>${icons.arrow}</a>`,
+            )
+            .join('')}
+        </div>
+      </div></section>` +
+      `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
+        ${sectionHeading('Other listed communities', `${service.title} across the Triangle`, `Browse another published service community or contact Envision with the exact property address.`)}
+        <div class="service-area-link-list">
+          ${otherAreas
+            .map(
+              (candidate) => `<a href="${localizedServicePath(service, candidate)}"><span>${icons.pin}<strong>${service.title} in ${candidate.name}, ${candidate.region}</strong></span>${icons.arrow}</a>`,
+            )
+            .join('')}
+        </div>
+      </div></section>` +
+      faqSection(localFaqs, `${service.title} in ${area.name} questions`) +
       contactSection(),
   });
 }
@@ -2161,6 +2397,11 @@ function areaPage(area) {
         },
       }),
       faqSchema(localFaqs),
+      breadcrumbSchema([
+        ['Home', 'index'],
+        ['Service Areas', 'service-areas'],
+        [`${area.name}, ${area.region}`, `service-areas/${area.slug}`],
+      ]),
     ],
     body:
       innerHero({
@@ -2180,7 +2421,7 @@ function areaPage(area) {
       `<section class="services section-pad"><div class="shell">${sectionHeading('Available services', `Lawn and landscape services in ${area.name}, NC`, `These are the service categories Envision currently publishes for ${area.name}. Choose the closest match for full service details.`)}<div class="service-grid local-service-grid-cards">
         ${localServices
           .map(
-            (service, index) => `<a class="service-card reveal" style="--i:${index}" href="/services/${service.slug}">
+            (service, index) => `<a class="service-card reveal" style="--i:${index}" href="${localizedServicePath(service, area)}">
               <img src="${service.image}" alt="${service.title} available for ${area.name}, North Carolina properties" loading="lazy" width="900" height="1100">
               <div class="service-card-shade"></div>
               <div class="service-card-copy">
@@ -2194,12 +2435,11 @@ function areaPage(area) {
           .join('')}
       </div></div></section>` +
       `<section class="service-overview section-pad"><div class="shell service-overview-grid">
-        <div>${sectionHeading('Request local service', `How to start a ${area.name} lawn or landscape estimate`, 'A useful request gives Envision enough detail to confirm whether the property and project fit the current schedule.')}</div>
+        <div>${sectionHeading(`Planning a ${area.name} estimate`, area.planning.title, area.planning.body)}</div>
         <div class="service-scope-panel reveal"><ol class="check-list">
-          <li>${icons.check}<span>Share the ${area.name} property address.</span></li>
-          <li>${icons.check}<span>Name the service and the areas that need work.</span></li>
-          <li>${icons.check}<span>Include photos, timing, and access details when helpful.</span></li>
-          <li>${icons.check}<span>Confirm the scope and estimate directly with Envision.</span></li>
+          ${area.planning.checks
+            .map((item) => `<li>${icons.check}<span>${item}</span></li>`)
+            .join('')}
         </ol><a class="button button-primary" href="/contact"><span>Contact Envision</span>${icons.arrow}</a></div>
       </div></section>` +
       reviewSection() +
@@ -2219,7 +2459,7 @@ function legalPage(kind) {
     ? [
         [
           'What this site collects',
-          'This static website does not use a verified analytics or advertising tracker. The quote form processes the details in your browser to prepare an SMS message. Your device and mobile carrier handle that message if you choose to send it.',
+          'This static website does not use a verified analytics or advertising tracker. The estimate form is provided by Jobber. When you submit it, the details you enter are sent directly into Envision Landscaping’s Jobber request queue, and Jobber’s privacy terms apply to that submission.',
         ],
         [
           'Third-party links',
@@ -2237,7 +2477,7 @@ function legalPage(kind) {
         ],
         [
           'Estimates and messages',
-          'Preparing a text request does not create an estimate, contract, appointment, or guarantee that a message was sent. Review and send the message from your own device.',
+          'Submitting an estimate request does not create an estimate, contract, appointment, or guaranteed service date. Envision must review the property, project fit, scope, and scheduling before work is confirmed.',
         ],
         [
           'Offers',
@@ -2325,7 +2565,7 @@ ${areas.map((area) => `- ${area.name}, ${area.region}`).join('\n')}
 
 - No verified street address is published on this website because Envision operates as a service-area business.
 - Service availability, scheduling, estimate scope, price, and promotional eligibility must be confirmed directly with Envision.
-- The quote form prepares an SMS message on the visitor's device; it does not claim that a request was sent.
+- The embedded Jobber estimate form sends the visitor's submitted details directly into Envision's Jobber request queue.
 `;
   if (!full) return base;
   return `${base}
@@ -2383,6 +2623,14 @@ const pageEntries = [
     `services/${service.slug}`,
     servicePage(service),
   ]),
+  ...services.flatMap((service) =>
+    areas
+      .filter((area) => area.slug !== 'raleigh-nc')
+      .map((area) => [
+        localizedServiceEntryPath(service, area),
+        localizedServicePage(service, area),
+      ]),
+  ),
   ...areas
     .filter((area) => area.slug !== 'raleigh-nc')
     .map((area) => [`service-areas/${area.slug}`, areaPage(area)]),

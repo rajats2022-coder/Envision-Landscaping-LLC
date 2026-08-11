@@ -512,38 +512,3 @@ lightboxClose?.addEventListener('click', closeLightbox)
 lightbox?.addEventListener('click', (event) => {
   if (event.target === lightbox) closeLightbox()
 })
-
-const quoteForm = document.querySelector('[data-quote-form]')
-
-if (quoteForm instanceof HTMLFormElement) {
-  const status = quoteForm.querySelector('.form-status')
-
-  quoteForm.addEventListener('submit', (event) => {
-    event.preventDefault()
-
-    if (!quoteForm.reportValidity()) {
-      if (status) {
-        status.textContent = 'Please complete the required fields so we can prepare your request.'
-        status.dataset.state = 'error'
-      }
-      return
-    }
-
-    const data = new FormData(quoteForm)
-    const lines = [
-      'Hi Envision Landscaping, I would like a free quote.',
-      `Name: ${data.get('name')}`,
-      `Phone: ${data.get('phone')}`,
-      `Service: ${data.get('service')}`,
-      `Property location: ${data.get('location')}`,
-      `Project details: ${data.get('details') || 'Not provided'}`,
-    ]
-
-    if (status) {
-      status.textContent = 'Opening your text message app with the project details ready to send.'
-      status.dataset.state = 'success'
-    }
-
-    window.location.href = `sms:+19843386483?body=${encodeURIComponent(lines.join('\n'))}`
-  })
-}

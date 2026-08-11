@@ -19,7 +19,7 @@
 - Lawn Maintenance: Routine mowing, edging, trimming, and cleanup that keeps the property looking sharp.
   - Jobs covered: Routine lawn mowing, Edging and string trimming, Blowing and final cleanup, Overgrown-lawn reset
 - Landscape Maintenance: Ongoing bed, shrub, lawn, and seasonal care for a more finished property.
-  - Jobs covered: Shrub and hedge trimming, Garden-bed maintenance, Bed-edge and weed cleanup, Seasonal pruning and debris care
+  - Jobs covered: Shrub and hedge trimming, Garden-bed maintenance, Bed-edge and weed cleanup
 - Aeration & Overseeding: Core aeration and overseeding work planned around the lawn, season, and property conditions.
   - Jobs covered: Core aeration, Visible soil cores, Overseeding the approved lawn, Established lawn result
 - Spring & Fall Cleanups: Seasonal clearing, trimming, and reset work that gets the yard back under control.
@@ -44,7 +44,7 @@
 
 - No verified street address is published on this website because Envision operates as a service-area business.
 - Service availability, scheduling, estimate scope, price, and promotional eligibility must be confirmed directly with Envision.
-- The quote form prepares an SMS message on the visitor's device; it does not claim that a request was sent.
+- The embedded Jobber estimate form sends the visitor's submitted details directly into Envision's Jobber request queue.
 
 ## Company
 

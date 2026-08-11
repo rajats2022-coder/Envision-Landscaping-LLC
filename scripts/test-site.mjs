@@ -6,6 +6,12 @@ import { fileURLToPath } from 'node:url'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const port = 3197
 const baseUrl = `http://127.0.0.1:${port}`
+const jobberEmbedId = '152dfe43-b7b8-4665-b208-c0f34dac1803-2057108'
+const jobberEmbedCss = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css'
+const jobberEmbedScript =
+  'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js'
+const jobberFormUrl =
+  'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108'
 const server = spawn(process.execPath, ['serve.mjs'], {
   cwd: root,
   env: { ...process.env, ENVISION_PORT: String(port) },
@@ -46,6 +52,29 @@ const imageSources = (html) =>
 const isRealFinishedProjectImage = (src) =>
   src.startsWith('/assets/images/projects/') && !/(?:^|[\/_\-.])(?:before|during)(?:[\/_\-.]|$)/i.test(src)
 
+const expectedServices = [
+  ['lawn-maintenance', 'Lawn Maintenance'],
+  ['landscape-maintenance', 'Landscape Maintenance'],
+  ['aeration-overseeding', 'Aeration & Overseeding'],
+  ['spring-fall-cleanups', 'Spring & Fall Cleanups'],
+  ['mulch-pine-straw', 'Mulch & Pine Straw'],
+  ['landscape-design-planting', 'Design & Planting'],
+]
+const expectedAreas = [
+  ['raleigh-nc', 'Raleigh'],
+  ['cary-nc', 'Cary'],
+  ['apex-nc', 'Apex'],
+  ['morrisville-nc', 'Morrisville'],
+  ['fuquay-varina-nc', 'Fuquay-Varina'],
+  ['holly-springs-nc', 'Holly Springs'],
+  ['durham-nc', 'Durham'],
+  ['garner-nc', 'Garner'],
+]
+const expectedServicePath = (serviceSlug, areaSlug) =>
+  areaSlug === 'raleigh-nc'
+    ? `/services/${serviceSlug}`
+    : `/services/${serviceSlug}/${areaSlug}`
+
 const waitForServer = async () => {
   for (let attempt = 0; attempt < 40; attempt += 1) {
     try {
@@ -64,11 +93,14 @@ try {
   const paths = [...sitemap.matchAll(/<loc>https:\/\/envisionlandscapingllc\.com([^<]*)<\/loc>/g)].map(
     ([, pathname]) => pathname || '/'
   )
+  if (paths.length !== 64) throw new Error(`sitemap has ${paths.length} pages; expected 64`)
 
   let assertions = 0
+  const pageHtml = new Map()
   for (const pathname of paths) {
     const response = await fetch(`${baseUrl}${pathname}`)
     const html = await response.text()
+    pageHtml.set(pathname, html)
     if (response.status !== 200) throw new Error(`${pathname} returned ${response.status}`)
     if (!html.includes('<h1')) throw new Error(`${pathname} has no h1`)
     if (!html.includes('https://envisionlandscapingllc.com')) {
@@ -85,6 +117,9 @@ try {
     }
     if (html.includes('ChIJjRfUHps6RysRA6PtjRQlYYc')) {
       throw new Error(`${pathname} contains the stale Google place ID`)
+    }
+    if (html.includes('sms:+19843386483')) {
+      throw new Error(`${pathname} contains the retired SMS form handoff`)
     }
     if (
       html.includes('openingHoursSpecification') ||
@@ -128,9 +163,42 @@ try {
     }
     assertions += 9
 
+    if (html.toLowerCase().includes('formspree')) {
+      throw new Error(`${pathname} still references Formspree`)
+    }
+    if (!html.includes(`href="${jobberEmbedCss}"`)) {
+      throw new Error(`${pathname} is missing the Jobber embed stylesheet`)
+    }
+
+    const jobberShellCount = (html.match(/data-jobber-request/g) || []).length
+    const expectsJobber = !['/privacy', '/terms'].includes(pathname)
+    if (jobberShellCount !== (expectsJobber ? 1 : 0)) {
+      throw new Error(`${pathname} has ${jobberShellCount} Jobber embeds; expected ${expectsJobber ? 1 : 0}`)
+    }
+    if (jobberShellCount) {
+      if ((html.match(new RegExp(`<div id="${jobberEmbedId}"`, 'g')) || []).length !== 1) {
+        throw new Error(`${pathname} Jobber mount ID is missing or duplicated`)
+      }
+      if (
+        !html.includes(
+          `<script src="${jobberEmbedScript}" clienthub_id="${jobberEmbedId}" form_url="${jobberFormUrl}"></script>`,
+        )
+      ) {
+        throw new Error(`${pathname} Jobber embed has the wrong script, account, or form URL`)
+      }
+      if (!html.includes(`href="${jobberFormUrl}"`)) {
+        throw new Error(`${pathname} is missing the direct Jobber fallback link`)
+      }
+    }
+    assertions += 5
+
     if (pathname.startsWith('/services/')) {
       const jobCards = (html.match(/<article class="service-job-card/g) || []).length
-      if (jobCards !== 4) throw new Error(`${pathname} has ${jobCards} service-job cards`)
+      const serviceSlug = pathname.split('/')[2]
+      const expectedJobCards = serviceSlug === 'landscape-maintenance' ? 3 : 4
+      if (jobCards !== expectedJobCards) {
+        throw new Error(`${pathname} has ${jobCards} service-job cards; expected ${expectedJobCards}`)
+      }
       const serviceHero = findElementByClass(html, 'service-page-hero')
       if (!serviceHero) {
         throw new Error(`${pathname} is missing its service-page hero`)
@@ -143,9 +211,9 @@ try {
       }
       if (
         pathname === '/services/aeration-overseeding' &&
-        heroImages[0] !== '/assets/images/projects/backyard-makeover-after.jpg'
+        heroImages[0] !== '/assets/images/projects/aeration-overseeding-hero.jpg'
       ) {
-        throw new Error(`${pathname} is not using the approved finished backyard result in its hero`)
+        throw new Error(`${pathname} is not using the client-selected finished lawn photo in its hero`)
       }
       if (
         serviceHero.html.includes('data-before-after') ||
@@ -163,6 +231,45 @@ try {
         }
       }
       assertions += 6
+    }
+  }
+
+  for (const [serviceSlug, serviceTitle] of expectedServices) {
+    const serviceHubPath = `/services/${serviceSlug}`
+    const serviceHubHtml = pageHtml.get(serviceHubPath) || ''
+    for (const [areaSlug, areaName] of expectedAreas) {
+      const pathname = expectedServicePath(serviceSlug, areaSlug)
+      const html = pageHtml.get(pathname)
+      const expectedHeading = `${serviceTitle} in ${areaName}, NC`
+      if (!html) throw new Error(`${pathname} is missing from the service-location matrix`)
+      if (!html.includes(`<h1>${expectedHeading}</h1>`)) {
+        throw new Error(`${pathname} is missing exact h1 "${expectedHeading}"`)
+      }
+      if (!html.includes(`<title>${expectedHeading} |`)) {
+        throw new Error(`${pathname} title does not lead with its exact service and city`)
+      }
+      if (!serviceHubHtml.includes(`href="${pathname}"`)) {
+        throw new Error(`${serviceHubPath} does not link to ${pathname}`)
+      }
+      const schemas = [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)]
+        .map(([, json]) => JSON.parse(json))
+      const serviceData = schemas.find((schema) => schema['@type'] === 'Service')
+      const servedNames = Array.isArray(serviceData?.areaServed)
+        ? serviceData.areaServed.map((area) => area?.name)
+        : [serviceData?.areaServed?.name].filter(Boolean)
+      if (serviceData?.name !== expectedHeading || servedNames.length !== 1 || servedNames[0] !== `${areaName}, NC`) {
+        throw new Error(`${pathname} has mismatched localized Service schema`)
+      }
+      if (!schemas.some((schema) => schema['@type'] === 'BreadcrumbList')) {
+        throw new Error(`${pathname} is missing BreadcrumbList schema`)
+      }
+      if (areaSlug !== 'raleigh-nc') {
+        const areaHubPath = `/service-areas/${areaSlug}`
+        if (!(pageHtml.get(areaHubPath) || '').includes(`href="${pathname}"`)) {
+          throw new Error(`${areaHubPath} does not link to ${pathname}`)
+        }
+      }
+      assertions += areaSlug === 'raleigh-nc' ? 6 : 7
     }
   }
 

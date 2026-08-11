@@ -55,8 +55,40 @@ const pagePath = (pathname) => {
 
 const connectedGooglePlaceId = 'ChIJ3xWsRgz1rIkR7xzJrM3_Fy0'
 const staleGooglePlaceId = 'ChIJjRfUHps6RysRA6PtjRQlYYc'
+const jobberEmbedId = '152dfe43-b7b8-4665-b208-c0f34dac1803-2057108'
+const jobberEmbedCss = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css'
+const jobberEmbedScript =
+  'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js'
+const jobberFormUrl =
+  'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108'
 
 const stripFragments = (href) => href.split('#')[0].split('?')[0]
+
+const expectedServices = [
+  ['lawn-maintenance', 'Lawn Maintenance'],
+  ['landscape-maintenance', 'Landscape Maintenance'],
+  ['aeration-overseeding', 'Aeration & Overseeding'],
+  ['spring-fall-cleanups', 'Spring & Fall Cleanups'],
+  ['mulch-pine-straw', 'Mulch & Pine Straw'],
+  ['landscape-design-planting', 'Design & Planting'],
+]
+const expectedAreas = [
+  ['raleigh-nc', 'Raleigh'],
+  ['cary-nc', 'Cary'],
+  ['apex-nc', 'Apex'],
+  ['morrisville-nc', 'Morrisville'],
+  ['fuquay-varina-nc', 'Fuquay-Varina'],
+  ['holly-springs-nc', 'Holly Springs'],
+  ['durham-nc', 'Durham'],
+  ['garner-nc', 'Garner'],
+]
+const expectedServicePath = (serviceSlug, areaSlug) =>
+  areaSlug === 'raleigh-nc'
+    ? `/services/${serviceSlug}`
+    : `/services/${serviceSlug}/${areaSlug}`
+const sitemapPaths = new Set(urls)
+const pageTitles = new Map()
+const pageHeadings = new Map()
 
 for (const pathname of urls) {
   const relativePath = pagePath(pathname)
@@ -73,6 +105,18 @@ for (const pathname of urls) {
   const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1]?.trim() || ''
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1]?.trim() || ''
   const h1Count = (html.match(/<h1(?:\s|>)/g) || []).length
+  const h1 = html.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/)?.[1]?.replace(/<[^>]+>/g, '')?.trim() || ''
+
+  if (title) {
+    const previousPath = pageTitles.get(title)
+    if (previousPath) findings.push(`${pathname}: duplicates title used by ${previousPath}`)
+    else pageTitles.set(title, pathname)
+  }
+  if (h1) {
+    const previousPath = pageHeadings.get(h1)
+    if (previousPath) findings.push(`${pathname}: duplicates h1 used by ${previousPath}`)
+    else pageHeadings.set(h1, pathname)
+  }
 
   if (!title || title.length > 65) findings.push(`${pathname}: title length ${title.length}`)
   if (!description || description.length > 165) {
@@ -90,6 +134,7 @@ for (const pathname of urls) {
   if (!html.includes('/assets/site.js')) findings.push(`${pathname}: missing shared interaction script`)
   if (!html.includes('/assets/concierge.js')) findings.push(`${pathname}: missing concierge script`)
   if (!html.includes('data-concierge')) findings.push(`${pathname}: missing site concierge`)
+  if (html.includes('sms:+19843386483')) findings.push(`${pathname}: still contains the retired SMS form handoff`)
   if (!html.includes('mailto:Kyle@envisionlandscapingllc.com')) {
     findings.push(`${pathname}: missing Kyle email link`)
   }
@@ -167,10 +212,43 @@ for (const pathname of urls) {
     if (!exists(target)) findings.push(`${pathname}: broken internal link ${href}`)
   }
 
+  if (html.toLowerCase().includes('formspree')) {
+    findings.push(`${pathname}: still references the retired Formspree lead path`)
+  }
+  if (!html.includes(`href="${jobberEmbedCss}"`)) {
+    findings.push(`${pathname}: Jobber embed stylesheet is missing`)
+  }
+
+  const jobberShellCount = (html.match(/data-jobber-request/g) || []).length
+  const expectsJobber = !['/privacy', '/terms'].includes(pathname)
+  if (expectsJobber && jobberShellCount !== 1) {
+    findings.push(`${pathname}: expected exactly one Jobber request embed, found ${jobberShellCount}`)
+  }
+  if (!expectsJobber && jobberShellCount !== 0) {
+    findings.push(`${pathname}: legal page unexpectedly contains a Jobber request embed`)
+  }
+  if (jobberShellCount) {
+    if ((html.match(new RegExp(`<div id="${jobberEmbedId}"`, 'g')) || []).length !== 1) {
+      findings.push(`${pathname}: Jobber mount ID is missing or duplicated`)
+    }
+    if (
+      !html.includes(
+        `<script src="${jobberEmbedScript}" clienthub_id="${jobberEmbedId}" form_url="${jobberFormUrl}"></script>`,
+      )
+    ) {
+      findings.push(`${pathname}: Jobber script is missing its approved account or form configuration`)
+    }
+    if (!html.includes(`href="${jobberFormUrl}"`)) {
+      findings.push(`${pathname}: direct Jobber fallback link is missing`)
+    }
+  }
+
   if (pathname.startsWith('/services/')) {
     const jobCards = (html.match(/<article class="service-job-card/g) || []).length
-    if (jobCards !== 4) {
-      findings.push(`${pathname}: expected 4 detailed service-job cards, found ${jobCards}`)
+    const serviceSlug = pathname.split('/')[2]
+    const expectedJobCards = serviceSlug === 'landscape-maintenance' ? 3 : 4
+    if (jobCards !== expectedJobCards) {
+      findings.push(`${pathname}: expected ${expectedJobCards} detailed service-job cards, found ${jobCards}`)
     }
     if (!html.includes('class="service-page-hero"')) {
       findings.push(`${pathname}: missing mobile-first service hero`)
@@ -185,9 +263,9 @@ for (const pathname of urls) {
       }
       if (
         pathname === '/services/aeration-overseeding' &&
-        heroImages[0] !== '/assets/images/projects/backyard-makeover-after.jpg'
+        heroImages[0] !== '/assets/images/projects/aeration-overseeding-hero.jpg'
       ) {
-        findings.push(`${pathname}: service hero must use the approved finished backyard result`)
+        findings.push(`${pathname}: service hero must use the client-selected finished lawn photo`)
       }
       if (
         serviceHero.html.includes('data-before-after') ||
@@ -205,11 +283,12 @@ for (const pathname of urls) {
         findings.push(`${pathname}: uses non-finished ${image} as a standalone service-job image`)
       }
     }
-    const areaLinks = new Set(
-      [...html.matchAll(/href="(\/service-areas(?:#[^"]+|\/[^"]+))"/g)].map(([, href]) => href),
-    )
-    if (areaLinks.size < 1) {
-      findings.push(`${pathname}: missing contextual service-area links`)
+    const localizedMatch = pathname.match(/^\/services\/([^/]+)\/([^/]+)$/)
+    if (localizedMatch) {
+      const areaHub = `/service-areas/${localizedMatch[2]}`
+      if (!html.includes(`href="${areaHub}"`)) {
+        findings.push(`${pathname}: missing contextual link to ${areaHub}`)
+      }
     }
   }
 
@@ -219,6 +298,66 @@ for (const pathname of urls) {
     )
     if (serviceLinks.size < 4) {
       findings.push(`${pathname}: expected at least 4 contextual service links, found ${serviceLinks.size}`)
+    }
+  }
+}
+
+const expectedServiceLocationPaths = expectedServices.flatMap(([serviceSlug]) =>
+  expectedAreas.map(([areaSlug]) => expectedServicePath(serviceSlug, areaSlug)),
+)
+if (expectedServiceLocationPaths.length !== 48) {
+  findings.push(`service-location matrix expected 48 targets, found ${expectedServiceLocationPaths.length}`)
+}
+
+for (const [serviceSlug, serviceTitle] of expectedServices) {
+  const serviceHubPath = `/services/${serviceSlug}`
+  const serviceHubHtml = exists(pagePath(serviceHubPath)) ? read(pagePath(serviceHubPath)) : ''
+  for (const [areaSlug, areaName] of expectedAreas) {
+    const pathname = expectedServicePath(serviceSlug, areaSlug)
+    const expectedHeading = `${serviceTitle} in ${areaName}, NC`
+    if (!sitemapPaths.has(pathname)) {
+      findings.push(`${pathname}: missing from the complete service-location sitemap matrix`)
+      continue
+    }
+    const relativePath = pagePath(pathname)
+    if (!exists(relativePath)) continue
+    const html = read(relativePath)
+    if (!html.includes(`<h1>${expectedHeading}</h1>`)) {
+      findings.push(`${pathname}: expected exact localized h1 "${expectedHeading}"`)
+    }
+    if (!html.includes(`<title>${expectedHeading} |`)) {
+      findings.push(`${pathname}: title does not lead with the exact localized service heading`)
+    }
+    if (!serviceHubHtml.includes(`href="${pathname}"`)) {
+      findings.push(`${serviceHubPath}: missing crawlable link to ${pathname}`)
+    }
+
+    const schemas = [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)]
+      .map(([, json]) => {
+        try {
+          return JSON.parse(json)
+        } catch {
+          return null
+        }
+      })
+      .filter(Boolean)
+    const serviceData = schemas.find((schema) => schema['@type'] === 'Service')
+    const servedNames = Array.isArray(serviceData?.areaServed)
+      ? serviceData.areaServed.map((area) => area?.name)
+      : [serviceData?.areaServed?.name].filter(Boolean)
+    if (serviceData?.name !== expectedHeading || servedNames.length !== 1 || servedNames[0] !== `${areaName}, NC`) {
+      findings.push(`${pathname}: Service schema must match only ${expectedHeading}`)
+    }
+    if (!schemas.some((schema) => schema['@type'] === 'BreadcrumbList')) {
+      findings.push(`${pathname}: missing BreadcrumbList schema`)
+    }
+
+    if (areaSlug !== 'raleigh-nc') {
+      const areaHubPath = `/service-areas/${areaSlug}`
+      const areaHubHtml = exists(pagePath(areaHubPath)) ? read(pagePath(areaHubPath)) : ''
+      if (!areaHubHtml.includes(`href="${pathname}"`)) {
+        findings.push(`${areaHubPath}: missing crawlable link to ${pathname}`)
+      }
     }
   }
 }
@@ -300,10 +439,10 @@ for (const [source, destination] of [
 }
 
 const home = read('index.html')
-for (const field of ['name', 'phone', 'service', 'location']) {
-  if (!new RegExp(`<[^>]+name="${field}"`).test(home)) findings.push(`quote form missing ${field}`)
+if (!home.includes('data-jobber-request')) findings.push('homepage Jobber request form is not wired')
+if (!home.includes(`clienthub_id="${jobberEmbedId}"`) || !home.includes(`form_url="${jobberFormUrl}"`)) {
+  findings.push('homepage request form is not connected to the approved Jobber account and form')
 }
-if (!home.includes('data-quote-form')) findings.push('homepage quote form is not wired')
 if (!home.includes('href="tel:+19843386483"')) findings.push('homepage missing normalized phone link')
 if (!home.includes('data-map-canvas')) findings.push('homepage live service map is missing')
 if (!home.includes('data-map-view="state"')) findings.push('homepage North Carolina map view is missing')
@@ -366,6 +505,12 @@ const areaSignals = [...home.matchAll(/<button class="map-signal[^>]+data-area-s
 )
 if (areaSignals.length !== 8) {
   findings.push(`homepage expected 8 geographic map signals, found ${areaSignals.length}`)
+}
+
+const siteJs = read('assets/site.js')
+if (siteJs.includes('sms:+19843386483')) findings.push('site script still contains the retired SMS form handoff')
+if (/formspree|data-quote-form|fetch\(quoteForm\.action/i.test(siteJs)) {
+  findings.push('site script still contains the retired Formspree submission flow')
 }
 for (const signal of areaSignals) {
   if (!/data-area-latitude="-?\d+(?:\.\d+)?"/.test(signal)) {

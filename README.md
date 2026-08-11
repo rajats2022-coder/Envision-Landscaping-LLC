@@ -29,7 +29,9 @@ npm run screenshot:mobile
 
 ## Lead path
 
-The quote form creates a prefilled SMS to `(984) 338-6483`; it does not collect or store visitor information on a third-party form service. Phone and text actions are therefore live without requiring an unverified inbox or API credential.
+The shared estimate section uses Envision's direct Jobber work-request embed. Submissions enter Kyle's Jobber request queue instead of passing through a separate website form service. Every embed includes a direct Jobber form link as a fallback if the inline form is blocked or unavailable.
+
+Do not send a fake production lead during routine verification. After deployment, confirm delivery with one owner-approved test submission and verify that it appears in Jobber Requests.
 
 ## Deployment
 
