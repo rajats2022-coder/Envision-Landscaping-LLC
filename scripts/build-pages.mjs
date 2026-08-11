@@ -1171,7 +1171,7 @@ function pageShell({
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/maplibre-gl.css?v=5.12.0">
-  <link rel="stylesheet" href="/assets/styles.css?v=20260811-4">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260811-5">
   ${renderSchemas(pageSchemas)}
 </head>
 <body class="${bodyClass}">
