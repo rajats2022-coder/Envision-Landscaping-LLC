@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const origin = 'https://envisionlandscapingllc.com';
-const siteLastModified = '2026-08-07';
+const siteLastModified = '2026-08-10';
 const googleSiteVerification = '-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA';
 
 const business = {
@@ -147,13 +147,75 @@ const commonProcess = [
   },
 ];
 
+const projectImage = (name) => `/assets/images/projects/${name}`;
+
+const beforeAfterProjects = [
+  {
+    title: 'Backyard lawn makeover',
+    type: 'Lawn renovation',
+    before: projectImage('backyard-makeover-before.jpg'),
+    after: projectImage('backyard-makeover-after.jpg'),
+    beforeAlt: 'Bare graded backyard before lawn renovation work',
+    afterAlt: 'Established green backyard after aeration and overseeding work',
+  },
+  {
+    title: 'Front landscape refresh',
+    type: 'Landscape maintenance',
+    before: projectImage('front-refresh-before.jpg'),
+    after: projectImage('front-refresh-after.jpg'),
+    beforeAlt: 'Front landscape before trimming and bed work',
+    afterAlt: 'Front landscape after trimming and fresh bed material',
+  },
+  {
+    title: 'Walkway landscape reset',
+    type: 'Landscape maintenance',
+    before: projectImage('walkway-refresh-before.jpg'),
+    after: projectImage('walkway-refresh-after.jpg'),
+    beforeAlt: 'Residential walkway landscaping before maintenance',
+    afterAlt: 'Residential walkway landscaping after maintenance',
+  },
+  {
+    title: 'Commercial street edge cleanup',
+    type: 'Commercial project',
+    before: projectImage('commercial-street-before.jpg'),
+    after: projectImage('commercial-street-after.jpg'),
+    beforeAlt: 'Overgrown commercial property edge before clearing',
+    afterAlt: 'Commercial property edge after vegetation clearing',
+  },
+  {
+    title: 'Commercial parking edge cleanup',
+    type: 'Commercial project',
+    before: projectImage('commercial-parking-before.jpg'),
+    after: projectImage('commercial-parking-after.jpg'),
+    beforeAlt: 'Overgrown vegetation beside a commercial parking area before clearing',
+    afterAlt: 'Commercial parking edge after vegetation clearing',
+  },
+];
+
+const projectGalleryItems = [
+  [projectImage('striped-lawn-hero.jpg'), 'Striped residential lawn after maintenance', 'Lawn maintenance'],
+  [projectImage('lawn-crew-stripes.jpg'), 'Lawn maintenance in progress with clean mowing lines', 'Lawn maintenance'],
+  [projectImage('finished-lawn-wide.jpg'), 'Wide finished lawn after routine care', 'Lawn maintenance'],
+  [projectImage('maintained-property.jpg'), 'Maintained lawn and landscape around a residential driveway', 'Lawn maintenance'],
+  [projectImage('mulch-curved-bed.jpg'), 'Fresh mulch across a broad curved landscape bed', 'Mulch installation'],
+  [projectImage('mulch-foundation-bed.jpg'), 'Fresh mulch installed along a foundation bed', 'Mulch installation'],
+  [projectImage('mulch-rose-bed.jpg'), 'Finished mulch installation beside a driveway and rose bed', 'Mulch installation'],
+  [projectImage('mulch-walkway.jpg'), 'Fresh mulch defining a residential walkway', 'Mulch installation'],
+  [projectImage('aeration-machine.jpg'), 'Core aeration equipment working across a lawn', 'Aeration & overseeding'],
+  [projectImage('aeration-cores.jpg'), 'Fresh soil cores visible after lawn aeration', 'Aeration & overseeding'],
+  [projectImage('aeration-plugs.jpg'), 'Close view of soil plugs removed during aeration', 'Aeration & overseeding'],
+  [projectImage('overseeding-result.jpg'), 'Lawn result after aeration and overseeding', 'Aeration & overseeding'],
+  [projectImage('backyard-makeover-during-1.jpg'), 'Backyard makeover during site preparation', 'Backyard makeover'],
+  [projectImage('backyard-makeover-after-wide.jpg'), 'Wide view of the backyard makeover after lawn establishment', 'Backyard makeover'],
+];
+
 const services = [
   {
     slug: 'lawn-maintenance',
     title: 'Lawn Maintenance',
     navTitle: 'Lawn Maintenance',
-    image: '/assets/images/service-lawn-crew-v2.jpg',
-    imageAlt: 'Envision lawn-care professional mowing a striped Raleigh-area lawn',
+    image: projectImage('striped-lawn-hero.jpg'),
+    imageAlt: 'Striped residential lawn maintained by Envision Landscaping',
     short:
       'Routine mowing, edging, trimming, and cleanup that keeps the property looking sharp.',
     meta:
@@ -186,8 +248,8 @@ const services = [
     slug: 'commercial-lawn-care',
     title: 'Commercial Lawn Care',
     navTitle: 'Commercial Lawn Care',
-    image: '/assets/images/service-commercial-v2.jpg',
-    imageAlt: 'Branded Envision crew maintaining a commercial landscape',
+    image: projectImage('commercial-parking-after.jpg'),
+    imageAlt: 'Cleared commercial parking edge after Envision landscape work',
     short:
       'Scheduled lawn and landscape care for businesses and managed properties.',
     meta:
@@ -220,8 +282,8 @@ const services = [
     slug: 'landscape-maintenance',
     title: 'Landscape Maintenance',
     navTitle: 'Landscape Maintenance',
-    image: '/assets/images/service-landscape-maintenance-v2.jpg',
-    imageAlt: 'Envision landscape professional trimming a residential hedge',
+    image: projectImage('front-refresh-after.jpg'),
+    imageAlt: 'Finished front landscape after trimming and bed maintenance',
     short:
       'Ongoing bed, shrub, lawn, and seasonal care for a more finished property.',
     meta:
@@ -247,6 +309,40 @@ const services = [
       [
         'Do you maintain existing landscaping?',
         'Yes. Envision can work with the existing layout and focus on keeping it clean and healthy.',
+      ],
+    ],
+  },
+  {
+    slug: 'aeration-overseeding',
+    title: 'Aeration & Overseeding',
+    navTitle: 'Aeration & Overseeding',
+    image: projectImage('aeration-machine.jpg'),
+    imageAlt: 'Core aeration equipment working across a residential lawn',
+    short:
+      'Core aeration and overseeding work planned around the lawn, season, and property conditions.',
+    meta:
+      'Lawn aeration and overseeding in Raleigh, NC, with property-specific preparation and service planning.',
+    h1: 'Aeration and overseeding for a stronger Raleigh lawn',
+    intro:
+      'Compacted soil and thin turf can keep a lawn from filling in evenly. Envision can review the property, prepare the lawn, complete core aeration, and overseed the approved areas as one coordinated service.',
+    includes: [
+      'Property and turf-condition review',
+      'Core aeration across approved lawn areas',
+      'Overseeding based on the scoped lawn',
+      'Clear next-step watering and access guidance',
+    ],
+    faqs: [
+      [
+        'What does core aeration do?',
+        'Core aeration removes small plugs of soil to open the turf and reduce compaction in the approved lawn areas.',
+      ],
+      [
+        'Can aeration and overseeding be done together?',
+        'Yes. Envision offers the work together when the lawn, timing, and approved scope are a fit.',
+      ],
+      [
+        'How should I prepare for the service?',
+        'Share irrigation, access, and known obstacle details when requesting the estimate. Kyle confirms the property-specific preparation before service.',
       ],
     ],
   },
@@ -288,8 +384,8 @@ const services = [
     slug: 'mulch-pine-straw',
     title: 'Mulch & Pine Straw',
     navTitle: 'Mulch & Pine Straw',
-    image: '/assets/images/service-mulch-crew-v2.jpg',
-    imageAlt: 'Envision landscape professional installing hardwood mulch in a garden bed',
+    image: projectImage('mulch-curved-bed.jpg'),
+    imageAlt: 'Fresh mulch installed across a broad curved landscape bed',
     short:
       'Fresh bed material installed with clean edges and even coverage.',
     meta:
@@ -322,8 +418,8 @@ const services = [
     slug: 'landscape-design-planting',
     title: 'Design & Planting',
     navTitle: 'Design & Planting',
-    image: '/assets/images/service-planting-v2.jpg',
-    imageAlt: 'Branded Envision landscaper installing a residential garden bed',
+    image: projectImage('backyard-makeover-after-wide.jpg'),
+    imageAlt: 'Finished backyard landscape and established lawn after a large property makeover',
     short:
       'Practical landscape planning, plant selection, sod, and installation support.',
     meta:
@@ -432,29 +528,29 @@ const serviceProfiles = {
         title: 'Routine lawn mowing',
         description:
           'Recurring mowing keeps turf at a practical height and gives the property a consistently cared-for appearance. The visit plan is based on growth, weather, access, and the size of the lawn.',
-        image: '/assets/images/service-lawn-crew-v2.jpg',
-        alt: 'Envision professional mowing a residential lawn in Raleigh',
+        image: projectImage('lawn-crew-stripes.jpg'),
+        alt: 'Envision lawn maintenance in progress with fresh mowing lines',
       },
       {
         title: 'Edging and string trimming',
         description:
           'Edges along walks, driveways, beds, fences, and obstacles are addressed so the finished lawn looks intentional instead of simply cut.',
-        image: '/assets/images/lawn-maintenance.jpg',
-        alt: 'Fresh lawn edges along a landscaped Raleigh property',
+        image: projectImage('striped-lawn-hero.jpg'),
+        alt: 'Fresh mowing stripes and clean curb lines on a maintained lawn',
       },
       {
         title: 'Blowing and final cleanup',
         description:
           'Loose clippings are cleared from hard surfaces after mowing and trimming, leaving patios, sidewalks, entrances, and driveways ready to use.',
-        image: '/assets/images/service-cleanup-crew-v2.jpg',
-        alt: 'Envision crew member cleaning lawn debris from a residential property',
+        image: projectImage('finished-lawn-wide.jpg'),
+        alt: 'Wide finished lawn after mowing and final cleanup',
       },
       {
         title: 'Overgrown-lawn reset',
         description:
           'If regular maintenance has fallen behind, share photos and the property details. Envision can review the height, access, and cleanup needs before defining a one-time reset.',
-        image: '/assets/images/about-lawn.jpg',
-        alt: 'Residential lawn and landscape ready for detailed maintenance',
+        image: projectImage('maintained-property.jpg'),
+        alt: 'Maintained residential lawn and landscape beside a driveway',
       },
     ],
     process: [
@@ -473,29 +569,29 @@ const serviceProfiles = {
         title: 'Recurring grounds maintenance',
         description:
           'Routine mowing, trimming, edging, and cleanup help keep customer-facing lawns and common areas presentable on a dependable property-specific schedule.',
-        image: '/assets/images/service-commercial-v2.jpg',
-        alt: 'Branded Envision crew performing commercial grounds maintenance',
+        image: projectImage('commercial-parking-after.jpg'),
+        alt: 'Cleared commercial parking edge after grounds work',
       },
       {
         title: 'Entrances and curb-appeal areas',
         description:
           'High-visibility areas near entrances, signs, sidewalks, and parking edges receive focused detail work so the first impression feels maintained.',
-        image: '/assets/images/service-landscape-maintenance-v2.jpg',
-        alt: 'Envision worker maintaining shrubs near a commercial entrance',
+        image: projectImage('commercial-street-after.jpg'),
+        alt: 'Cleared street-facing edge at a commercial property',
       },
       {
         title: 'Managed-property bed care',
         description:
           'Existing shrubs and landscape beds can be included for trimming, bed cleanup, weed removal, edging, and fresh material as approved in the estimate.',
-        image: '/assets/images/service-mulch-crew-v2.jpg',
-        alt: 'Envision professional refreshing a managed landscape bed',
+        image: projectImage('mulch-foundation-bed.jpg'),
+        alt: 'Fresh mulch installed in a maintained property bed',
       },
       {
         title: 'Seasonal property resets',
         description:
           'Leaf buildup, small fallen branches, tired beds, and seasonal debris can be cleared as a standalone visit or added to an ongoing grounds plan.',
-        image: '/assets/images/service-cleanup-crew-v2.jpg',
-        alt: 'Envision seasonal cleanup at a professionally managed property',
+        image: projectImage('commercial-parking-before.jpg'),
+        alt: 'Commercial parking edge documented before vegetation clearing',
       },
     ],
     process: [
@@ -514,29 +610,29 @@ const serviceProfiles = {
         title: 'Shrub and hedge trimming',
         description:
           'Overgrown shrubs and hedges are trimmed to restore cleaner lines, improve access, and keep plants from visually crowding walks, windows, and beds.',
-        image: '/assets/images/service-landscape-maintenance-v2.jpg',
-        alt: 'Envision landscaper trimming a hedge at a Raleigh home',
+        image: projectImage('front-refresh-after.jpg'),
+        alt: 'Trimmed shrubs and renewed front landscape beds',
       },
       {
         title: 'Garden-bed maintenance',
         description:
           'Beds can be cleared of visible debris and unwanted growth, then refined around established plants so the landscape reads as one finished space.',
-        image: '/assets/images/service-mulch-crew-v2.jpg',
-        alt: 'Envision professional maintaining a residential garden bed',
+        image: projectImage('mulch-curved-bed.jpg'),
+        alt: 'Finished curved garden bed with fresh mulch',
       },
       {
         title: 'Bed-edge and weed cleanup',
         description:
           'Defined bed lines and targeted weed removal help separate lawn from planting areas and make existing landscaping look more deliberate.',
-        image: '/assets/images/landscape-maintenance.jpg',
-        alt: 'Clean landscaped bed edges at a maintained residential property',
+        image: projectImage('walkway-refresh-after.jpg'),
+        alt: 'Finished landscape and clean bed lines along a residential walkway',
       },
       {
         title: 'Seasonal pruning and debris care',
         description:
           'Seasonal growth, leaves, and small debris can be addressed with the timing and plant-care priorities confirmed before work begins.',
-        image: '/assets/images/service-cleanup-crew-v2.jpg',
-        alt: 'Envision worker clearing seasonal landscape debris',
+        image: projectImage('front-refresh-before.jpg'),
+        alt: 'Front landscape documented before trimming and bed maintenance',
       },
     ],
     process: [
@@ -544,6 +640,47 @@ const serviceProfiles = {
       ['Confirm plant and bed scope', 'Review what should be trimmed, cleaned, edged, or left untouched before the estimate is approved.'],
       ['Perform the detail work', 'The crew completes the approved trimming, bed maintenance, weed cleanup, and debris work.'],
       ['Review the finished landscape', 'Walk the result and discuss any future seasonal or recurring maintenance needs.'],
+    ],
+  },
+  'aeration-overseeding': {
+    jobHeading: 'Aeration and overseeding from soil cores to new growth',
+    jobIntro:
+      'These project photos show the core steps Envision can scope together for a lawn that needs relief from compaction and better seed contact.',
+    jobs: [
+      {
+        title: 'Core aeration',
+        description:
+          'The aerator removes small plugs across the approved lawn areas, opening compacted turf so air, water, and seed can reach the soil more directly.',
+        image: projectImage('aeration-machine.jpg'),
+        alt: 'Core aeration machine working across a residential lawn',
+      },
+      {
+        title: 'Visible soil cores',
+        description:
+          'Fresh cores on the surface show where the machine opened the lawn. They are a normal part of the service and return organic material to the turf as they break down.',
+        image: projectImage('aeration-cores.jpg'),
+        alt: 'Soil cores visible across turf after core aeration',
+      },
+      {
+        title: 'Overseeding the approved lawn',
+        description:
+          'Seed is applied across the scoped areas after preparation and aeration, with the amount and timing based on the property and service plan.',
+        image: projectImage('overseeding-machine.jpg'),
+        alt: 'Equipment applying seed across an aerated lawn',
+      },
+      {
+        title: 'Established lawn result',
+        description:
+          'The final result depends on the lawn, weather, watering, and care after service. Kyle confirms the property-specific next steps when the work is scheduled.',
+        image: projectImage('overseeding-result.jpg'),
+        alt: 'Green lawn result after aeration and overseeding work',
+      },
+    ],
+    process: [
+      ['Review the turf', 'Share the property, lawn condition, access, irrigation details, and the areas you want evaluated for aeration and overseeding.'],
+      ['Prepare the service area', 'Confirm obstacles, marked utilities or irrigation features, mowing expectations, and the exact lawn areas included in the estimate.'],
+      ['Aerate and overseed', 'Complete core aeration and seed application across the approved areas using the property-specific scope.'],
+      ['Follow the care plan', 'Review access and watering guidance with Kyle so the next steps are clear after service.'],
     ],
   },
   'spring-fall-cleanups': {
@@ -596,29 +733,29 @@ const serviceProfiles = {
         title: 'Hardwood mulch installation',
         description:
           'Hardwood mulch is placed in approved beds with even coverage and attention around trunks, shrubs, and hard surfaces for a clean finished appearance.',
-        image: '/assets/images/service-mulch-crew-v2.jpg',
-        alt: 'Envision landscaper installing hardwood mulch around residential shrubs',
+        image: projectImage('mulch-curved-bed.jpg'),
+        alt: 'Fresh hardwood mulch across a curved residential bed',
       },
       {
         title: 'Pine-straw installation',
         description:
           'Fresh pine straw can renew established planting areas and create a consistent surface across natural beds after preparation is complete.',
-        image: '/assets/images/mulching.jpg',
-        alt: 'Fresh landscape-bed material installed around established plants',
+        image: projectImage('mulch-foundation-bed.jpg'),
+        alt: 'Fresh bed material installed around established foundation plants',
       },
       {
         title: 'Bed preparation',
         description:
           'Visible weeds, leaves, and loose debris can be addressed before installation so new material is not simply placed over an unfinished bed.',
-        image: '/assets/images/service-cleanup-crew-v2.jpg',
-        alt: 'Envision worker preparing a landscape bed before new material',
+        image: projectImage('mulch-rose-bed.jpg'),
+        alt: 'Prepared rose bed finished with fresh mulch beside a driveway',
       },
       {
         title: 'Edge definition and finishing',
         description:
           'Bed lines and adjacent hard surfaces are cleaned as scoped to give the mulch or pine-straw installation a deliberate boundary and tidy finish.',
-        image: '/assets/images/landscape-maintenance.jpg',
-        alt: 'Defined garden-bed edge beside a maintained Raleigh lawn',
+        image: projectImage('mulch-walkway.jpg'),
+        alt: 'Defined mulch edge beside a residential walkway',
       },
     ],
     process: [
@@ -637,29 +774,29 @@ const serviceProfiles = {
         title: 'Landscape consultation and layout',
         description:
           'Start with the property, the problem you want to solve, and inspiration for the finished space. Existing features can be kept, adjusted, or worked around in the plan.',
-        image: '/assets/images/about-lawn.jpg',
-        alt: 'Finished lawn and garden used for residential landscape planning',
+        image: projectImage('backyard-makeover-after-wide.jpg'),
+        alt: 'Finished backyard lawn and landscape after a large makeover',
       },
       {
         title: 'Tree and shrub installation',
         description:
           'New trees and shrubs can be selected and placed around the site conditions, available space, and visual goals confirmed for the project.',
-        image: '/assets/images/service-planting-v2.jpg',
-        alt: 'Branded Envision landscaper installing plants in a residential bed',
+        image: projectImage('backyard-makeover-during-1.jpg'),
+        alt: 'Backyard landscape during site preparation and installation work',
       },
       {
         title: 'Flower and perennial beds',
         description:
           'New or refreshed planting beds can add color, structure, and a stronger transition between the home, lawn, and existing landscape.',
-        image: '/assets/images/service-mulch-crew-v2.jpg',
-        alt: 'Envision worker finishing a flower and perennial landscape bed',
+        image: projectImage('mulch-long-bed.jpg'),
+        alt: 'Long residential planting bed finished with fresh mulch',
       },
       {
         title: 'Sod installation and lawn repair',
         description:
           'Bare or disrupted lawn areas can be reviewed for sod installation or repair, with the area and preparation requirements defined before quoting.',
-        image: '/assets/images/lawn-maintenance.jpg',
-        alt: 'Healthy residential turf illustrating a completed sod and lawn project',
+        image: projectImage('backyard-makeover-after.jpg'),
+        alt: 'Established backyard turf after a lawn renovation project',
       },
     ],
     process: [
@@ -1204,7 +1341,7 @@ function pageShell({
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/maplibre-gl.css?v=5.12.0">
-  <link rel="stylesheet" href="/assets/styles.css?v=20260807-7">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260810-1">
   ${renderSchemas(pageSchemas)}
 </head>
 <body class="${bodyClass}">
@@ -1212,7 +1349,7 @@ function pageShell({
   <main id="main-content">${body}</main>
   ${siteFooter()}
   <script src="/assets/vendor/maplibre-gl.js?v=5.12.0" defer></script>
-  <script src="/assets/site.js?v=20260807-4" defer></script>
+  <script src="/assets/site.js?v=20260810-1" defer></script>
   <script type="module" src="/assets/concierge.js?v=20260807-3"></script>
 </body>
 </html>`;
@@ -1302,7 +1439,7 @@ function processSection(heading = 'How working with Envision starts') {
   return `<section class="process section-pad">
     <div class="shell process-grid">
       <div class="process-visual reveal">
-        <img src="/assets/images/lawn-maintenance.jpg" alt="Envision lawn maintenance work in progress" loading="lazy" width="1200" height="900">
+        <img src="${projectImage('lawn-crew-stripes.jpg')}" alt="Envision lawn maintenance in progress with fresh mowing stripes" loading="lazy" width="1200" height="900">
         <div class="process-caption"><span>From first call</span><strong>to final walkthrough.</strong></div>
       </div>
       <div class="process-copy">
@@ -1482,27 +1619,77 @@ function offerSection() {
 }
 
 function gallerySection() {
-  const galleryItems = [
-    ['/assets/images/hero-home.jpg', 'Finished lawn and landscaping at a Raleigh-area home'],
-    ['/assets/images/landscape-maintenance.jpg', 'Landscape maintenance work by Envision'],
-    ['/assets/images/mulching.jpg', 'Fresh mulch installation by Envision'],
-    ['/assets/images/lawn-maintenance.jpg', 'Striped lawn after maintenance'],
-    ['/assets/images/about-lawn.jpg', 'Clean residential lawn and landscape'],
-    ['/assets/images/seasonal-cleanup.jpg', 'Seasonal lawn and landscape cleanup'],
-  ];
   return `<section class="gallery-preview section-pad">
     <div class="shell gallery-heading-row">
-      ${sectionHeading('Real Envision work', 'The details show in the finish.', 'Project photography from Envision’s current website.')}
+      ${sectionHeading('Real Envision work', 'The details show in the finish.', 'Lawn maintenance, mulch, aeration, and landscape work photographed on actual Envision projects.')}
       <a class="text-link text-link-light" href="/gallery">View the full gallery ${icons.arrow}</a>
     </div>
     <div class="gallery-collage shell">
-      ${galleryItems
+      ${projectGalleryItems
+        .slice(0, 6)
         .map(
           ([src, alt], index) => `<figure class="gallery-item gallery-item-${index + 1} reveal">
             <img src="${src}" alt="${alt}" loading="lazy" width="1000" height="1200">
           </figure>`,
         )
         .join('')}
+    </div>
+  </section>`;
+}
+
+function beforeAfterSection({ limit = beforeAfterProjects.length, heading = 'Drag across the work.' } = {}) {
+  const projects = beforeAfterProjects.slice(0, limit);
+  const galleryLink = limit < beforeAfterProjects.length
+    ? `<a class="text-link text-link-light" href="/gallery#before-after">See every transformation ${icons.arrow}</a>`
+    : '';
+  return `<section class="before-after-section section-pad" id="before-after" aria-label="Before and after project comparisons">
+    <div class="shell">
+      <div class="before-after-heading-row">
+        ${sectionHeading('Before & after', heading, 'Move each divider to compare the same project before and after Envision’s work.')}
+        ${galleryLink}
+      </div>
+      <div class="before-after-grid">
+        ${projects
+          .map(
+            (project, index) => `<article class="before-after-card reveal" data-before-after style="--split:50%;--i:${index}">
+              <div class="before-after-viewport">
+                <img class="before-after-image before-after-image-after" src="${project.after}" alt="${project.afterAlt}" loading="lazy" width="1200" height="900">
+                <div class="before-after-layer" data-before-layer>
+                  <img class="before-after-image before-after-image-before" src="${project.before}" alt="${project.beforeAlt}" loading="lazy" width="1200" height="900">
+                </div>
+                <span class="before-after-badge before-after-badge-before">Before</span>
+                <span class="before-after-badge before-after-badge-after">After</span>
+                <span class="before-after-divider" aria-hidden="true"><i>↔</i></span>
+                <input class="before-after-range" type="range" min="0" max="100" value="50" aria-label="Compare before and after for ${project.title}">
+              </div>
+              <div class="before-after-copy"><span>${project.type}</span><h3>${project.title}</h3></div>
+            </article>`,
+          )
+          .join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function backyardStorySection() {
+  const stages = [
+    [projectImage('backyard-makeover-before.jpg'), '01', 'Before', 'The lawn area during the early property reset.'],
+    [projectImage('backyard-makeover-during-2.jpg'), '02', 'During', 'The backyard while grading and site work were underway.'],
+    [projectImage('backyard-makeover-after.jpg'), '03', 'After', 'The same rear-house view after the lawn became established.'],
+  ];
+  return `<section class="project-story section-pad" id="backyard-makeover">
+    <div class="shell">
+      ${sectionHeading('Featured project', 'A backyard makeover in three stages.', 'A verified before, work-in-progress, and established-lawn sequence from one Envision project.')}
+      <div class="project-story-grid">
+        ${stages
+          .map(
+            ([src, number, title, copy]) => `<article class="project-story-card reveal">
+              <img src="${src}" alt="Backyard makeover ${title.toLowerCase()} stage" loading="lazy" width="1200" height="900">
+              <div><span>${number}</span><h3>${title}</h3><p>${copy}</p></div>
+            </article>`,
+          )
+          .join('')}
+      </div>
     </div>
   </section>`;
 }
@@ -1703,7 +1890,7 @@ function homePage() {
         </div>
       </div>
       <div class="intro-visual reveal">
-        <div class="image-shell"><img src="/assets/images/lawn-maintenance.jpg" alt="Freshly maintained lawn at a Raleigh-area home" loading="lazy" width="1200" height="900"></div>
+        <div class="image-shell"><img src="${projectImage('finished-lawn-wide.jpg')}" alt="Freshly maintained residential lawn by Envision Landscaping" loading="lazy" width="1200" height="900"></div>
         <div class="intro-badge"><strong>Raleigh</strong><span>&amp; the Triangle</span></div>
       </div>
     </div>
@@ -1754,7 +1941,7 @@ function homePage() {
   </section>`;
 
   const transformation = `<section class="transformation">
-    <img src="/assets/images/lawn-maintenance.jpg" alt="Freshly maintained lawn by Envision Landscaping" loading="lazy" width="1800" height="1350">
+    <img src="${projectImage('backyard-makeover-after-wide.jpg')}" alt="Established backyard lawn after an Envision property makeover" loading="lazy" width="1800" height="1350">
     <div class="transformation-shade"></div>
     <div class="shell transformation-content reveal">
       <p class="eyebrow eyebrow-light">Ready for a cleaner property?</p>
@@ -1782,6 +1969,7 @@ function homePage() {
       reviewSection() +
       offerSection() +
       transformation +
+      beforeAfterSection({ limit: 3, heading: 'See what changed.' }) +
       gallerySection() +
       areaSection() +
       faqSection() +
@@ -1858,16 +2046,6 @@ function aboutPage() {
 }
 
 function galleryPage() {
-  const photos = [
-    ['/assets/images/hero-home.jpg', 'Finished residential lawn and landscaping'],
-    ['/assets/images/landscape-maintenance.jpg', 'Landscape maintenance project'],
-    ['/assets/images/mulching.jpg', 'Mulch installation and clean bed lines'],
-    ['/assets/images/lawn-maintenance.jpg', 'Freshly striped lawn'],
-    ['/assets/images/about-lawn.jpg', 'Residential lawn and landscape care'],
-    ['/assets/images/seasonal-cleanup.jpg', 'Seasonal property cleanup'],
-    ['/assets/images/lawn-maintenance.jpg', 'Clean mowing pattern and edge work'],
-    ['/assets/images/mulching.jpg', 'Mulch bed finish around the property'],
-  ];
   return pageShell({
     path: 'gallery',
     title: 'Raleigh Lawn & Landscaping Project Gallery | Envision',
@@ -1877,16 +2055,18 @@ function galleryPage() {
       innerHero({
         eyebrow: 'Project gallery',
         title: 'Real work. Clean results.',
-        copy: 'A closer look at lawns and landscapes featured on Envision’s current website.',
-        image: '/assets/images/hero-home.jpg',
+        copy: 'Before-and-after transformations and service photos from real Envision projects.',
+        image: projectImage('backyard-makeover-after-wide.jpg'),
       }) +
       breadcrumb([['Gallery']]) +
-      `<section class="gallery-page section-pad"><div class="shell">
-        ${sectionHeading('Selected projects', 'The finish is the proof.', 'Project images are shown with descriptive alt text and no location claims beyond Envision’s published service area.')}
+      beforeAfterSection({ heading: 'Five projects. Five visible changes.' }) +
+      backyardStorySection() +
+      `<section class="gallery-page section-pad" id="project-gallery"><div class="shell">
+        ${sectionHeading('Project gallery', 'Work from across the service list.', 'Browse lawn maintenance, mulch installation, aeration and overseeding, and larger landscape projects.')}
         <div class="gallery-masonry">
-          ${photos
+          ${projectGalleryItems
             .map(
-              ([src, alt], index) => `<figure class="reveal"><button type="button" data-lightbox-open="${src}" aria-label="Open image: ${alt}"><img src="${src}" alt="${alt} by Envision Landscaping" loading="${index < 2 ? 'eager' : 'lazy'}" width="1000" height="1200"></button><figcaption>${alt}</figcaption></figure>`,
+              ([src, alt, category], index) => `<figure class="reveal"><button type="button" data-lightbox-open="${src}" aria-label="Open image: ${alt}"><img src="${src}" alt="${alt} by Envision Landscaping" loading="${index < 2 ? 'eager' : 'lazy'}" width="1000" height="1200"></button><figcaption><strong>${category}</strong><span>${alt}</span></figcaption></figure>`,
             )
             .join('')}
         </div>

@@ -474,6 +474,20 @@ if (reviewStack) {
   startReviewTimer()
 }
 
+selectAll('[data-before-after]').forEach((comparison) => {
+  const range = comparison.querySelector('.before-after-range')
+  if (!(range instanceof HTMLInputElement)) return
+
+  const updateComparison = () => {
+    const split = Math.max(0, Math.min(100, Number(range.value)))
+    comparison.style.setProperty('--split', `${split}%`)
+    range.setAttribute('aria-valuetext', `${split}% before image visible`)
+  }
+
+  range.addEventListener('input', updateComparison)
+  updateComparison()
+})
+
 const lightbox = document.querySelector('[data-lightbox]')
 const lightboxImage = lightbox?.querySelector('img')
 const lightboxClose = lightbox?.querySelector('button')

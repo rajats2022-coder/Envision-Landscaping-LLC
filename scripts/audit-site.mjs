@@ -197,12 +197,13 @@ if (!home.includes('data-area-slug="garner-nc"') || home.includes('data-area-slu
   findings.push('homepage service-area signals do not match the connected Google Business Profile')
 }
 for (const image of [
-  'service-lawn-crew-v2.jpg',
-  'service-commercial-v2.jpg',
-  'service-landscape-maintenance-v2.jpg',
+  'projects/striped-lawn-hero.jpg',
+  'projects/commercial-parking-after.jpg',
+  'projects/front-refresh-after.jpg',
+  'projects/aeration-machine.jpg',
   'service-cleanup-crew-v2.jpg',
-  'service-mulch-crew-v2.jpg',
-  'service-planting-v2.jpg',
+  'projects/mulch-curved-bed.jpg',
+  'projects/backyard-makeover-after-wide.jpg',
   'service-hardscaping-v2.jpg',
   'service-holiday-lighting-v2.jpg',
 ]) {
