@@ -12,7 +12,7 @@ if (dirname(outputDirectory) !== root) {
 await rm(outputDirectory, { recursive: true, force: true });
 await mkdir(outputDirectory, { recursive: true });
 
-const deployableDirectories = ['assets', 'services'];
+const deployableDirectories = ['assets', 'services', 'service-areas'];
 const rootEntries = await readdir(root, { withFileTypes: true });
 const deployableRootFiles = rootEntries
   .filter(

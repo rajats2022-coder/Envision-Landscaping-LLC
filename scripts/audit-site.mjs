@@ -30,6 +30,9 @@ for (const pathname of urls) {
     findings.push(`${pathname}: missing ${relativePath}`)
     continue
   }
+  if (!exists(path.join('public', relativePath))) {
+    findings.push(`${pathname}: missing deployable public/${relativePath}`)
+  }
 
   const html = read(relativePath)
   const title = html.match(/<title>([^<]+)<\/title>/)?.[1]?.trim() || ''
