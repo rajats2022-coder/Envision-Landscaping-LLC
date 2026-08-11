@@ -15,11 +15,6 @@ const serviceMatches = [
     pattern: /\b(mow|mowing|grass|lawn|edge|edging|string trim|overgrown yard)\b/i,
   },
   {
-    intent: 'commercial',
-    label: 'Commercial lawn care',
-    pattern: /\b(commercial|business|property manager|hoa|office|storefront|managed property)\b/i,
-  },
-  {
     intent: 'landscape-maintenance',
     label: 'Landscape maintenance',
     pattern: /\b(hedges?|shrubs?|prun(?:e|ing|ed)|weeds?|garden beds?|bed maintenance|landscape maintenance)\b/i,
@@ -39,16 +34,6 @@ const serviceMatches = [
     label: 'Design and planting',
     pattern: /\b(planting|plant flowers|tree planting|shrub installation|sod|landscape design|new bed)\b/i,
   },
-  {
-    intent: 'hardscape',
-    label: 'Hardscaping and pavers',
-    pattern: /\b(paver|patio|walkway|retaining wall|fire pit|driveway|outdoor kitchen|hardscape)\b/i,
-  },
-  {
-    intent: 'holiday',
-    label: 'Holiday lighting',
-    pattern: /\b(holiday lights?|christmas lights?|roofline lights?|seasonal lights?|light installation)\b/i,
-  },
 ]
 
 const serviceResponses = {
@@ -56,11 +41,6 @@ const serviceResponses = {
     text: 'Lawn maintenance can include recurring mowing, edging, string trimming, and blowing hard surfaces clean. For an overgrown lawn, send photos so Kyle can confirm the reset scope.',
     href: '/services/lawn-maintenance',
     label: 'View lawn maintenance',
-  },
-  commercial: {
-    text: 'Commercial lawn care is scoped around the property, access, high-visibility areas, and operating schedule. Recurring grounds care, bed maintenance, and seasonal resets can be discussed together.',
-    href: '/services/commercial-lawn-care',
-    label: 'View commercial care',
   },
   'landscape-maintenance': {
     text: 'Landscape maintenance covers the details beyond mowing, including shrub and hedge trimming, garden-bed cleanup, edge definition, visible weed removal, and seasonal debris care.',
@@ -81,16 +61,6 @@ const serviceResponses = {
     text: 'Design and planting projects can start with a landscape consultation, then move into trees, shrubs, flower or perennial beds, sod installation, or lawn repair based on the property.',
     href: '/services/landscape-design-planting',
     label: 'View design and planting',
-  },
-  hardscape: {
-    text: 'Hardscape consultations can cover paver patios, walkways, retaining features, fire pits, driveways, and outdoor-living ideas. These projects normally require a property review before quoting.',
-    href: '/services/hardscaping-pavers',
-    label: 'View hardscaping',
-  },
-  holiday: {
-    text: 'Holiday-lighting requests can include roofline lighting, tree and shrub accents, entry highlights, and a property-specific display plan. Kyle confirms current seasonal availability.',
-    href: '/services/holiday-lighting',
-    label: 'View holiday lighting',
   },
 }
 
@@ -129,7 +99,7 @@ export function classifyIntent(value) {
   if (/\b(hour|open|close|closing|weekend|sunday|saturday)\b/.test(input)) return 'hours'
   if (/\b(serve|service area|my area|address|zip|city|location|raleigh|cary|apex|morrisville|fuquay|holly springs|durham|garner)\b/.test(input)) return 'area'
   if (/\b(estimate|quote|cost|price|pricing|how much|budget)\b/.test(input)) return 'estimate'
-  if (/\b(power wash(?:ing)?|pressure wash(?:ing)?|soft wash(?:ing)?|hard wash(?:ing)?|gutter clean(?:ing)?|roof clean(?:ing)?|irrigation|sprinkler|fertiliz(?:e|ing|ation)|pest control|snow removal|tree removal|stump grind(?:ing)?|grading)\b/.test(input)) return 'unlisted-service'
+  if (/\b(commercial|business|property manager|hoa|office|storefront|managed property|paver|patio|walkway|retaining wall|fire pit|driveway|outdoor kitchen|hardscape|holiday lights?|christmas lights?|roofline lights?|seasonal lights?|light installation|power wash(?:ing)?|pressure wash(?:ing)?|soft wash(?:ing)?|hard wash(?:ing)?|gutter clean(?:ing)?|roof clean(?:ing)?|irrigation|sprinkler|fertiliz(?:e|ing|ation)|pest control|snow removal|tree removal|stump grind(?:ing)?|grading)\b/.test(input)) return 'unlisted-service'
   if (/\b(coupons?|discounts?|specials?|promos?|promotions?|offer code|current offer|deals?)\b/.test(input)) return 'offers'
   if (/\b(invoice|bill|billing|payment|pay|deposit|financing|refund)\b/.test(input)) return 'billing'
   if (/\b(license|licensed|insured|insurance|certificate|warranty|guarantee)\b/.test(input)) return 'credentials'
@@ -176,7 +146,7 @@ function rawResponseFor(value, config = defaultConciergeConfig) {
     case 'service-picker':
       return {
         intent,
-        text: 'Envision’s published services are lawn maintenance, commercial lawn care, landscape maintenance, spring and fall cleanups, mulch and pine straw, design and planting, hardscaping and pavers, and holiday lighting. Tell me what you see in the yard and I’ll narrow it down.',
+        text: 'Envision’s published services are lawn maintenance, landscape maintenance, aeration and overseeding, spring and fall cleanups, mulch and pine straw, and design and planting. Tell me what you see in the yard and I’ll narrow it down.',
         actions: [action('Compare all services', '/services'), action('See completed work', '/gallery')],
       }
     case 'area':
@@ -248,7 +218,7 @@ function rawResponseFor(value, config = defaultConciergeConfig) {
     case 'gallery':
       return {
         intent,
-        text: 'The gallery shows Envision lawn, landscape, cleanup, planting, hardscape, and seasonal work. Use the contact form to describe the property and the result you want.',
+        text: 'The gallery shows Envision lawn, landscape, cleanup, planting, mulch, and aeration work. Use the contact form to describe the property and the result you want.',
         actions: [action('Open the gallery', '/gallery')],
       }
     case 'careers':

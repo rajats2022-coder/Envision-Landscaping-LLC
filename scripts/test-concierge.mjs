@@ -17,13 +17,13 @@ const intentCases = [
   ['Thanks for the help', 'thanks'],
   ['What services do you offer?', 'service-picker'],
   ['Can you mow and edge my grass?', 'lawn'],
-  ['I manage a commercial storefront', 'commercial'],
+  ['I manage a commercial storefront', 'unlisted-service'],
   ['Our shrubs and hedges need trimming', 'landscape-maintenance'],
   ['We need leaves and sticks cleaned up', 'cleanup'],
   ['Can you install pine straw?', 'mulch'],
   ['I need new sod and some planting', 'planting'],
-  ['We want a paver patio and fire pit', 'hardscape'],
-  ['Can you install Christmas lights?', 'holiday'],
+  ['We want a paver patio and fire pit', 'unlisted-service'],
+  ['Can you install Christmas lights?', 'unlisted-service'],
   ['Do you serve Cary?', 'area'],
   ['How much would an estimate cost?', 'estimate'],
   ['Are you available after the rain today?', 'availability'],
@@ -54,7 +54,7 @@ for (const [message, expected] of intentCases) {
 }
 
 assert.equal(detectService('mowing quote')?.label, 'Lawn maintenance')
-assert.equal(detectService('retaining wall project')?.label, 'Hardscaping and pavers')
+assert.equal(detectService('retaining wall project'), null)
 
 const estimate = responseFor('I need a lawn mowing estimate')
 assert.equal(estimate.intent, 'estimate')

@@ -12,7 +12,10 @@
     { "source": "/services/mulch-installation", "destination": "/services/mulch-pine-straw", "permanent": true },
     { "source": "/services/springfall-cleanups", "destination": "/services/spring-fall-cleanups", "permanent": true },
     { "source": "/services/mulching-services", "destination": "/services/mulch-pine-straw", "permanent": true },
-    { "source": "/services/commercial-lawn-care-services", "destination": "/services/commercial-lawn-care", "permanent": true },
+    { "source": "/services/commercial-lawn-care-services", "destination": "/services", "permanent": true },
+    { "source": "/services/commercial-lawn-care", "destination": "/services", "permanent": true },
+    { "source": "/services/hardscaping-pavers", "destination": "/services", "permanent": true },
+    { "source": "/services/holiday-lighting", "destination": "/services", "permanent": true },
     { "source": "/services/landscaping-consultationdesign", "destination": "/services/landscape-design-planting", "permanent": true },
     { "source": "/services/residential-lawn-care-services", "destination": "/services/lawn-maintenance", "permanent": true },
     { "source": "/projects/lawn-care-and-maintenance-project", "destination": "/gallery", "permanent": true }
