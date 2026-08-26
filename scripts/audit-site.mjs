@@ -61,6 +61,7 @@ const jobberEmbedScript =
   'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js'
 const jobberFormUrl =
   'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108'
+const googleTagManagerId = 'GTM-TK4WJG52'
 
 const stripFragments = (href) => href.split('#')[0].split('?')[0]
 
@@ -142,6 +143,13 @@ for (const pathname of urls) {
   if (!html.includes('/assets/site.js')) findings.push(`${pathname}: missing shared interaction script`)
   if (!html.includes('/assets/concierge.js')) findings.push(`${pathname}: missing concierge script`)
   if (!html.includes('data-concierge')) findings.push(`${pathname}: missing site concierge`)
+  if (
+    !html.includes(`googletagmanager.com/gtm.js?id='+i+dl`) ||
+    !html.includes(`googletagmanager.com/ns.html?id=${googleTagManagerId}`) ||
+    (html.match(new RegExp(googleTagManagerId, 'g')) || []).length !== 2
+  ) {
+    findings.push(`${pathname}: missing the verified Google Tag Manager installation`)
+  }
   if (html.includes('sms:+19843386483')) findings.push(`${pathname}: still contains the retired SMS form handoff`)
   if (!html.includes('mailto:Kyle@envisionlandscapingllc.com')) {
     findings.push(`${pathname}: missing Kyle email link`)

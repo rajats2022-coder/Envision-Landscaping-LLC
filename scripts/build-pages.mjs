@@ -13,6 +13,7 @@ const jobberEmbedScript =
   'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js';
 const jobberFormUrl =
   'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108';
+const googleTagManagerId = 'GTM-TK4WJG52';
 const siteLastModified = '2026-08-26';
 const googleSiteVerification = '-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA';
 
@@ -1375,6 +1376,9 @@ function pageShell({
   return `<!doctype html>
 <html lang="en">
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${googleTagManagerId}');</script>
+  <!-- End Google Tag Manager -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#08140f">
@@ -1406,11 +1410,14 @@ function pageShell({
   ${renderSchemas(pageSchemas)}
 </head>
 <body class="${bodyClass}">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   ${siteHeader(path)}
   <main id="main-content">${body}</main>
   ${siteFooter()}
   <script src="/assets/vendor/maplibre-gl.js?v=5.12.0" defer></script>
-  <script src="/assets/site.js?v=20260811-3" defer></script>
+  <script src="/assets/site.js?v=20260826-1" defer></script>
   <script type="module" src="/assets/concierge.js?v=20260807-3"></script>
 </body>
 </html>`;
@@ -2610,7 +2617,7 @@ function legalPage(kind) {
     ? [
         [
           'What this site collects',
-          'This static website does not use a verified analytics or advertising tracker. The estimate form is provided by Jobber. When you submit it, the details you enter are sent directly into Envision Landscaping’s Jobber request queue, and Jobber’s privacy terms apply to that submission.',
+          'This website uses Google Analytics 4 through Google Tag Manager to understand page visits and interactions such as estimate-link and business-phone clicks. Analytics may collect device, browser, approximate location, referral, and usage information; Envision does not intentionally send the details entered into the Jobber form to Google Analytics. The estimate form is provided by Jobber, and submitted details go directly into Envision Landscaping’s Jobber request queue under Jobber’s privacy terms.',
         ],
         [
           'Third-party links',

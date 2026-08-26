@@ -2,6 +2,37 @@ document.documentElement.classList.add('has-js')
 
 const selectAll = (selector, root = document) => [...root.querySelectorAll(selector)]
 
+window.dataLayer = window.dataLayer || []
+
+const pushAnalyticsEvent = (event, details = {}) => {
+  window.dataLayer.push({ event, ...details })
+}
+
+document.addEventListener('click', (clickEvent) => {
+  const link = clickEvent.target.closest('a[href]')
+  if (!link) return
+
+  const href = link.getAttribute('href') || ''
+  const linkText = link.textContent.replace(/\s+/g, ' ').trim().slice(0, 100)
+
+  if (href.startsWith('tel:')) {
+    pushAnalyticsEvent('phone_click', {
+      link_url: href,
+      link_text: linkText,
+    })
+    return
+  }
+
+  const opensJobber = href.includes('clienthub.getjobber.com')
+  const isEstimateCta = href === '/contact' && /estimate|quote|request/i.test(linkText)
+  if (opensJobber || isEstimateCta) {
+    pushAnalyticsEvent('estimate_start', {
+      link_url: href,
+      link_text: linkText,
+    })
+  }
+})
+
 const header = document.querySelector('[data-site-header]')
 const headerSentinel = document.querySelector('.header-sentinel')
 
