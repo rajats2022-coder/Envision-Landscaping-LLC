@@ -74,6 +74,16 @@ const expectedAreas = [
   ['durham-nc', 'Durham'],
   ['garner-nc', 'Garner'],
 ]
+const expectedNeighborhoods = {
+  'raleigh-nc': ['North Hills', 'Five Points', 'Brier Creek', 'Historic Oakwood', 'Boylan Heights', 'Hayes Barton', 'Wakefield', 'Bedford at Falls River'],
+  'cary-nc': ['Preston', 'Lochmere', 'Cary Park', 'Amberly', 'Carpenter Village', 'MacGregor Downs', 'Regency', 'Highcroft'],
+  'apex-nc': ['Villages of Apex', 'Bella Casa', 'Green at Scotts Mill', 'Haddon Hall', 'Salem Oaks', 'Scotts Ridge', 'Olive Chapel', 'Friendship'],
+  'morrisville-nc': ['Kitts Creek', 'Breckenridge', 'Providence Place', 'Town Hall Commons', 'Preston', 'Weston', 'Savannah', 'Downing Glen'],
+  'fuquay-varina-nc': ['South Lakes', 'Bentwinds', 'Sunset Bluffs', 'High Grove Oaks', 'Lakestone Village', 'Stonecreek', 'Carolina Gardens', 'Phillips Place'],
+  'holly-springs-nc': ['12 Oaks', 'Sunset Ridge', 'Holly Glen', 'Braxton Village', 'Woodcreek', 'Bridgewater', 'Forest Springs', 'Sunset Oaks'],
+  'durham-nc': ['Hope Valley', 'Woodcroft', 'Trinity Park', 'Old West Durham', 'Watts-Hillandale', 'Forest Hills', 'Northgate Park', 'Duke Park'],
+  'garner-nc': ['Eagle Ridge', 'Heather Hills', 'Village of White Oak', 'White Oak Estates', 'Forest Hills', 'Auburn', 'Lake Shore', 'Woodbrook Estates'],
+}
 const expectedServicePath = (serviceSlug, areaSlug) =>
   areaSlug === 'raleigh-nc'
     ? `/services/${serviceSlug}`
@@ -98,6 +108,9 @@ try {
     ([, pathname]) => pathname || '/'
   )
   if (paths.length !== 66) throw new Error(`sitemap has ${paths.length} pages; expected 66`)
+  if (paths.some((pathname) => /\/neighborhoods?\//.test(pathname))) {
+    throw new Error('sitemap must not contain thin neighborhood doorway pages')
+  }
 
   let assertions = 0
   const pageHtml = new Map()
@@ -299,8 +312,26 @@ try {
           throw new Error(`${areaHubPath} does not link to ${pathname}`)
         }
       }
+      for (const neighborhood of expectedNeighborhoods[areaSlug].slice(0, 5)) {
+        if (!html.includes(neighborhood)) {
+          throw new Error(`${pathname} is missing representative ${areaName} neighborhood ${neighborhood}`)
+        }
+      }
       assertions += areaSlug === 'raleigh-nc' ? 6 : 7
     }
+  }
+
+  for (const [areaSlug, areaName] of expectedAreas) {
+    const pathname = areaSlug === 'raleigh-nc' ? '/' : `/service-areas/${areaSlug}`
+    const html = pageHtml.get(pathname) || ''
+    const neighborhoodSection = findElementByClass(html, 'neighborhood-coverage')
+    if (!neighborhoodSection) throw new Error(`${pathname} is missing neighborhood coverage`)
+    for (const neighborhood of expectedNeighborhoods[areaSlug]) {
+      if (!neighborhoodSection.html.includes(neighborhood)) {
+        throw new Error(`${pathname} is missing ${areaName} neighborhood ${neighborhood}`)
+      }
+    }
+    assertions += expectedNeighborhoods[areaSlug].length + 1
   }
 
   for (const [pathname, before, after] of [

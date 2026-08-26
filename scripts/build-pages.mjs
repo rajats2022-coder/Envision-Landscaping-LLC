@@ -73,6 +73,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision provides lawn maintenance, seasonal cleanup, mulch, and landscape care for properties across Raleigh.',
+    neighborhoods: [
+      'North Hills',
+      'Five Points',
+      'Brier Creek',
+      'Historic Oakwood',
+      'Boylan Heights',
+      'Hayes Barton',
+      'Wakefield',
+      'Bedford at Falls River',
+    ],
     planning: {
       title: 'Account for curb access, established trees, and daily property use.',
       body:
@@ -95,6 +105,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'Homeowners in Cary can call Envision for routine lawn care and one-time landscape projects.',
+    neighborhoods: [
+      'Preston',
+      'Lochmere',
+      'Cary Park',
+      'Amberly',
+      'Carpenter Village',
+      'MacGregor Downs',
+      'Regency',
+      'Highcroft',
+    ],
     planning: {
       title: 'Clarify gates, irrigation, and finish expectations before the visit.',
       body:
@@ -117,6 +137,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision serves Apex with dependable mowing, bed care, seasonal cleanup, mulch, and landscape maintenance.',
+    neighborhoods: [
+      'Villages of Apex',
+      'Bella Casa',
+      'Green at Scotts Mill',
+      'Haddon Hall',
+      'Salem Oaks',
+      'Scotts Ridge',
+      'Olive Chapel',
+      'Friendship',
+    ],
     planning: {
       title: 'Map slopes, curved beds, and tree-root zones clearly.',
       body:
@@ -139,6 +169,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision helps Morrisville properties stay neat with recurring lawn service and focused outdoor improvements.',
+    neighborhoods: [
+      'Kitts Creek',
+      'Breckenridge',
+      'Providence Place',
+      'Town Hall Commons',
+      'Preston',
+      'Weston',
+      'Savannah',
+      'Downing Glen',
+    ],
     planning: {
       title: 'Plan compact work areas and adjoining-property boundaries.',
       body:
@@ -161,6 +201,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'From routine lawn maintenance to seasonal cleanup, Envision serves properties throughout Fuquay-Varina.',
+    neighborhoods: [
+      'South Lakes',
+      'Bentwinds',
+      'Sunset Bluffs',
+      'High Grove Oaks',
+      'Lakestone Village',
+      'Stonecreek',
+      'Carolina Gardens',
+      'Phillips Place',
+    ],
     planning: {
       title: 'Break larger properties into clear work zones.',
       body:
@@ -183,6 +233,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision provides practical, detail-focused lawn and landscape care throughout Holly Springs.',
+    neighborhoods: [
+      '12 Oaks',
+      'Sunset Ridge',
+      'Holly Glen',
+      'Braxton Village',
+      'Woodcreek',
+      'Bridgewater',
+      'Forest Springs',
+      'Sunset Oaks',
+    ],
     planning: {
       title: 'Show fenced access, turf transitions, and drainage concerns.',
       body:
@@ -205,6 +265,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'Envision serves Durham-area properties with lawn maintenance, cleanups, mulch, and landscape project support.',
+    neighborhoods: [
+      'Hope Valley',
+      'Woodcroft',
+      'Trinity Park',
+      'Old West Durham',
+      'Watts-Hillandale',
+      'Forest Hills',
+      'Northgate Park',
+      'Duke Park',
+    ],
     planning: {
       title: 'Document shade, roots, leaf volume, and uneven terrain.',
       body:
@@ -227,6 +297,16 @@ const areas = [
     serviceSlugs: publishedServiceSlugs,
     intro:
       'Garner customers can contact Envision for lawn maintenance, landscape care, mulch, and seasonal cleanups.',
+    neighborhoods: [
+      'Eagle Ridge',
+      'Heather Hills',
+      'Village of White Oak',
+      'White Oak Estates',
+      'Forest Hills',
+      'Auburn',
+      'Lake Shore',
+      'Woodbrook Estates',
+    ],
     planning: {
       title: 'Define open lawn edges, drainage features, and equipment access.',
       body:
@@ -1860,6 +1940,37 @@ function backyardStorySection() {
   </section>`;
 }
 
+function neighborhoodCoverageSection(area, { service = null, compact = false } = {}) {
+  const neighborhoods = compact ? area.neighborhoods.slice(0, 5) : area.neighborhoods;
+  const serviceName = service?.title || 'Lawn and landscape care';
+  const heading = service
+    ? `${service.title} across ${area.name} neighborhoods`
+    : `Neighborhoods and communities served across ${area.name}`;
+  const cityLink = compact && area.slug !== 'raleigh-nc' ? `/service-areas/${area.slug}` : '/contact';
+  const cityLinkLabel = compact && area.slug !== 'raleigh-nc'
+    ? `Explore all ${area.name} services`
+    : `Confirm a ${area.name} property`;
+  const intro = `${serviceName} is available throughout ${area.name}, including ${readableList(neighborhoods)}. This representative list helps local homeowners find the right city service page; Envision confirms the exact address, scope, project fit, and schedule before work begins.`;
+
+  return `<section class="neighborhood-coverage${compact ? ' neighborhood-coverage-compact' : ''} section-pad" aria-labelledby="${area.slug}-${service?.slug || 'coverage'}-neighborhoods">
+    <div class="shell neighborhood-coverage-grid">
+      <div class="neighborhood-coverage-copy">
+        <p class="eyebrow">Local service coverage</p>
+        <h2 id="${area.slug}-${service?.slug || 'coverage'}-neighborhoods">${heading}</h2>
+        <p>${intro}</p>
+        <a class="text-link" href="${cityLink}">${cityLinkLabel} ${icons.arrow}</a>
+      </div>
+      <div class="neighborhood-panel reveal">
+        <p>Areas within ${area.name}</p>
+        <ul class="neighborhood-list">
+          ${neighborhoods.map((neighborhood) => `<li>${icons.pin}<span>${neighborhood}</span></li>`).join('')}
+        </ul>
+        <small>Examples of covered communities—not a claim that Envision has completed a project at every location.</small>
+      </div>
+    </div>
+  </section>`;
+}
+
 function areaSection() {
   const defaultArea = areas[0];
   const mapButton = (area, index) => `<button class="map-signal${index === 0 ? ' is-active' : ''}" type="button"
@@ -2130,6 +2241,7 @@ function homePage() {
       transformation +
       gallerySection() +
       areaSection() +
+      neighborhoodCoverageSection(areas[0]) +
       faqSection() +
       contactSection(),
     bodyClass: 'home-page',
@@ -2333,7 +2445,7 @@ function serviceAreasPage() {
         <div class="area-card-grid">
           ${areas
             .map(
-              (area, index) => `<a class="area-card reveal" id="${area.slug}" href="${area.slug === 'raleigh-nc' ? '/contact' : `/service-areas/${area.slug}`}" aria-label="${area.slug === 'raleigh-nc' ? 'Confirm service for' : 'View lawn and landscape services in'} ${area.name}, ${area.region}"><span>${String(index + 1).padStart(2, '0')}</span><h2>${area.name}, ${area.region}</h2><p>${area.intro}</p><i>${icons.arrow}</i></a>`,
+              (area, index) => `<a class="area-card reveal" id="${area.slug}" href="${area.slug === 'raleigh-nc' ? '/contact' : `/service-areas/${area.slug}`}" aria-label="${area.slug === 'raleigh-nc' ? 'Confirm service for' : 'View lawn and landscape services in'} ${area.name}, ${area.region}"><span>${String(index + 1).padStart(2, '0')}</span><h2>${area.name}, ${area.region}</h2><p>${area.intro}</p><p class="area-card-neighborhoods"><strong>Neighborhoods include</strong>${readableList(area.neighborhoods.slice(0, 3))}</p><i>${icons.arrow}</i></a>`,
             )
             .join('')}
         </div>
@@ -2387,6 +2499,7 @@ function servicePage(service) {
       serviceJobsSection(service) +
       serviceProcessSection(service) +
       serviceLocalContextSection(service) +
+      neighborhoodCoverageSection(areas[0], { service, compact: true }) +
       `<section class="related-services section-pad"><div class="shell">${sectionHeading('Keep planning', 'Related property services')}${serviceGrid(4)}</div></section>` +
       (localizedAreas.length
         ? `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
@@ -2499,6 +2612,7 @@ function localizedServicePage(service, area) {
           <a class="button button-primary" href="/contact"><span>Start the estimate request</span>${icons.arrow}</a>
         </div>
       </div></section>` +
+      neighborhoodCoverageSection(area, { service, compact: true }) +
       `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
         ${sectionHeading('More property needs', `Related services in ${area.name}, NC`, `Use the service that best matches the work, or include multiple needs in one estimate request.`)}
         <div class="service-area-link-list">
@@ -2576,6 +2690,7 @@ function areaPage(area) {
         <div>${sectionHeading(`${area.name} service area`, `Property care built around the actual job`, `${area.intro} Envision confirms the address, requested work, scope, and scheduling before service.`)}<a class="button button-primary" href="/contact"><span>Request a ${area.name} estimate</span>${icons.arrow}</a></div>
         <div class="local-stat reveal"><span>${icons.pin}</span><strong>${area.name}</strong><p>Published Envision service community</p><small>Scheduling and project fit are confirmed property by property.</small></div>
       </div></section>` +
+      neighborhoodCoverageSection(area) +
       `<section class="services section-pad"><div class="shell">${sectionHeading('Available services', `Lawn and landscape services in ${area.name}, NC`, `These are the service categories Envision currently publishes for ${area.name}. Choose the closest match for full service details.`)}<div class="service-grid local-service-grid-cards">
         ${localServices
           .map(

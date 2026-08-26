@@ -1,10 +1,384 @@
 {
-  "checkedAt": "2026-08-26T14:16:43.285Z",
-  "status": "needs-access-or-verification",
+  "checkedAt": "2026-08-26T17:21:01.818Z",
+  "status": "connected",
   "recommendedProperty": "sc-domain:envisionlandscapingllc.com",
-  "property": null,
+  "property": {
+    "siteUrl": "https://envisionlandscapingllc.com/",
+    "permissionLevel": "siteOwner"
+  },
   "sitemapUrl": "https://envisionlandscapingllc.com/sitemap.xml",
   "verificationFile": null,
-  "sitemaps": [],
-  "performance": null
+  "sitemaps": [
+    {
+      "path": "https://envisionlandscapingllc.com/sitemap.xml",
+      "lastSubmitted": "2026-08-26T14:37:02.783Z",
+      "isPending": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "performance": {
+    "period": {
+      "startDate": "2026-07-26",
+      "endDate": "2026-08-23"
+    },
+    "totals": {
+      "clicks": 66,
+      "impressions": 3413
+    },
+    "topQueries": [
+      {
+        "query": "envision landscaping",
+        "clicks": 21,
+        "impressions": 102,
+        "ctr": 0.20588235294117646,
+        "position": 5.882352941176471
+      },
+      {
+        "query": "envision landscaping llc",
+        "clicks": 7,
+        "impressions": 32,
+        "ctr": 0.21875,
+        "position": 5.15625
+      },
+      {
+        "query": "envision landscape",
+        "clicks": 2,
+        "impressions": 9,
+        "ctr": 0.2222222222222222,
+        "position": 14.555555555555555
+      },
+      {
+        "query": "envision landscaping reviews",
+        "clicks": 2,
+        "impressions": 9,
+        "ctr": 0.2222222222222222,
+        "position": 7.222222222222222
+      },
+      {
+        "query": "landscaping raleigh nc",
+        "clicks": 2,
+        "impressions": 27,
+        "ctr": 0.07407407407407407,
+        "position": 3.037037037037037
+      },
+      {
+        "query": "envision lawn care",
+        "clicks": 1,
+        "impressions": 10,
+        "ctr": 0.1,
+        "position": 11.4
+      },
+      {
+        "query": "invision landscaping",
+        "clicks": 1,
+        "impressions": 12,
+        "ctr": 0.08333333333333333,
+        "position": 8.083333333333332
+      },
+      {
+        "query": "landscaping services raleigh nc",
+        "clicks": 1,
+        "impressions": 1,
+        "ctr": 1,
+        "position": 3
+      },
+      {
+        "query": "aeration and overseeding durham, nc",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 77
+      },
+      {
+        "query": "aeration and overseeding morrisville, nc",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 92.33333333333333
+      },
+      {
+        "query": "aeration and seeding raleigh",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 89
+      },
+      {
+        "query": "aeration company cary, nc",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 80
+      },
+      {
+        "query": "aeration company raleigh, nc",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 88
+      },
+      {
+        "query": "aeration raleigh",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 85.5
+      },
+      {
+        "query": "aeration raleigh, nc",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 79
+      },
+      {
+        "query": "aeration service cary, nc",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 81
+      },
+      {
+        "query": "aeration service raleigh, nc",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 83
+      },
+      {
+        "query": "aeration services in apex",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 92
+      },
+      {
+        "query": "affordable landscaping raleigh nc",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 1
+      },
+      {
+        "query": "apex nc landscaping",
+        "clicks": 0,
+        "impressions": 19,
+        "ctr": 0,
+        "position": 61.8421052631579
+      },
+      {
+        "query": "apex nc lawn service",
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 67.33333333333333
+      },
+      {
+        "query": "apex nc lawn services",
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 68.83333333333333
+      },
+      {
+        "query": "backyard landscapers apex nc",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 44
+      },
+      {
+        "query": "bespoke landscaping services durham",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 84.5
+      },
+      {
+        "query": "best landscapers raleigh nc",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 1
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://envisionlandscapingllc.com/",
+        "clicks": 36,
+        "impressions": 1423,
+        "ctr": 0.025298664792691498,
+        "position": 7.952213633169361
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp_profile&utm_content=website_button",
+        "clicks": 27,
+        "impressions": 1279,
+        "ctr": 0.02111024237685692,
+        "position": 5.982799061767006
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/reviews",
+        "clicks": 2,
+        "impressions": 65,
+        "ctr": 0.03076923076923077,
+        "position": 14.384615384615385
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/about",
+        "clicks": 1,
+        "impressions": 26,
+        "ctr": 0.038461538461538464,
+        "position": 18.076923076923077
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/durham-nc",
+        "clicks": 1,
+        "impressions": 22,
+        "ctr": 0.045454545454545456,
+        "position": 35.68181818181818
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/holly-springs-nc",
+        "clicks": 1,
+        "impressions": 173,
+        "ctr": 0.005780346820809248,
+        "position": 58.884393063583815
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/about-us",
+        "clicks": 0,
+        "impressions": 9,
+        "ctr": 0,
+        "position": 44.111111111111114
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/booking",
+        "clicks": 0,
+        "impressions": 26,
+        "ctr": 0,
+        "position": 78.23076923076923
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/contact",
+        "clicks": 0,
+        "impressions": 16,
+        "ctr": 0,
+        "position": 11.8125
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/contact-us",
+        "clicks": 0,
+        "impressions": 43,
+        "ctr": 0,
+        "position": 28.069767441860463
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/gallery",
+        "clicks": 0,
+        "impressions": 30,
+        "ctr": 0,
+        "position": 20.8
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/privacy",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 6.571428571428571
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas",
+        "clicks": 0,
+        "impressions": 26,
+        "ctr": 0,
+        "position": 12.346153846153847
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/apex-nc",
+        "clicks": 0,
+        "impressions": 209,
+        "ctr": 0,
+        "position": 69.9377990430622
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/cary-nc",
+        "clicks": 0,
+        "impressions": 46,
+        "ctr": 0,
+        "position": 38.06521739130435
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/chapel-hill-nc",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 5.666666666666667
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/fuquay-varina-nc",
+        "clicks": 0,
+        "impressions": 77,
+        "ctr": 0,
+        "position": 65.74025974025975
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/morrisville-nc",
+        "clicks": 0,
+        "impressions": 134,
+        "ctr": 0,
+        "position": 68.03731343283582
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/service-areas/raleigh-nc",
+        "clicks": 0,
+        "impressions": 47,
+        "ctr": 0,
+        "position": 40.340425531914896
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/services",
+        "clicks": 0,
+        "impressions": 9,
+        "ctr": 0,
+        "position": 29.77777777777778
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/services/aeration-overseeding",
+        "clicks": 0,
+        "impressions": 52,
+        "ctr": 0,
+        "position": 86.61538461538461
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/services/aeration-overseeding/apex-nc",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 49
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/services/aeration-overseeding/cary-nc",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 76
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/services/aeration-overseeding/durham-nc",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 49.5
+      },
+      {
+        "page": "https://envisionlandscapingllc.com/services/aeration-overseeding/garner-nc",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 9
+      }
+    ]
+  }
 }
