@@ -4414,10 +4414,10 @@ p {
 }
 
 .neighborhood-coverage-copy h2 {
-  max-width: 14ch;
+  max-width: 13ch;
   margin-bottom: var(--space-6);
-  font-size: var(--text-4xl);
-  line-height: 0.98;
+  font-size: clamp(2.65rem, 4.6vw, 4.85rem);
+  line-height: 0.94;
   scroll-margin-top: 8rem;
   text-wrap: balance;
 }
@@ -4425,6 +4425,7 @@ p {
 .neighborhood-coverage-copy > p:not(.eyebrow) {
   max-width: 53ch;
   color: var(--color-text-muted);
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
   line-height: 1.75;
 }
 
