@@ -3,3 +3,5 @@ node_modules/
 public/
 temporary screenshots/
 data/site-health.json
+.vercel
+.env*

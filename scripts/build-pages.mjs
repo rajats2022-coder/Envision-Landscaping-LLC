@@ -13,7 +13,7 @@ const jobberEmbedScript =
   'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js';
 const jobberFormUrl =
   'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108';
-const siteLastModified = '2026-08-11';
+const siteLastModified = '2026-08-26';
 const googleSiteVerification = '-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA';
 
 const business = {
@@ -30,7 +30,7 @@ const business = {
     'https://www.google.com/maps/search/?api=1&query=Envision%20Landscaping%20LLC&query_place_id=ChIJ3xWsRgz1rIkR7xzJrM3_Fy0',
   googleWriteReview:
     'https://search.google.com/local/writereview?placeid=ChIJ3xWsRgz1rIkR7xzJrM3_Fy0',
-  availabilityNote: 'Call or text to confirm current availability',
+  availabilityNote: 'Open 24 hours',
   rating: '4.9',
   reviewCount: 31,
 };
@@ -451,6 +451,89 @@ const services = [
     ],
   },
   {
+    slug: 'leaf-removal',
+    title: 'Leaf Removal',
+    navTitle: 'Leaf Removal',
+    localize: false,
+    image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg',
+    imageAlt: 'Temporary stock photo of seasonal leaf clearing; not an Envision project',
+    stockPlaceholder: true,
+    short:
+      'Quote-only leaf clearing and seasonal debris removal planned around the property, access, and collection needs.',
+    meta:
+      'Request a quote for leaf removal in the Raleigh area from Envision Landscaping. Property-specific leaf clearing and debris-removal scope.',
+    h1: 'Leaf Removal in Raleigh, NC',
+    intro:
+      'When fall leaves build up across lawns, beds, and hard surfaces, Envision can review the property and prepare a quote for the specific clearing and collection work needed.',
+    localContext: {
+      title: 'Leaf removal for Raleigh-area properties',
+      body:
+        'Envision accepts quote requests for leaf clearing from its published Raleigh and Triangle service area: Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Garner. The exact property, collection areas, access, debris volume, and scheduling fit are confirmed before work is booked.',
+    },
+    includes: [
+      'Leaf clearing from approved lawn, bed, and hard-surface areas',
+      'Collection and removal method confirmed in the quote',
+      'Property-specific access and debris-volume review',
+      'Final cleanup of approved hard surfaces',
+    ],
+    faqs: [
+      [
+        'What does leaf removal include?',
+        'The quote identifies the approved collection areas, debris volume, access, and removal method. Ask to include lawns, beds, walkways, patios, or other specific areas in the request.',
+      ],
+      [
+        'Do you offer leaf removal as a one-time service?',
+        'One-time leaf removal can be reviewed by quote. Share photos and the property details so Envision can confirm the scope and scheduling options.',
+      ],
+      [
+        'How do I get a leaf-removal quote?',
+        'Use the estimate request to share the property address, the areas that need clearing, access details, timing, and helpful photos. Envision will confirm the next step directly.',
+      ],
+    ],
+  },
+  {
+    slug: 'christmas-light-installation',
+    title: 'Christmas Light Installation',
+    navTitle: 'Christmas Lights',
+    localize: false,
+    image: '/assets/images/placeholders/christmas-lights-stock-unsplash.jpg',
+    imageAlt: 'Temporary stock photo of a holiday-light display; not an Envision project',
+    stockPlaceholder: true,
+    short:
+      'Quote-only seasonal Christmas-light installation planned around the property, selected display areas, and timing.',
+    meta:
+      'Request a quote for Christmas light installation in the Raleigh area from Envision Landscaping. Seasonal, property-specific display planning and installation.',
+    seoTitle: 'Christmas Light Installation Raleigh, NC | Envision',
+    h1: 'Christmas Light Installation in Raleigh, NC',
+    intro:
+      'Plan the seasonal display around the property. Envision can review the areas you want illuminated and provide a quote for the approved installation scope and timing.',
+    localContext: {
+      title: 'Christmas-light installation across the Triangle',
+      body:
+        'Envision reviews Christmas-light installation requests from its published Raleigh and Triangle service area: Raleigh, Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Garner. Rooflines, trees, entries, access, material plans, and timing are confirmed for the individual property before scheduling.',
+    },
+    includes: [
+      'Property and display-area review',
+      'Installation scope confirmed in the quote',
+      'Access, timing, and removal needs discussed before scheduling',
+      'Final walkthrough of the approved display areas',
+    ],
+    faqs: [
+      [
+        'What is included with Christmas light installation?',
+        'The quote defines the display areas, materials or lights supplied by the customer or included in the approved scope, access needs, installation timing, and any removal work requested.',
+      ],
+      [
+        'When should I request a Christmas-light quote?',
+        'Requesting a quote early gives Envision time to review the property and discuss preferred installation timing before the seasonal schedule fills.',
+      ],
+      [
+        'Do you provide Christmas-light removal?',
+        'Removal can be discussed as part of the quote. Include that request and the preferred timing so it can be clearly scoped before scheduling.',
+      ],
+    ],
+  },
+  {
     slug: 'mulch-pine-straw',
     title: 'Mulch & Pine Straw',
     navTitle: 'Mulch & Pine Straw',
@@ -696,6 +779,40 @@ const serviceProfiles = {
       ['Finish with a property check', 'Review the cleaned areas and decide whether mulch, planting, or recurring maintenance should be estimated separately.'],
     ],
   },
+  'leaf-removal': {
+    jobHeading: 'Leaf-removal quotes built around the property',
+    jobIntro:
+      'These temporary stock photos illustrate the seasonal service only; they are not Envision projects. The final scope stays quote-only until Envision reviews the property.',
+    jobs: [
+      { title: 'Property and debris review', description: 'Share photos, collection areas, access details, and timing so Envision can assess the request before quoting.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
+      { title: 'Approved-area clearing', description: 'The quote can identify the lawn, beds, walkways, patios, and other approved areas that need seasonal leaf clearing.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
+      { title: 'Collection plan', description: 'Collection method and debris volume are reviewed with the property so the approved scope is clear before work is scheduled.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
+      { title: 'Final surface cleanup', description: 'The approved hard surfaces are checked at the end of the visit, with any additional needs kept separate in the quote.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
+    ],
+    process: [
+      ['Send the property details', 'Share the address, photos, leaf-collection areas, access details, and preferred timing.'],
+      ['Review the quote', 'Envision confirms the proposed scope, debris volume, collection method, and scheduling options.'],
+      ['Complete approved clearing', 'The crew clears and collects only the areas included in the approved quote.'],
+      ['Check the finished areas', 'Review the approved surfaces and discuss any additional seasonal work separately.'],
+    ],
+  },
+  'christmas-light-installation': {
+    jobHeading: 'Christmas-light installation planned by quote',
+    jobIntro:
+      'These temporary stock photos illustrate the seasonal service only; they are not Envision projects. Each display is planned by quote.',
+    jobs: [
+      { title: 'Display-area review', description: 'Share the roofline, trees, entry, or landscape areas you want reviewed, along with property photos and timing preferences.', image: '/assets/images/placeholders/christmas-lights-stock-unsplash.jpg', alt: 'Temporary stock holiday-light display photo; not an Envision project', stockPlaceholder: true },
+      { title: 'Quote and installation plan', description: 'The quote defines the approved display areas, access needs, timing, and whether customer-supplied or quoted materials are part of the scope.', image: '/assets/images/placeholders/christmas-lights-stock-unsplash.jpg', alt: 'Temporary stock holiday-light display photo; not an Envision project', stockPlaceholder: true },
+      { title: 'Approved installation', description: 'Installation follows the property-specific scope confirmed before the service date.', image: '/assets/images/placeholders/christmas-lights-stock-unsplash.jpg', alt: 'Temporary stock holiday-light display photo; not an Envision project', stockPlaceholder: true },
+      { title: 'Seasonal removal discussion', description: 'If removal is requested, its timing and scope are documented separately in the quote before scheduling.', image: '/assets/images/placeholders/christmas-lights-stock-unsplash.jpg', alt: 'Temporary stock holiday-light display photo; not an Envision project', stockPlaceholder: true },
+    ],
+    process: [
+      ['Share the display goal', 'Send property photos, display areas, access details, and preferred seasonal timing.'],
+      ['Confirm the quote', 'Review the approved installation scope, materials plan, timing, and any requested removal work.'],
+      ['Install the approved display', 'The crew completes the agreed display work according to the property-specific quote.'],
+      ['Walk the result', 'Review the approved display areas and keep any follow-up needs separate from the completed scope.'],
+    ],
+  },
   'mulch-pine-straw': {
     jobHeading: 'Mulch and pine-straw work from preparation to finish',
     jobIntro:
@@ -826,7 +943,7 @@ const homepageFaqs = [
   ],
   [
     'What lawn and landscaping services are available?',
-    'Published services include lawn and landscape maintenance, aeration and overseeding, seasonal cleanups, mulch and pine straw, and design and planting.',
+    'Published services include lawn and landscape maintenance, aeration and overseeding, seasonal cleanups, leaf removal, mulch and pine straw, design and planting, and Christmas light installation by quote.',
   ],
   [
     'How do I request an estimate?',
@@ -884,6 +1001,7 @@ function pageUrl(path) {
 }
 
 function localizedServicePath(service, area) {
+  if (service.localize === false) return `/services/${service.slug}`;
   return area.slug === 'raleigh-nc'
     ? `/services/${service.slug}`
     : `/services/${service.slug}/${area.slug}`;
@@ -907,6 +1025,20 @@ function localBusinessSchema(extra = {}) {
     founder: {
       '@type': 'Person',
       name: business.owner,
+    },
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ],
+      opens: '00:00',
+      closes: '23:59',
     },
     address: {
       '@type': 'PostalAddress',
@@ -1351,6 +1483,7 @@ function serviceGrid(limit = services.length, className = '') {
       .map(
         (service, index) => `<a class="service-card reveal" style="--i:${index}" href="/services/${service.slug}">
           <img src="${service.image}" alt="${service.imageAlt || `${service.title} service from Envision Landscaping`}" loading="lazy" width="900" height="1100">
+          ${service.stockPlaceholder ? '<span class="temporary-stock-label">Temporary stock photo</span>' : ''}
           <div class="service-card-shade"></div>
           <div class="service-card-copy">
             <span>${String(index + 1).padStart(2, '0')}</span>
@@ -1419,6 +1552,7 @@ function serviceHero(service, area = null) {
   return `<section class="service-page-hero">
     <div class="service-page-hero-media">
       <img src="${heroImage}" alt="${heroImageAlt}" width="${heroImageWidth}" height="${heroImageHeight}"${service.heroPosition ? ` style="object-position:${service.heroPosition}"` : ''} fetchpriority="high" decoding="async">
+      ${service.stockPlaceholder ? '<span class="temporary-stock-label">Temporary stock photo — not an Envision project</span>' : ''}
     </div>
     <div class="service-page-hero-panel">
       <div class="service-page-hero-content reveal">
@@ -1493,8 +1627,9 @@ function serviceJobsSection(service, area = null) {
       <div class="service-job-grid">
         ${profile.jobs
           .map(
-            (job, index) => `<article class="service-job-card reveal" style="--i:${index}">
+        (job, index) => `<article class="service-job-card reveal" style="--i:${index}">
               <img src="${job.image}" alt="${job.alt}" loading="lazy" width="1200" height="800">
+              ${job.stockPlaceholder ? '<span class="temporary-stock-label">Temporary stock photo</span>' : ''}
               <div class="service-job-card-copy">
                 <span>${String(index + 1).padStart(2, '0')}</span>
                 <h3>${job.title}</h3>
@@ -1520,6 +1655,7 @@ function serviceProcessSection(service, area = null) {
     <div class="shell service-process-grid">
       <div class="service-process-visual reveal">
         <img src="${service.image}" alt="${service.imageAlt || `${service.title} work by Envision Landscaping`}" loading="lazy" width="1200" height="900">
+        ${service.stockPlaceholder ? '<span class="temporary-stock-label">Temporary stock photo</span>' : ''}
         <div><span>Property-specific scope</span><strong>Clear steps before work begins.</strong></div>
       </div>
       <div class="service-process-copy">
@@ -1537,6 +1673,17 @@ function serviceProcessSection(service, area = null) {
       </div>
     </div>
   </section>`;
+}
+
+function serviceLocalContextSection(service) {
+  if (!service.localContext) return '';
+  return `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
+    ${sectionHeading('Service-area context', service.localContext.title, service.localContext.body)}
+    <div class="service-area-link-list">
+      <a href="/service-areas"><span>${icons.pin}<strong>See Envision's published service areas</strong></span>${icons.arrow}</a>
+      <a href="/contact"><span>${icons.arrow}<strong>Confirm this seasonal service for your property</strong></span>${icons.arrow}</a>
+    </div>
+  </div></section>`;
 }
 
 function reviewSection() {
@@ -2190,9 +2337,10 @@ function serviceAreasPage() {
 }
 
 function servicePage(service) {
+  const localizedAreas = service.localize === false ? [] : areas;
   return pageShell({
     path: `services/${service.slug}`,
-    title: `${service.title} in Raleigh, NC | Envision Landscaping`,
+    title: service.seoTitle || `${service.title} in Raleigh, NC | Envision Landscaping`,
     description: service.meta,
     image: service.heroImage || service.image,
     schemas: [
@@ -2231,17 +2379,20 @@ function servicePage(service) {
       serviceProofSection(service) +
       serviceJobsSection(service) +
       serviceProcessSection(service) +
+      serviceLocalContextSection(service) +
       `<section class="related-services section-pad"><div class="shell">${sectionHeading('Keep planning', 'Related property services')}${serviceGrid(4)}</div></section>` +
-      `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
+      (localizedAreas.length
+        ? `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
         ${sectionHeading('Where Envision works', `${service.title} across Raleigh &amp; the Triangle`, 'Choose the closest listed community, then confirm the exact property and project when requesting an estimate.')}
         <div class="service-area-link-list">
-          ${areas
+          ${localizedAreas
             .map(
               (area) => `<a href="${localizedServicePath(service, area)}"><span>${icons.pin}<strong>${service.title} in ${area.name}, ${area.region}</strong></span>${icons.arrow}</a>`,
             )
             .join('')}
         </div>
-      </div></section>` +
+      </div></section>`
+        : '') +
       faqSection(service.faqs, `${service.title} questions`) +
       contactSection(),
   });
@@ -2624,7 +2775,7 @@ const pageEntries = [
     servicePage(service),
   ]),
   ...services.flatMap((service) =>
-    areas
+    (service.localize === false ? [] : areas)
       .filter((area) => area.slug !== 'raleigh-nc')
       .map((area) => [
         localizedServiceEntryPath(service, area),

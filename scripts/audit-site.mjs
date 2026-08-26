@@ -71,7 +71,10 @@ const expectedServices = [
   ['spring-fall-cleanups', 'Spring & Fall Cleanups'],
   ['mulch-pine-straw', 'Mulch & Pine Straw'],
   ['landscape-design-planting', 'Design & Planting'],
+  ['leaf-removal', 'Leaf Removal'],
+  ['christmas-light-installation', 'Christmas Light Installation'],
 ]
+const localizedServices = expectedServices.filter(([slug]) => !['leaf-removal', 'christmas-light-installation'].includes(slug))
 const expectedAreas = [
   ['raleigh-nc', 'Raleigh'],
   ['cary-nc', 'Cary'],
@@ -101,6 +104,11 @@ for (const pathname of urls) {
   }
 
   const html = read(relativePath)
+  const visibleText = html
+    .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
   const title = html.match(/<title>([^<]+)<\/title>/)?.[1]?.trim() || ''
   const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1]?.trim() || ''
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1]?.trim() || ''
@@ -148,7 +156,6 @@ for (const pathname of urls) {
     findings.push(`${pathname}: missing connected Google place ID`)
   }
   if (
-    html.includes('openingHoursSpecification') ||
     html.includes('Monday–Sunday, 8:00 AM–12:00 AM') ||
     html.includes('Mon–Sun: 8 AM–12 AM') ||
     html.includes('8 AM to midnight') ||
@@ -156,12 +163,26 @@ for (const pathname of urls) {
   ) {
     findings.push(`${pathname}: contains unconfirmed published hours`)
   }
+  if (
+    !['/privacy', '/terms'].includes(pathname) &&
+    (!html.includes('"openingHoursSpecification"') ||
+      !html.includes('"opens":"00:00"') ||
+      !html.includes('"closes":"23:59"'))
+  ) {
+    findings.push(`${pathname}: missing confirmed 24-hour structured availability`)
+  }
   if (html.includes('Chapel Hill')) {
     findings.push(`${pathname}: contains a service-area claim not configured on the connected Google Business Profile`)
   }
   for (const removedService of ['Commercial Lawn Care', 'Hardscaping & Pavers', 'Holiday Lighting']) {
     if (html.includes(removedService)) {
       findings.push(`${pathname}: contains removed service ${removedService}`)
+    }
+  }
+
+  for (const unsupportedClaim of ['commercial lawn care', 'commercial sites', 'managed properties']) {
+    if (visibleText.toLowerCase().includes(unsupportedClaim)) {
+      findings.push(`${relativePath}: unsupported customer/service claim remains: ${unsupportedClaim}`)
     }
   }
   for (const syntheticAsset of [
@@ -258,7 +279,7 @@ for (const pathname of urls) {
       const heroImages = imageSources(serviceHero.html)
       if (heroImages.length !== 1) {
         findings.push(`${pathname}: service hero must contain exactly one finished project image, found ${heroImages.length}`)
-      } else if (!isRealFinishedProjectImage(heroImages[0])) {
+      } else if (!isRealFinishedProjectImage(heroImages[0]) && !(['/services/leaf-removal', '/services/christmas-light-installation'].includes(pathname) && heroImages[0].includes('/assets/images/placeholders/'))) {
         findings.push(`${pathname}: service hero must use one finished /assets/images/projects/ image, found ${heroImages[0]}`)
       }
       if (
@@ -302,14 +323,14 @@ for (const pathname of urls) {
   }
 }
 
-const expectedServiceLocationPaths = expectedServices.flatMap(([serviceSlug]) =>
+const expectedServiceLocationPaths = localizedServices.flatMap(([serviceSlug]) =>
   expectedAreas.map(([areaSlug]) => expectedServicePath(serviceSlug, areaSlug)),
 )
 if (expectedServiceLocationPaths.length !== 48) {
   findings.push(`service-location matrix expected 48 targets, found ${expectedServiceLocationPaths.length}`)
 }
 
-for (const [serviceSlug, serviceTitle] of expectedServices) {
+for (const [serviceSlug, serviceTitle] of localizedServices) {
   const serviceHubPath = `/services/${serviceSlug}`
   const serviceHubHtml = exists(pagePath(serviceHubPath)) ? read(pagePath(serviceHubPath)) : ''
   for (const [areaSlug, areaName] of expectedAreas) {

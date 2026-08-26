@@ -59,7 +59,10 @@ const expectedServices = [
   ['spring-fall-cleanups', 'Spring & Fall Cleanups'],
   ['mulch-pine-straw', 'Mulch & Pine Straw'],
   ['landscape-design-planting', 'Design & Planting'],
+  ['leaf-removal', 'Leaf Removal'],
+  ['christmas-light-installation', 'Christmas Light Installation'],
 ]
+const localizedServices = expectedServices.filter(([slug]) => !['leaf-removal', 'christmas-light-installation'].includes(slug))
 const expectedAreas = [
   ['raleigh-nc', 'Raleigh'],
   ['cary-nc', 'Cary'],
@@ -93,13 +96,18 @@ try {
   const paths = [...sitemap.matchAll(/<loc>https:\/\/envisionlandscapingllc\.com([^<]*)<\/loc>/g)].map(
     ([, pathname]) => pathname || '/'
   )
-  if (paths.length !== 64) throw new Error(`sitemap has ${paths.length} pages; expected 64`)
+  if (paths.length !== 66) throw new Error(`sitemap has ${paths.length} pages; expected 66`)
 
   let assertions = 0
   const pageHtml = new Map()
   for (const pathname of paths) {
     const response = await fetch(`${baseUrl}${pathname}`)
     const html = await response.text()
+    const visibleText = html
+      .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
     pageHtml.set(pathname, html)
     if (response.status !== 200) throw new Error(`${pathname} returned ${response.status}`)
     if (!html.includes('<h1')) throw new Error(`${pathname} has no h1`)
@@ -122,13 +130,20 @@ try {
       throw new Error(`${pathname} contains the retired SMS form handoff`)
     }
     if (
-      html.includes('openingHoursSpecification') ||
       html.includes('Monday–Sunday, 8:00 AM–12:00 AM') ||
       html.includes('Mon–Sun: 8 AM–12 AM') ||
       html.includes('8 AM to midnight') ||
       html.includes('Published hours')
     ) {
       throw new Error(`${pathname} contains unconfirmed published hours`)
+    }
+    if (
+      !['/privacy', '/terms'].includes(pathname) &&
+      (!html.includes('"openingHoursSpecification"') ||
+        !html.includes('"opens":"00:00"') ||
+        !html.includes('"closes":"23:59"'))
+    ) {
+      throw new Error(`${pathname} is missing confirmed 24-hour structured availability`)
     }
     if (html.includes('Chapel Hill')) {
       throw new Error(`${pathname} contains a service-area claim not configured on the connected Google Business Profile`)
@@ -143,6 +158,12 @@ try {
     for (const removedService of ['Commercial Lawn Care', 'Hardscaping & Pavers', 'Holiday Lighting']) {
       if (html.includes(removedService)) {
         throw new Error(`${pathname} contains removed service ${removedService}`)
+      }
+    }
+
+    for (const unsupportedClaim of ['commercial lawn care', 'commercial sites', 'managed properties']) {
+      if (visibleText.toLowerCase().includes(unsupportedClaim)) {
+        throw new Error(`${pathname} must not publish unsupported ${unsupportedClaim} wording`)
       }
     }
     for (const syntheticAsset of [
@@ -204,7 +225,8 @@ try {
         throw new Error(`${pathname} is missing its service-page hero`)
       }
       const heroImages = imageSources(serviceHero.html)
-      if (heroImages.length !== 1 || !isRealFinishedProjectImage(heroImages[0])) {
+      const placeholderHero = ['/services/leaf-removal', '/services/christmas-light-installation'].includes(pathname) && heroImages[0]?.includes('/assets/images/placeholders/')
+      if (heroImages.length !== 1 || (!isRealFinishedProjectImage(heroImages[0]) && !placeholderHero)) {
         throw new Error(
           `${pathname} service hero must contain exactly one finished /assets/images/projects/ image; found ${heroImages.join(', ') || 'none'}`,
         )
@@ -234,7 +256,7 @@ try {
     }
   }
 
-  for (const [serviceSlug, serviceTitle] of expectedServices) {
+  for (const [serviceSlug, serviceTitle] of localizedServices) {
     const serviceHubPath = `/services/${serviceSlug}`
     const serviceHubHtml = pageHtml.get(serviceHubPath) || ''
     for (const [areaSlug, areaName] of expectedAreas) {
