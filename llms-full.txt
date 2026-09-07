@@ -16,12 +16,8 @@
 
 ## Services
 
-- Lawn Maintenance: Routine mowing, edging, trimming, and cleanup that keeps the property looking sharp.
-  - Jobs covered: Routine lawn mowing, Edging and string trimming, Blowing and final cleanup, Overgrown-lawn reset
-- Landscape Maintenance: Ongoing bed, shrub, lawn, and seasonal care for a more finished property.
-  - Jobs covered: Shrub and hedge trimming, Garden-bed maintenance, Bed-edge and weed cleanup
-- Aeration & Overseeding: Core aeration and overseeding work planned around the lawn, season, and property conditions.
-  - Jobs covered: Core aeration, Visible soil cores, Overseeding the approved lawn, Established lawn result
+- Landscape Design & Planting: Landscape planning, new plantings, sod installation, and bed refreshes shaped around your property.
+  - Jobs covered: Landscape consultation and layout, Tree and shrub installation, Flower and perennial beds, Sod installation and lawn repair
 - Spring & Fall Cleanups: Seasonal clearing, trimming, and reset work that gets the yard back under control.
   - Jobs covered: Seasonal shrub cleanup, Bed and edge cleanup, Garden-bed cleanup, Shrub and perennial cutbacks
 - Leaf Removal: Quote-only leaf clearing and seasonal debris removal planned around the property, access, and collection needs.
@@ -30,8 +26,12 @@
   - Jobs covered: Display-area review, Quote and installation plan, Approved installation, Seasonal removal discussion
 - Mulch & Pine Straw: Fresh bed material installed with clean edges and even coverage.
   - Jobs covered: Hardwood mulch installation, Pine-straw installation, Bed preparation, Edge definition and finishing
-- Design & Planting: Practical landscape planning, plant selection, sod, and installation support.
-  - Jobs covered: Landscape consultation and layout, Tree and shrub installation, Flower and perennial beds, Sod installation and lawn repair
+- Landscape Maintenance: Ongoing bed, shrub, lawn, and seasonal care for a more finished property.
+  - Jobs covered: Shrub and hedge trimming, Garden-bed maintenance, Bed-edge and weed cleanup
+- Aeration & Overseeding: Core aeration and overseeding work planned around the lawn, season, and property conditions.
+  - Jobs covered: Core aeration, Visible soil cores, Overseeding the approved lawn, Established lawn result
+- Lawn Maintenance: Routine mowing, edging, trimming, and cleanup that keeps the property looking sharp.
+  - Jobs covered: Routine lawn mowing, Edging and string trimming, Blowing and final cleanup, Overgrown-lawn reset
 
 ## Service areas
 

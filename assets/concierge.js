@@ -9,6 +9,7 @@ export const defaultConciergeConfig = Object.freeze({
 })
 
 const serviceMatches = [
+  { intent: 'lighting', label: 'Christmas light installation', pattern: /\b(christmas (?:lights?|lighting)|holiday (?:lights?|lighting)|roofline lights?|seasonal lights?|light installation)\b/i },
   {
     intent: 'lawn',
     label: 'Lawn maintenance',
@@ -37,6 +38,11 @@ const serviceMatches = [
 ]
 
 const serviceResponses = {
+  lighting: {
+    text: 'Christmas light installation starts with a quote for your property. Kyle can confirm the scope, availability, and which materials and follow-up services are included before you book.',
+    href: '/services/christmas-light-installation',
+    label: 'View Christmas lighting',
+  },
   lawn: {
     text: 'Lawn maintenance can include recurring mowing, edging, string trimming, and blowing hard surfaces clean. For an overgrown lawn, send photos so Kyle can confirm the reset scope.',
     href: '/services/lawn-maintenance',
@@ -99,7 +105,7 @@ export function classifyIntent(value) {
   if (/\b(hour|open|close|closing|weekend|sunday|saturday)\b/.test(input)) return 'hours'
   if (/\b(serve|service area|my area|address|zip|city|location|raleigh|cary|apex|morrisville|fuquay|holly springs|durham|garner)\b/.test(input)) return 'area'
   if (/\b(estimate|quote|cost|price|pricing|how much|budget)\b/.test(input)) return 'estimate'
-  if (/\b(commercial|business|property manager|hoa|office|storefront|managed property|paver|patio|walkway|retaining wall|fire pit|driveway|outdoor kitchen|hardscape|holiday lights?|christmas lights?|roofline lights?|seasonal lights?|light installation|power wash(?:ing)?|pressure wash(?:ing)?|soft wash(?:ing)?|hard wash(?:ing)?|gutter clean(?:ing)?|roof clean(?:ing)?|irrigation|sprinkler|fertiliz(?:e|ing|ation)|pest control|snow removal|tree removal|stump grind(?:ing)?|grading)\b/.test(input)) return 'unlisted-service'
+  if (/\b(commercial|business|property manager|hoa|office|storefront|managed property|paver|patio|walkway|retaining wall|fire pit|driveway|outdoor kitchen|hardscape|power wash(?:ing)?|pressure wash(?:ing)?|soft wash(?:ing)?|hard wash(?:ing)?|gutter clean(?:ing)?|roof clean(?:ing)?|irrigation|sprinkler|fertiliz(?:e|ing|ation)|pest control|snow removal|tree removal|stump grind(?:ing)?|grading)\b/.test(input)) return 'unlisted-service'
   if (/\b(coupons?|discounts?|specials?|promos?|promotions?|offer code|current offer|deals?)\b/.test(input)) return 'offers'
   if (/\b(invoice|bill|billing|payment|pay|deposit|financing|refund)\b/.test(input)) return 'billing'
   if (/\b(license|licensed|insured|insurance|certificate|warranty|guarantee)\b/.test(input)) return 'credentials'
@@ -146,7 +152,7 @@ function rawResponseFor(value, config = defaultConciergeConfig) {
     case 'service-picker':
       return {
         intent,
-        text: 'Envision’s published services are lawn maintenance, landscape maintenance, aeration and overseeding, spring and fall cleanups, mulch and pine straw, and design and planting. Tell me what you see in the yard and I’ll narrow it down.',
+        text: 'Envision’s services include landscape design and planting, fall cleanups and leaf removal, Christmas light installation, mulch and pine straw, and ongoing lawn and landscape care. Tell me what you see in the yard and I’ll narrow it down.',
         actions: [action('Compare all services', '/services'), action('See completed work', '/gallery')],
       }
     case 'area':
@@ -188,8 +194,8 @@ function rawResponseFor(value, config = defaultConciergeConfig) {
     case 'offers':
       return {
         intent,
-        text: 'The site currently shows WELCOME15 for 15% off a first lawn-care service package and SEASON50 for $50 off a seasonal maintenance package. Kyle must confirm eligibility, conditions, and availability.',
-        actions: [action('View current offers', '/#special-offers')],
+        text: 'Contact Kyle for a quote and to confirm any current offer terms and eligibility for your project.',
+        actions: contactActions,
       }
     case 'schedule-change':
       return {

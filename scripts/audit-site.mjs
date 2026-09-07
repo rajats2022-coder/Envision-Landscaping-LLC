@@ -71,7 +71,7 @@ const expectedServices = [
   ['aeration-overseeding', 'Aeration & Overseeding'],
   ['spring-fall-cleanups', 'Spring & Fall Cleanups'],
   ['mulch-pine-straw', 'Mulch & Pine Straw'],
-  ['landscape-design-planting', 'Design & Planting'],
+  ['landscape-design-planting', 'Landscape Design & Planting'],
   ['leaf-removal', 'Leaf Removal'],
   ['christmas-light-installation', 'Christmas Light Installation'],
 ]
@@ -463,8 +463,8 @@ if (!homeHero) {
   ) {
     findings.push('/: homepage hero must be a clean finished image, not a before-and-after slider')
   }
-  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/finished-lawn-wide.jpg') {
-    findings.push('/: homepage hero visual must use only /assets/images/projects/finished-lawn-wide.jpg')
+  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/backyard-makeover-after-wide.jpg') {
+    findings.push('/: homepage hero visual must use only /assets/images/projects/backyard-makeover-after-wide.jpg')
   }
 }
 

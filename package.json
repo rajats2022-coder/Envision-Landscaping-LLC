@@ -12,10 +12,11 @@
     "links:google": "node scripts/check-google-links.mjs",
     "serve": "node serve.mjs",
     "audit": "node scripts/audit-site.mjs",
-    "test": "node scripts/test-concierge.mjs && node scripts/test-site.mjs",
+    "test": "node scripts/test-concierge.mjs && node scripts/test-lead-tracking.mjs && node scripts/test-site.mjs",
     "test:concierge": "node scripts/test-concierge.mjs",
     "screenshot": "node screenshot.mjs",
-    "screenshot:mobile": "node screenshot-mobile.mjs"
+    "screenshot:mobile": "node screenshot-mobile.mjs",
+    "test:tracking": "node scripts/test-lead-tracking.mjs"
   },
   "dependencies": {
     "maplibre-gl": "5.12.0"
