@@ -59,7 +59,7 @@ const expectedServices = [
   ['aeration-overseeding', 'Aeration & Overseeding'],
   ['spring-fall-cleanups', 'Spring & Fall Cleanups'],
   ['mulch-pine-straw', 'Mulch & Pine Straw'],
-  ['landscape-design-planting', 'Design & Planting'],
+  ['landscape-design-planting', 'Landscape Design & Planting'],
   ['leaf-removal', 'Leaf Removal'],
   ['christmas-light-installation', 'Christmas Light Installation'],
 ]
@@ -392,8 +392,8 @@ try {
   }
   const homeHeroVisual = findElementByClass(homeHero.html, 'home-hero-visual')
   const homeHeroImages = homeHeroVisual ? imageSources(homeHeroVisual.html) : []
-  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/finished-lawn-wide.jpg') {
-    throw new Error('Homepage hero visual must use only /assets/images/projects/finished-lawn-wide.jpg')
+  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/backyard-makeover-after-wide.jpg') {
+    throw new Error('Homepage hero visual must use only /assets/images/projects/backyard-makeover-after-wide.jpg')
   }
   assertions += 4
   if (!home.includes('meta name="google-site-verification" content="-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA"')) {

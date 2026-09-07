@@ -14,7 +14,8 @@ const jobberEmbedScript =
 const jobberFormUrl =
   'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108';
 const googleTagManagerId = 'GTM-TK4WJG52';
-const siteLastModified = '2026-08-26';
+// Fixed content revision date, never the clock time of a rebuild.
+const siteLastModified = '2026-09-07';
 const googleSiteVerification = '-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA';
 
 const business = {
@@ -509,7 +510,7 @@ const services = [
       'Spring and fall yard cleanup services in Raleigh, NC, including debris removal, trimming, and landscape-bed cleanup.',
     h1: 'Spring & Fall Cleanups in Raleigh, NC',
     intro:
-      'Leaves, branches, overgrowth, and tired beds can make a property feel unfinished. Envision clears the buildup and resets the landscape for the season ahead.',
+      'Get the yard ready for the next season with a cleanup scoped to your property. Envision can clear leaves and debris, tidy beds, and trim approved areas. Ask for a fall reset before winter or a spring cleanup before new planting and mulch.',
     includes: [
       'Leaf and debris clearing',
       'Bed and edge cleanup',
@@ -545,7 +546,7 @@ const services = [
       'Request a quote for leaf removal in the Raleigh area from Envision Landscaping. Property-specific leaf clearing and debris-removal scope.',
     h1: 'Leaf Removal in Raleigh, NC',
     intro:
-      'When fall leaves build up across lawns, beds, and hard surfaces, Envision can review the property and prepare a quote for the specific clearing and collection work needed.',
+      'Clear the fall buildup from the areas you use every day. Send photos of leaves across the lawn, beds, and walkways so Envision can quote the clearing, collection, and removal method for your property. If you also need trimming or bed cleanup, request a broader fall cleanup in the same estimate.',
     localContext: {
       title: 'Leaf removal for Raleigh-area properties',
       body:
@@ -587,7 +588,7 @@ const services = [
     seoTitle: 'Christmas Light Installation Raleigh, NC | Envision',
     h1: 'Christmas Light Installation in Raleigh, NC',
     intro:
-      'Plan the seasonal display around the property. Envision can review the areas you want illuminated and provide a quote for the approved installation scope and timing.',
+      'Bring your Christmas-light ideas to Envision Landscaping. Share property photos, the areas you would like illuminated, and your preferred installation dates. Each display is quoted individually after a property and access review, with the approved work and timing confirmed before scheduling.',
     localContext: {
       title: 'Christmas-light installation across the Triangle',
       body:
@@ -606,11 +607,11 @@ const services = [
       ],
       [
         'When should I request a Christmas-light quote?',
-        'Requesting a quote early gives Envision time to review the property and discuss preferred installation timing before the seasonal schedule fills.',
+        'Request a quote during fall planning so Envision can review the property and discuss your preferred installation window. Available dates are confirmed directly; sending a request does not reserve a date.',
       ],
       [
-        'Do you provide Christmas-light removal?',
-        'Removal can be discussed as part of the quote. Include that request and the preferred timing so it can be clearly scoped before scheduling.',
+        'Are lights, maintenance, removal, and storage included?',
+        'There is no standard package promised on this page. Ask who supplies and owns the lights, what in-season support is available, and whether removal or storage can be included. Only the written, approved quote defines what Envision will provide.',
       ],
     ],
   },
@@ -650,17 +651,17 @@ const services = [
   },
   {
     slug: 'landscape-design-planting',
-    title: 'Design & Planting',
-    navTitle: 'Design & Planting',
+    title: 'Landscape Design & Planting',
+    navTitle: 'Landscape Projects',
     image: projectImage('backyard-makeover-after-wide.jpg'),
     imageAlt: 'Finished backyard landscape and established lawn after a large property makeover',
     short:
-      'Practical landscape planning, plant selection, sod, and installation support.',
+      'Landscape planning, new plantings, sod installation, and bed refreshes shaped around your property.',
     meta:
-      'Landscape consultation, design, planting, and sod support for Raleigh-area outdoor projects.',
-    h1: 'Design & Planting in Raleigh, NC',
+      'Landscape design, planting and installation in Raleigh, NC. Plan new beds, tree and shrub planting, sod or a property refresh with Envision.',
+    h1: 'Landscape Design & Planting in Raleigh, NC',
     intro:
-      'Whether the goal is a cleaner front bed, new plantings, sod, or a larger yard refresh, Envision starts with the property and the outcome you have in mind.',
+      'Turn the parts of your yard that feel unfinished into a practical landscape project. Envision helps plan and install new plantings, refresh beds, and scope sod work around the existing property. Share what you want to change, photos of the area, and your preferred timing to start a project estimate.',
     includes: [
       'Landscape consultation and planning',
       'Tree and shrub planting',
@@ -683,6 +684,14 @@ const services = [
     ],
   },
 ];
+
+// Keep the established URLs; order the offering around project and seasonal intent.
+const servicePriority = [
+  'landscape-design-planting', 'spring-fall-cleanups', 'leaf-removal',
+  'christmas-light-installation', 'mulch-pine-straw', 'landscape-maintenance',
+  'aeration-overseeding', 'lawn-maintenance',
+];
+services.sort((a, b) => servicePriority.indexOf(a.slug) - servicePriority.indexOf(b.slug));
 
 const serviceProfiles = {
   'lawn-maintenance': {
@@ -1023,8 +1032,8 @@ const homepageFaqs = [
       'Envision serves Raleigh and surrounding Triangle communities, including Cary, Apex, Morrisville, Fuquay-Varina, Holly Springs, Durham, and Garner.',
   ],
   [
-    'What lawn and landscaping services are available?',
-    'Published services include lawn and landscape maintenance, aeration and overseeding, seasonal cleanups, leaf removal, mulch and pine straw, design and planting, and Christmas light installation by quote.',
+    'What landscaping and seasonal services are available?',
+    'Start with landscape design and planting, sod, mulch and pine straw, fall and spring cleanups, leaf removal, or Christmas light installation by quote. Lawn maintenance, landscape maintenance, and aeration and overseeding remain available.',
   ],
   [
     'How do I request an estimate?',
@@ -1387,7 +1396,7 @@ function siteFooter() {
       <div class="shell footer-grid">
         <div class="footer-brand">
           <img src="/assets/images/envision-logo.png" alt="${business.name}" width="240" height="140">
-          <p>Owner-led lawn and landscape care for Raleigh and surrounding Triangle communities.</p>
+          <p>Owner-led landscape projects and seasonal property care for Raleigh and surrounding Triangle communities.</p>
           <div class="social-row">
             <a href="${business.instagram}" target="_blank" rel="noopener" aria-label="Envision Landscaping on Instagram">${icons.instagram}</a>
             <a href="${business.facebook}" target="_blank" rel="noopener" aria-label="Envision Landscaping on Facebook">${icons.facebook}</a>
@@ -1497,8 +1506,8 @@ function pageShell({
   <main id="main-content">${body}</main>
   ${siteFooter()}
   <script src="/assets/vendor/maplibre-gl.js?v=5.12.0" defer></script>
-  <script src="/assets/site.js?v=20260826-1" defer></script>
-  <script type="module" src="/assets/concierge.js?v=20260807-3"></script>
+  <script type="module" src="/assets/site.js?v=20260907-1"></script>
+  <script type="module" src="/assets/concierge.js?v=20260907-1"></script>
 </body>
 </html>`;
 }
@@ -1563,9 +1572,9 @@ function trustRail() {
   </section>`;
 }
 
-function serviceGrid(limit = services.length, className = '') {
+function serviceGrid(limit = services.length, className = '', items = services) {
   return `<div class="service-grid${className ? ` ${className}` : ''}">
-    ${services
+    ${items
       .slice(0, limit)
       .map(
         (service, index) => `<a class="service-card reveal" style="--i:${index}" href="/services/${service.slug}">
@@ -2114,7 +2123,7 @@ function breadcrumb(items) {
 function homePage() {
   const hero = `<section class="home-hero home-hero-truck">
     <picture class="home-hero-visual">
-      <img class="home-hero-image" src="${projectImage('finished-lawn-wide.jpg')}" alt="Wide finished residential lawn maintained by Envision Landscaping" width="1800" height="1200" fetchpriority="high" decoding="async">
+      <img class="home-hero-image" src="${projectImage('backyard-makeover-after-wide.jpg')}" alt="Finished backyard landscape after an Envision property makeover" width="1800" height="1200" fetchpriority="high" decoding="async">
     </picture>
     <div class="home-hero-shade"></div>
     <div class="home-hero-brand" aria-label="Envision Landscaping project photo">
@@ -2123,13 +2132,13 @@ function homePage() {
     </div>
     <div class="shell home-hero-content">
       <div class="hero-rating reveal"><span class="stars">${icons.star.repeat(5)}</span><a href="${business.googleReviews}" target="_blank" rel="noopener">${business.rating} on Google</a></div>
-      <p class="eyebrow eyebrow-light reveal">Professional lawn &amp; landscape care</p>
-      <h1 class="liquid-title reveal" aria-label="Expert lawn and landscape care in Raleigh, North Carolina">
-        <span data-text="Expert lawn care">Expert lawn care</span>
-        <span data-text="&amp; landscaping in">&amp; landscaping in</span>
+      <p class="eyebrow eyebrow-light reveal">Landscape projects &amp; seasonal services</p>
+      <h1 class="liquid-title reveal" aria-label="Landscape projects in Raleigh, North Carolina">
+        <span data-text="Landscape">Landscape</span>
+        <span data-text="projects in">projects in</span>
         <span data-text="Raleigh, NC">Raleigh, NC</span>
       </h1>
-      <p class="hero-copy reveal">Owner-led lawn maintenance, seasonal cleanup, mulch, planting, and landscape care across Raleigh and the Triangle.</p>
+      <p class="hero-copy reveal">Owner-led landscape design, planting, and installation. Fall cleanups, leaf removal, and Christmas lighting across Raleigh and the Triangle.</p>
       <div class="hero-action-wrap reveal">
         <div class="button-row">
           <a class="button button-primary" href="/contact"><span>Request a free estimate</span><span class="button-icon">${icons.arrow}</span></a>
@@ -2140,18 +2149,29 @@ function homePage() {
     </div>
   </section>`;
 
+  const projectPaths = `<section class="section-pad" aria-labelledby="project-paths-title">
+    <div class="shell">
+      <div class="section-heading reveal"><p class="eyebrow">Start with your priority</p><h2 id="project-paths-title">What can we help you plan?</h2><p>Choose a project or seasonal service to see the scope and request an estimate.</p></div>
+      <div class="why-grid">
+        <article class="why-card reveal"><span>01</span><h3>Landscape Projects</h3><p>Design and planting, new beds, sod, and landscape refreshes.</p><a class="text-link" href="/services/landscape-design-planting">Plan a landscape project ${icons.arrow}</a></article>
+        <article class="why-card reveal"><span>02</span><h3>Fall Cleanups &amp; Leaf Removal</h3><p>Clear seasonal buildup and tidy the lawn, beds, and approved surfaces.</p><a class="text-link" href="/services/spring-fall-cleanups">Explore fall cleanups ${icons.arrow}</a><p><a class="text-link" href="/services/leaf-removal">Need leaf removal? ${icons.arrow}</a></p></article>
+        <article class="why-card reveal"><span>03</span><h3>Christmas Lighting</h3><p>Plan your display with a property-specific installation quote.</p><a class="text-link" href="/services/christmas-light-installation">Request Christmas lighting details ${icons.arrow}</a></article>
+      </div>
+    </div>
+  </section>`;
+
   const intro = `<section class="intro section-pad" id="why-envision" aria-labelledby="intro-title">
     <div class="shell intro-grid">
       <div class="intro-copy">
         <div class="section-heading">
           <p class="eyebrow">Owner-led in Raleigh</p>
-          <h2 id="intro-title">Exceptional landscape care, every visit.</h2>
+          <h2 id="intro-title">A landscape plan built around your property.</h2>
           <p>Envision Landscaping is led by Kyle Young and built around showing up, doing the work right, and treating every property with care.</p>
         </div>
         <div class="intro-points">
           <div><span>01</span><p>Clear scope before the work begins</p></div>
           <div><span>02</span><p>Detail-focused service from curb to bed line</p></div>
-          <div><span>03</span><p>Routine care and one-time projects</p></div>
+          <div><span>03</span><p>Planting, property refreshes, and seasonal projects</p></div>
         </div>
         <div class="intro-actions">
           <a class="button button-primary" href="/contact"><span>Get a free estimate</span><span class="button-icon">${icons.arrow}</span></a>
@@ -2168,17 +2188,17 @@ function homePage() {
   const serviceSection = `<section class="services home-services section-pad" id="services">
     <div class="shell home-services-intro">
       <div class="home-services-copy reveal">
-        <p class="eyebrow eyebrow-light">Full-service exterior care</p>
-        <h2>Professional lawn maintenance &amp; landscaping services in Raleigh, NC</h2>
+        <p class="eyebrow eyebrow-light">Landscape installation &amp; seasonal care</p>
+        <h2>Bring your next landscape project to life.</h2>
         <span class="lime-rule" aria-hidden="true"></span>
-        <p>Spend less time maintaining the property and more time enjoying it. Envision handles recurring lawn care, cleanups, mulch, planting, aeration, and seasonal projects across Raleigh and the Triangle.</p>
+        <p>Plan new planting beds, refresh an established landscape, or prepare your property for the season. Start with design and planting, fall cleanup and leaf removal, or a Christmas-light quote. Lawn and landscape maintenance remain available by agreed scope.</p>
         <div class="button-row">
           <a class="button button-primary" href="/contact"><span>Request a free estimate</span>${icons.arrow}</a>
           <a class="button button-ghost-light" href="/services"><span>Explore all services</span>${icons.arrow}</a>
         </div>
       </div>
       <div class="home-services-truck reveal">
-        <img src="${projectImage('lawn-crew-stripes.jpg')}" alt="Envision lawn maintenance in progress with fresh mowing stripes" loading="lazy" width="1200" height="900">
+        <img src="${projectImage('mulch-curved-bed.jpg')}" alt="Fresh mulch and a defined curved landscape bed installed by Envision" loading="lazy" width="1200" height="900">
       </div>
     </div>
     <div class="shell">${serviceGrid(services.length, 'home-service-grid')}</div>
@@ -2192,7 +2212,7 @@ function homePage() {
 
   const why = `<section class="why section-pad">
     <div class="shell">
-      ${sectionHeading('Why Envision', 'Reliable work is more than a clean cut.', 'Customers consistently point to responsiveness, fair estimates, professionalism, and finished results.')}
+      ${sectionHeading('Why Envision', 'A clear plan. A carefully finished property.', 'Customers consistently point to responsiveness, fair estimates, professionalism, and finished results.')}
       <div class="why-grid">
         ${[
           ['01', 'Show up and communicate', 'Know what is scheduled, what the estimate covers, and how to reach the team.'],
@@ -2213,8 +2233,8 @@ function homePage() {
     <img src="${projectImage('backyard-makeover-after-wide.jpg')}" alt="Established backyard lawn after an Envision property makeover" loading="lazy" width="1800" height="1350">
     <div class="transformation-shade"></div>
     <div class="shell transformation-content reveal">
-      <p class="eyebrow eyebrow-light">Ready for a cleaner property?</p>
-      <h2>Let Envision handle the outside work.</h2>
+      <p class="eyebrow eyebrow-light">What would you change about your landscape?</p>
+      <h2>Start planning your property refresh.</h2>
       <p>Start with a call or send the property details through the estimate form.</p>
       ${buttonPair('Request my estimate')}
     </div>
@@ -2222,14 +2242,15 @@ function homePage() {
 
   return pageShell({
     path: 'index',
-    title: 'Raleigh Lawn Care & Landscaping | Envision Landscaping LLC',
+    title: 'Landscape Projects & Seasonal Services Raleigh | Envision',
     description:
-      'Owner-led lawn maintenance, seasonal cleanup, mulch, landscape care, and outdoor projects across Raleigh and the Triangle.',
-    image: projectImage('finished-lawn-wide.jpg'),
+      'Landscape design, planting and installation in Raleigh and the Triangle. Request a quote for fall cleanups, leaf removal or Christmas light installation.',
+    image: projectImage('backyard-makeover-after-wide.jpg'),
     schemas: [localBusinessSchema(), faqSchema(homepageFaqs)],
     body:
       hero +
       trustRail() +
+      projectPaths +
       intro +
       serviceSection +
       consultation +
@@ -2251,18 +2272,18 @@ function homePage() {
 function servicesPage() {
   return pageShell({
     path: 'services',
-    title: 'Lawn & Landscaping Services in Raleigh | Envision',
+    title: 'Landscaping & Seasonal Services in Raleigh | Envision',
     description:
-      'Explore lawn maintenance, aeration and overseeding, cleanups, mulch, planting, and landscape-care services from Envision.',
+      'Explore landscape design, planting, mulch, fall cleanups, leaf removal and Christmas lighting, plus ongoing property care from Envision.',
     body:
       innerHero({
         eyebrow: 'Services',
         title: 'The work your property needs, in one place.',
-        copy: 'Routine care, seasonal resets, planting, and larger outdoor projects for Raleigh-area properties.',
+        copy: 'Landscape projects, planting and seasonal resets for Raleigh-area properties, with ongoing care available.',
         image: '/assets/images/landscape-maintenance.jpg',
       }) +
       breadcrumb([['Services']]) +
-      `<section class="services-page section-pad"><div class="shell">${sectionHeading('Lawn, landscape & exterior care', 'Choose the service closest to your project.', 'If the work crosses categories, include everything in one estimate request.')}${serviceGrid()}</div></section>` +
+      `<section class="services-page section-pad"><div class="shell">${sectionHeading('Landscape projects & seasonal services', 'Choose the service closest to your project.', 'If the work crosses categories, include everything in one estimate request.')}${serviceGrid()}</div></section>` +
       processSection('A straightforward way to get the work scheduled') +
       faqSection(homepageFaqs, 'Need help choosing a service?') +
       contactSection(),
@@ -2500,7 +2521,7 @@ function servicePage(service) {
       serviceProcessSection(service) +
       serviceLocalContextSection(service) +
       neighborhoodCoverageSection(areas[0], { service, compact: true }) +
-      `<section class="related-services section-pad"><div class="shell">${sectionHeading('Keep planning', 'Related property services')}${serviceGrid(4)}</div></section>` +
+      `<section class="related-services section-pad"><div class="shell">${sectionHeading('Keep planning', 'Related property services')}${serviceGrid(4, '', services.filter((related) => related.slug !== service.slug))}</div></section>` +
       (localizedAreas.length
         ? `<section class="service-area-links section-pad"><div class="shell service-area-links-grid">
         ${sectionHeading('Where Envision works', `${service.title} across Raleigh &amp; the Triangle`, 'Choose the closest listed community, then confirm the exact property and project when requesting an estimate.')}
