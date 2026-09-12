@@ -37,6 +37,29 @@ Do not send a fake production lead during routine verification. After deployment
 
 `npm run build` generates a clean `public/` deployment bundle for Vercel. The repository also includes `vercel.json`, `robots.txt`, `sitemap.xml`, canonical URLs, JSON-LD, and a custom 404 page. Connect the repository to the approved Envision Vercel/domain account before production publication.
 
+## September 12 redirect repair — release gate
+
+The source configuration redirects only `www.envisionlandscapingllc.com` to
+the same path on the canonical HTTPS apex. The legacy holiday-lighting URL now
+targets the existing Christmas Light Installation page. No new routes or
+business claims are introduced. Existing city hubs now surface the two existing
+seasonal service pages, with property-fit confirmation and no new city routes.
+At the owner's request relayed by Rajat, the homepage hero now uses the existing
+`landscape-lawn-after.jpg` project-gallery image; headline and layout are retained.
+
+This configuration alone does not repair the currently missing www DNS record.
+Before an owner-approved production release, verify the exact hosting project,
+attach/verify the www domain if needed, and use the DNS value supplied by that
+project. Do not change unrelated domain records. DNS and hosting changes require
+separate approval, and must include certificate verification.
+
+After deployment, verify www homepage and deep paths (including query strings)
+reach their corresponding HTTPS apex URLs permanently, apex pages still return
+200, and the holiday-lighting path reaches the Christmas page. The local static
+server does not implement Vercel's redirect engine; `npm run test:redirects`
+checks configuration and destination integrity only. Roll back the focused
+commit through the normal main-branch release process if routing regresses.
+
 ## Content guardrails
 
 Published copy is limited to the services, service areas, offers, contact details, public reviews, and business facts verified during the July 24 and August 7, 2026 audits. Do not add claims about licensing, insurance, awards, warranties, years in business, or project counts without client confirmation.

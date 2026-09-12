@@ -2123,7 +2123,7 @@ function breadcrumb(items) {
 function homePage() {
   const hero = `<section class="home-hero home-hero-truck">
     <picture class="home-hero-visual">
-      <img class="home-hero-image" src="${projectImage('backyard-makeover-after-wide.jpg')}" alt="Finished backyard landscape after an Envision property makeover" width="1800" height="1200" fetchpriority="high" decoding="async">
+      <img class="home-hero-image" src="${projectImage('landscape-lawn-after.jpg')}" alt="Finished residential lawn and trimmed landscape beds from Envision’s project gallery" width="1800" height="1350" fetchpriority="high" decoding="async">
     </picture>
     <div class="home-hero-shade"></div>
     <div class="home-hero-brand" aria-label="Envision Landscaping project photo">
@@ -2728,6 +2728,13 @@ function areaPage(area) {
           )
           .join('')}
       </div></div></section>` +
+      `<section id="seasonal-service-options" class="service-overview section-pad"><div class="shell service-overview-grid">
+        <div>${sectionHeading('Seasonal projects', 'Planning leaf removal or Christmas lights?', 'Explore the existing service details, then share your property location, photos, and preferred timing so Envision can confirm project fit and quote the work.')}</div>
+        <div class="service-scope-panel reveal"><ul class="check-list">
+          <li>${icons.check}<a class="text-link" href="/services/leaf-removal">Explore leaf removal ${icons.arrow}</a></li>
+          <li>${icons.check}<a class="text-link" href="/services/christmas-light-installation">Explore Christmas light installation ${icons.arrow}</a></li>
+        </ul></div>
+      </div></section>` +
       `<section class="service-overview section-pad"><div class="shell service-overview-grid">
         <div>${sectionHeading(`Planning a ${area.name} estimate`, area.planning.title, area.planning.body)}</div>
         <div class="service-scope-panel reveal"><ol class="check-list">

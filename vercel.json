@@ -3,6 +3,12 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.envisionlandscapingllc.com" }],
+      "destination": "https://envisionlandscapingllc.com/:path*",
+      "permanent": true
+    },
     { "source": "/service-areas/raleigh-nc", "destination": "/service-areas#raleigh-nc", "permanent": true },
     { "source": "/service-areas/holland-nc", "destination": "/service-areas", "permanent": true },
     { "source": "/service-areas/chapel-hill-nc", "destination": "/service-areas", "permanent": true },
@@ -15,7 +21,7 @@
     { "source": "/services/commercial-lawn-care-services", "destination": "/services", "permanent": true },
     { "source": "/services/commercial-lawn-care", "destination": "/services", "permanent": true },
     { "source": "/services/hardscaping-pavers", "destination": "/services", "permanent": true },
-    { "source": "/services/holiday-lighting", "destination": "/services", "permanent": true },
+    { "source": "/services/holiday-lighting", "destination": "/services/christmas-light-installation", "permanent": true },
     { "source": "/services/landscaping-consultationdesign", "destination": "/services/landscape-design-planting", "permanent": true },
     { "source": "/services/residential-lawn-care-services", "destination": "/services/lawn-maintenance", "permanent": true },
     { "source": "/projects/lawn-care-and-maintenance-project", "destination": "/gallery", "permanent": true }

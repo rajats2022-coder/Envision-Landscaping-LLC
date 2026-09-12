@@ -324,6 +324,19 @@ try {
   for (const [areaSlug, areaName] of expectedAreas) {
     const pathname = areaSlug === 'raleigh-nc' ? '/' : `/service-areas/${areaSlug}`
     const html = pageHtml.get(pathname) || ''
+    if (areaSlug !== 'raleigh-nc') {
+      const seasonalSection = html.match(/<section id="seasonal-service-options"[\s\S]*?<\/section>/)?.[0]
+      if (!seasonalSection) throw new Error(`${pathname} is missing seasonal service navigation`)
+      for (const slug of ['leaf-removal', 'christmas-light-installation']) {
+        if (!seasonalSection.includes(`href="/services/${slug}"`)) {
+          throw new Error(`${pathname} must link to the existing ${slug} page`)
+        }
+        if (html.includes(`href="/services/${slug}/${areaSlug}"`)) {
+          throw new Error(`${pathname} must not invent a seasonal service-city route`)
+        }
+      }
+      assertions += 5
+    }
     const neighborhoodSection = findElementByClass(html, 'neighborhood-coverage')
     if (!neighborhoodSection) throw new Error(`${pathname} is missing neighborhood coverage`)
     for (const neighborhood of expectedNeighborhoods[areaSlug]) {
@@ -392,8 +405,8 @@ try {
   }
   const homeHeroVisual = findElementByClass(homeHero.html, 'home-hero-visual')
   const homeHeroImages = homeHeroVisual ? imageSources(homeHeroVisual.html) : []
-  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/backyard-makeover-after-wide.jpg') {
-    throw new Error('Homepage hero visual must use only /assets/images/projects/backyard-makeover-after-wide.jpg')
+  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/landscape-lawn-after.jpg') {
+    throw new Error('Homepage hero visual must use only /assets/images/projects/landscape-lawn-after.jpg')
   }
   assertions += 4
   if (!home.includes('meta name="google-site-verification" content="-LK9I0YqBf9eNzXHW7bNKepdZbfF2hQ2-NrThUllYmA"')) {
