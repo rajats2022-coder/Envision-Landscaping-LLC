@@ -463,8 +463,8 @@ if (!homeHero) {
   ) {
     findings.push('/: homepage hero must be a clean finished image, not a before-and-after slider')
   }
-  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/backyard-makeover-after-wide.jpg') {
-    findings.push('/: homepage hero visual must use only /assets/images/projects/backyard-makeover-after-wide.jpg')
+  if (homeHeroImages.length !== 1 || homeHeroImages[0] !== '/assets/images/projects/landscape-lawn-after.jpg') {
+    findings.push('/: homepage hero visual must use only /assets/images/projects/landscape-lawn-after.jpg')
   }
 }
 
@@ -490,7 +490,7 @@ for (const [source, destination] of [
   ['/services/commercial-lawn-care-services', '/services'],
   ['/services/commercial-lawn-care', '/services'],
   ['/services/hardscaping-pavers', '/services'],
-  ['/services/holiday-lighting', '/services'],
+  ['/services/holiday-lighting', '/services/christmas-light-installation'],
   ['/services/landscaping-consultationdesign', '/services/landscape-design-planting'],
   ['/services/residential-lawn-care-services', '/services/lawn-maintenance'],
   ['/projects/lawn-care-and-maintenance-project', '/gallery'],
