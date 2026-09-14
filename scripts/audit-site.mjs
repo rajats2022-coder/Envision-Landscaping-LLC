@@ -467,6 +467,8 @@ for (const required of [
   'assets/styles.css',
   'assets/vendor/maplibre-gl.css',
   'assets/vendor/maplibre-gl.mjs',
+  'assets/vendor/maplibre-gl-shared.mjs',
+  'assets/vendor/maplibre-gl-worker.mjs',
   'favicon.svg',
   'robots.txt',
   'sitemap.xml',

@@ -2930,6 +2930,14 @@ await copyFile(
   join(root, 'assets/vendor/maplibre-gl.mjs'),
 );
 await copyFile(
+  join(root, 'node_modules/maplibre-gl/dist/maplibre-gl-shared.mjs'),
+  join(root, 'assets/vendor/maplibre-gl-shared.mjs'),
+);
+await copyFile(
+  join(root, 'node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs'),
+  join(root, 'assets/vendor/maplibre-gl-worker.mjs'),
+);
+await copyFile(
   join(root, 'node_modules/maplibre-gl/dist/maplibre-gl.css'),
   join(root, 'assets/vendor/maplibre-gl.css'),
 );
