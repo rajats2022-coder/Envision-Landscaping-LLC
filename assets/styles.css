@@ -3198,6 +3198,99 @@ p {
   min-width: 0;
 }
 
+.native-estimate-form,
+.native-estimate-form label,
+.reply-permissions,
+.permission-choice {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.native-estimate-form {
+  gap: var(--space-5);
+}
+
+.native-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.native-estimate-form label,
+.reply-permissions legend {
+  color: var(--evergreen-950);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.native-estimate-form input,
+.native-estimate-form select,
+.native-estimate-form textarea {
+  width: 100%;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgb(8 20 15 / 0.2);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--evergreen-950);
+  font: inherit;
+}
+
+.native-estimate-form input:focus,
+.native-estimate-form select:focus,
+.native-estimate-form textarea:focus {
+  border-color: var(--forest-700);
+  outline: 3px solid rgb(31 91 58 / 0.16);
+}
+
+.reply-permissions {
+  margin: 0;
+  padding: var(--space-5);
+  border: 1px solid rgb(8 20 15 / 0.12);
+  border-radius: var(--radius-md);
+  background: rgb(255 255 255 / 0.7);
+}
+
+.permission-choice {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  font-size: var(--text-xs) !important;
+  font-weight: 600 !important;
+  line-height: 1.55;
+}
+
+.permission-choice input {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.2rem;
+}
+
+.native-form-honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.native-form-submit {
+  justify-self: start;
+}
+
+.native-form-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.estimate-form-status {
+  min-height: 1.5em;
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.estimate-form-status.error { color: #9f1d1d; }
+.estimate-form-status.success { color: var(--forest-700); }
+
 .jobber-request-shell .jobber-inline-work-request {
   width: 100%;
 }
@@ -3218,6 +3311,10 @@ p {
 }
 
 @media (max-width: 720px) {
+  .native-form-row {
+    grid-template-columns: 1fr;
+  }
+
   .jobber-request-shell iframe.jobber-work-request {
     min-height: 56rem !important;
   }

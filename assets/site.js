@@ -1,4 +1,5 @@
 import { initLeadTracking } from './lead-tracking.js'
+import * as maplibregl from './vendor/maplibre-gl.mjs'
 
 document.documentElement.classList.add('has-js')
 
@@ -252,13 +253,13 @@ selectAll('[data-area-map]').forEach((map) => {
 
   if (signals[0]) activateArea(signals[0])
 
-  if (!mapCanvas || !window.maplibregl) {
+  if (!mapCanvas || !maplibregl.Map) {
     if (loadState) loadState.textContent = 'Live map unavailable — use the city list'
     return
   }
 
   try {
-    serviceMap = new window.maplibregl.Map({
+    serviceMap = new maplibregl.Map({
       container: mapCanvas,
       style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
       center: [-78.82, 35.79],
@@ -271,11 +272,11 @@ selectAll('[data-area-map]').forEach((map) => {
     })
 
     serviceMap.addControl(
-      new window.maplibregl.AttributionControl({ compact: true }),
+      new maplibregl.AttributionControl({ compact: true }),
       'bottom-right'
     )
     serviceMap.addControl(
-      new window.maplibregl.NavigationControl({
+      new maplibregl.NavigationControl({
         showCompass: true,
         showZoom: true,
         visualizePitch: false,
@@ -329,12 +330,12 @@ selectAll('[data-area-map]').forEach((map) => {
       serviceMap.addControl(new LocateControl(), 'top-right')
     }
     serviceMap.addControl(
-      new window.maplibregl.FullscreenControl({ container: map }),
+      new maplibregl.FullscreenControl({ container: map }),
       'top-right'
     )
 
     signals.forEach((signal) => {
-      new window.maplibregl.Marker({
+      new maplibregl.Marker({
         element: signal,
         anchor: 'center',
       })
@@ -349,7 +350,7 @@ selectAll('[data-area-map]').forEach((map) => {
     radar.className = 'service-radar-anchor'
     radar.setAttribute('aria-hidden', 'true')
     radar.innerHTML = '<span></span><span></span>'
-    new window.maplibregl.Marker({
+    new maplibregl.Marker({
       element: radar,
       anchor: 'center',
     })
