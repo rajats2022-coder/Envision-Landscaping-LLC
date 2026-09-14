@@ -208,28 +208,20 @@ try {
     if (html.toLowerCase().includes('formspree')) {
       throw new Error(`${pathname} still references Formspree`)
     }
-    if (!html.includes(`href="${jobberEmbedCss}"`)) {
-      throw new Error(`${pathname} is missing the Jobber embed stylesheet`)
+    const nativeFormCount = (html.match(/id="envision-estimate-form"/g) || []).length
+    const expectsRequestForm = !['/privacy', '/terms'].includes(pathname)
+    if (nativeFormCount !== (expectsRequestForm ? 1 : 0)) {
+      throw new Error(`${pathname} has ${nativeFormCount} native estimate forms; expected ${expectsRequestForm ? 1 : 0}`)
     }
-
-    const jobberShellCount = (html.match(/data-jobber-request/g) || []).length
-    const expectsJobber = !['/privacy', '/terms'].includes(pathname)
-    if (jobberShellCount !== (expectsJobber ? 1 : 0)) {
-      throw new Error(`${pathname} has ${jobberShellCount} Jobber embeds; expected ${expectsJobber ? 1 : 0}`)
-    }
-    if (jobberShellCount) {
-      if ((html.match(new RegExp(`<div id="${jobberEmbedId}"`, 'g')) || []).length !== 1) {
-        throw new Error(`${pathname} Jobber mount ID is missing or duplicated`)
-      }
-      if (
-        !html.includes(
-          `<script src="${jobberEmbedScript}" clienthub_id="${jobberEmbedId}" form_url="${jobberFormUrl}"></script>`,
-        )
-      ) {
-        throw new Error(`${pathname} Jobber embed has the wrong script, account, or form URL`)
+    if (nativeFormCount) {
+      if (!html.includes('src="/assets/native-estimate-form.mjs')) {
+        throw new Error(`${pathname} is missing the native estimate form module`)
       }
       if (!html.includes(`href="${jobberFormUrl}"`)) {
         throw new Error(`${pathname} is missing the direct Jobber fallback link`)
+      }
+      if (!html.includes('name="emailServiceConsent"') || !html.includes('name="smsServiceConsent"')) {
+        throw new Error(`${pathname} is missing independent service-reply permissions`)
       }
     }
     assertions += 5
@@ -378,7 +370,7 @@ try {
     '/assets/site.js',
     '/assets/concierge.js',
     '/assets/vendor/maplibre-gl.css',
-    '/assets/vendor/maplibre-gl.js',
+    '/assets/vendor/maplibre-gl.mjs',
     '/assets/images/hero-home.jpg',
   ]) {
     const response = await fetch(`${baseUrl}${asset}`)
