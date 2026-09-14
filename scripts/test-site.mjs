@@ -371,6 +371,8 @@ try {
     '/assets/concierge.js',
     '/assets/vendor/maplibre-gl.css',
     '/assets/vendor/maplibre-gl.mjs',
+    '/assets/vendor/maplibre-gl-shared.mjs',
+    '/assets/vendor/maplibre-gl-worker.mjs',
     '/assets/images/hero-home.jpg',
   ]) {
     const response = await fetch(`${baseUrl}${asset}`)
