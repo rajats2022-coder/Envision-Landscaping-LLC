@@ -211,8 +211,8 @@ try {
       if (!html.includes('src="/assets/native-estimate-form.mjs')) {
         throw new Error(`${pathname} is missing the native estimate form module`)
       }
-      if (!html.includes('name="emailServiceConsent"') || !html.includes('name="smsServiceConsent"')) {
-        throw new Error(`${pathname} is missing independent service-reply permissions`)
+      if (!html.includes('name="emailServiceConsent"') || html.includes('name="smsServiceConsent"')) {
+        throw new Error(`${pathname} has unexpected service-reply permissions`)
       }
     }
     assertions += 5

@@ -52,7 +52,6 @@ async function initialize() {
   const status = document.getElementById("estimate-form-status");
   const permissions = document.getElementById("reply-permissions");
   const emailDisclosure = document.getElementById("email-disclosure");
-  const smsDisclosure = document.getElementById("sms-disclosure");
   const challenge = document.getElementById("turnstile-challenge");
   const service = new URLSearchParams(location.search).get("service") || "";
   const serviceSelect = document.getElementById("estimate-service");
@@ -75,9 +74,8 @@ async function initialize() {
     const response = await fetch("/api/leads", { headers: { Accept: "application/json" }, cache: "no-store", redirect: "error", signal: AbortSignal.timeout(8000) });
     if (!response.ok) throw new Error("configuration_unavailable");
     configuration = await response.json();
-    if (configuration.consentCaptureEnabled !== true || !FORM_KEY_PATTERN.test(configuration.formKey || "") || !SITE_KEY_PATTERN.test(configuration.siteKey || "") || !clean(configuration.emailServiceDisclosure) || !clean(configuration.smsServiceDisclosure)) throw new Error("configuration_unavailable");
+    if (configuration.consentCaptureEnabled !== true || !FORM_KEY_PATTERN.test(configuration.formKey || "") || !SITE_KEY_PATTERN.test(configuration.siteKey || "") || !clean(configuration.emailServiceDisclosure)) throw new Error("configuration_unavailable");
     emailDisclosure.textContent = configuration.emailServiceDisclosure;
-    smsDisclosure.textContent = configuration.smsServiceDisclosure;
     permissions.hidden = false;
   } catch {
     unavailable();
@@ -137,9 +135,6 @@ async function initialize() {
     let payload;
     try {
       const phone = normalizePhoneE164(data.get("phone"));
-      if (data.get("smsServiceConsent") === "on" && !phone) {
-        throw new TypeError("Enter a phone number to receive text updates.");
-      }
       payload = {
         firstName: clean(data.get("firstName")),
         lastName: clean(data.get("lastName")),
@@ -147,7 +142,7 @@ async function initialize() {
         phone,
         message: buildEstimateSummary({ service: data.get("service"), propertyLocation: data.get("propertyLocation"), timing: data.get("timing"), details: data.get("details"), sourcePage: data.get("sourcePage") }),
         emailServiceConsent: data.get("emailServiceConsent") === "on",
-        smsServiceConsent: data.get("smsServiceConsent") === "on",
+        smsServiceConsent: false,
         turnstileToken: captchaToken,
         idempotencyKey,
         website: clean(data.get("website")),

@@ -2081,7 +2081,6 @@ function nativeEstimateForm() {
     <fieldset id="reply-permissions" class="reply-permissions" hidden>
       <legend>Optional updates about this request</legend>
       <label class="permission-choice"><input name="emailServiceConsent" type="checkbox"><span id="email-disclosure"></span></label>
-      <label class="permission-choice"><input name="smsServiceConsent" type="checkbox"><span id="sms-disclosure"></span></label>
     </fieldset>
     <div id="turnstile-challenge" class="turnstile-challenge" aria-label="Security check"></div>
     <button class="button button-primary native-form-submit" type="submit" disabled><span>Send Estimate Request</span><span class="button-icon">${icons.arrow}</span></button>

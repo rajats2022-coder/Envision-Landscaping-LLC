@@ -266,8 +266,8 @@ for (const pathname of urls) {
     if (!html.includes('src="/assets/native-estimate-form.mjs')) {
       findings.push(`${pathname}: native estimate form module is missing`)
     }
-    if (!html.includes('name="emailServiceConsent"') || !html.includes('name="smsServiceConsent"')) {
-      findings.push(`${pathname}: independent service-reply permissions are missing`)
+    if (!html.includes('name="emailServiceConsent"') || html.includes('name="smsServiceConsent"')) {
+      findings.push(`${pathname}: service-reply permissions do not match the deferred SMS scope`)
     }
   }
 
