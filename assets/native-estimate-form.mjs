@@ -74,7 +74,7 @@ async function initialize() {
     const response = await fetch("/api/leads", { headers: { Accept: "application/json" }, cache: "no-store", redirect: "error", signal: AbortSignal.timeout(8000) });
     if (!response.ok) throw new Error("configuration_unavailable");
     configuration = await response.json();
-    if (configuration.consentCaptureEnabled !== true || !FORM_KEY_PATTERN.test(configuration.formKey || "") || !SITE_KEY_PATTERN.test(configuration.siteKey || "") || !clean(configuration.emailServiceDisclosure) || !clean(configuration.smsServiceDisclosure)) throw new Error("configuration_unavailable");
+    if (configuration.consentCaptureEnabled !== true || !FORM_KEY_PATTERN.test(configuration.formKey || "") || !SITE_KEY_PATTERN.test(configuration.siteKey || "") || !clean(configuration.emailServiceDisclosure)) throw new Error("configuration_unavailable");
     emailDisclosure.textContent = configuration.emailServiceDisclosure;
     permissions.hidden = false;
   } catch {
