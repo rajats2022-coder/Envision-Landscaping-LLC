@@ -65,7 +65,7 @@ async function initialize() {
   let pendingFingerprint = "";
   let idempotencyKey = "";
 
-  function unavailable(message = "Online requests are temporarily unavailable. Please call (984) 338-6483 or use the secure Jobber form below.") {
+  function unavailable(message = "Online requests are temporarily unavailable. Please call (984) 338-6483 or email Kyle@envisionlandscapingllc.com.") {
     submit.disabled = true;
     status.textContent = message;
     status.className = "estimate-form-status error";

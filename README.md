@@ -29,9 +29,9 @@ npm run screenshot:mobile
 
 ## Lead path
 
-The shared estimate section uses Envision's direct Jobber work-request embed. Submissions enter Kyle's Jobber request queue instead of passing through a separate website form service. Every embed includes a direct Jobber form link as a fallback if the inline form is blocked or unavailable.
+The shared estimate section uses Envision's native website form. Its browser module requests the enabled form configuration from `/api/leads`, verifies the visitor with Turnstile, and sends the submission to the S4 Command Center's tenant-bound `/api/forms/[formKey]` endpoint. The Command Center owns the lead, opportunity, and follow-up task in Envision's private CRM.
 
-Do not send a fake production lead during routine verification. After deployment, confirm delivery with one owner-approved test submission and verify that it appears in Jobber Requests.
+Do not send a fake production lead during routine verification. After approved deployment, check the exact live page, then use an owner-approved, clearly labeled test request to verify the Envision CRM record and Kyle's portal view. When the form is unavailable, the site asks visitors to call or email Envision; it does not open another lead system.
 
 ## Deployment
 
