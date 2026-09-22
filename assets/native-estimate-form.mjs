@@ -52,7 +52,6 @@ async function initialize() {
   const status = document.getElementById("estimate-form-status");
   const permissions = document.getElementById("reply-permissions");
   const emailDisclosure = document.getElementById("email-disclosure");
-  const smsDisclosure = document.getElementById("sms-disclosure");
   const challenge = document.getElementById("turnstile-challenge");
   const service = new URLSearchParams(location.search).get("service") || "";
   const serviceSelect = document.getElementById("estimate-service");
@@ -65,7 +64,7 @@ async function initialize() {
   let pendingFingerprint = "";
   let idempotencyKey = "";
 
-  function unavailable(message = "Online requests are temporarily unavailable. Please call (984) 338-6483 or use the secure Jobber form below.") {
+  function unavailable(message = "Online requests are temporarily unavailable. Please call (984) 338-6483 or email Kyle@envisionlandscapingllc.com.") {
     submit.disabled = true;
     status.textContent = message;
     status.className = "estimate-form-status error";
@@ -77,7 +76,6 @@ async function initialize() {
     configuration = await response.json();
     if (configuration.consentCaptureEnabled !== true || !FORM_KEY_PATTERN.test(configuration.formKey || "") || !SITE_KEY_PATTERN.test(configuration.siteKey || "") || !clean(configuration.emailServiceDisclosure) || !clean(configuration.smsServiceDisclosure)) throw new Error("configuration_unavailable");
     emailDisclosure.textContent = configuration.emailServiceDisclosure;
-    smsDisclosure.textContent = configuration.smsServiceDisclosure;
     permissions.hidden = false;
   } catch {
     unavailable();
@@ -137,9 +135,6 @@ async function initialize() {
     let payload;
     try {
       const phone = normalizePhoneE164(data.get("phone"));
-      if (data.get("smsServiceConsent") === "on" && !phone) {
-        throw new TypeError("Enter a phone number to receive text updates.");
-      }
       payload = {
         firstName: clean(data.get("firstName")),
         lastName: clean(data.get("lastName")),

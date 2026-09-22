@@ -21,8 +21,8 @@ const builder = await readFile(new URL('./build-pages.mjs', import.meta.url), 'u
 assert.match(builder, /id="envision-estimate-form"/)
 assert.match(builder, /id="turnstile-challenge"/)
 assert.match(builder, /emailServiceConsent/)
-assert.match(builder, /smsServiceConsent/)
-assert.match(builder, /Open Envision’s secure Jobber request form/)
+assert.match(builder, /name="smsServiceConsent" type="hidden" value="false"/)
+assert.doesNotMatch(builder, /clienthub\.getjobber\.com/)
 
 const endpoint = await readFile(new URL('../api/leads.js', import.meta.url), 'utf8')
 assert.match(endpoint, /envisionlandscapingllc\.com/)

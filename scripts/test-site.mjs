@@ -6,12 +6,6 @@ import { fileURLToPath } from 'node:url'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const port = 3197
 const baseUrl = `http://127.0.0.1:${port}`
-const jobberEmbedId = '152dfe43-b7b8-4665-b208-c0f34dac1803-2057108'
-const jobberEmbedCss = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css'
-const jobberEmbedScript =
-  'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js'
-const jobberFormUrl =
-  'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108'
 const googleTagManagerId = 'GTM-TK4WJG52'
 const server = spawn(process.execPath, ['serve.mjs'], {
   cwd: root,
@@ -205,9 +199,6 @@ try {
     }
     assertions += 10
 
-    if (html.toLowerCase().includes('formspree')) {
-      throw new Error(`${pathname} still references Formspree`)
-    }
     const nativeFormCount = (html.match(/id="envision-estimate-form"/g) || []).length
     const expectsRequestForm = !['/privacy', '/terms'].includes(pathname)
     if (nativeFormCount !== (expectsRequestForm ? 1 : 0)) {
@@ -217,11 +208,11 @@ try {
       if (!html.includes('src="/assets/native-estimate-form.mjs')) {
         throw new Error(`${pathname} is missing the native estimate form module`)
       }
-      if (!html.includes(`href="${jobberFormUrl}"`)) {
-        throw new Error(`${pathname} is missing the direct Jobber fallback link`)
+      if (!html.includes('name="emailServiceConsent"') || !html.includes('name="smsServiceConsent" type="hidden" value="false"')) {
+        throw new Error(`${pathname} does not retain email-only service reply permissions`)
       }
-      if (!html.includes('name="emailServiceConsent"') || !html.includes('name="smsServiceConsent"')) {
-        throw new Error(`${pathname} is missing independent service-reply permissions`)
+      if (html.includes('clienthub.getjobber.com')) {
+        throw new Error(`${pathname} still contains a Jobber lead path`)
       }
     }
     assertions += 5

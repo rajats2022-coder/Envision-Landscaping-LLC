@@ -3194,10 +3194,6 @@ p {
   font-size: var(--text-2xl);
 }
 
-.jobber-request-shell {
-  min-width: 0;
-}
-
 .native-estimate-form,
 .native-estimate-form label,
 .reply-permissions,
@@ -3291,44 +3287,9 @@ p {
 .estimate-form-status.error { color: #9f1d1d; }
 .estimate-form-status.success { color: var(--forest-700); }
 
-.jobber-request-shell .jobber-inline-work-request {
-  width: 100%;
-}
-
-.jobber-request-fallback {
-  margin: var(--space-5) 0 0;
-  color: var(--color-text-muted);
-  font-size: var(--text-xs);
-  line-height: 1.55;
-}
-
-.jobber-request-fallback a {
-  color: var(--forest-700);
-  font-weight: 800;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-}
-
 @media (max-width: 720px) {
   .native-form-row {
     grid-template-columns: 1fr;
-  }
-
-  .jobber-request-shell iframe.jobber-work-request {
-    min-height: 56rem !important;
-  }
-}
-
-@media (max-width: 390px) {
-  .jobber-request-shell iframe.jobber-work-request {
-    min-height: 58rem !important;
-  }
-}
-
-@media (max-width: 350px) {
-  .jobber-request-shell iframe.jobber-work-request {
-    min-height: 62rem !important;
   }
 }
 

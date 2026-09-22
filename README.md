@@ -29,9 +29,9 @@ npm run screenshot:mobile
 
 ## Lead path
 
-The shared estimate section uses Envision's direct Jobber work-request embed. Submissions enter Kyle's Jobber request queue instead of passing through a separate website form service. Every embed includes a direct Jobber form link as a fallback if the inline form is blocked or unavailable.
+The shared estimate section uses the native S4 intake. Submissions go directly to the tenant-scoped S4 Command Center and are saved in Envision's private lead workspace. The site contains no tenant ID, database credential, or intake secret.
 
-Do not send a fake production lead during routine verification. After deployment, confirm delivery with one owner-approved test submission and verify that it appears in Jobber Requests.
+The form remains unavailable until the approved Vercel environment enables the native intake and contains the exact public form key and Turnstile site key. SMS consent is not requested here. Do not send a fake production lead during routine verification. After deployment, confirm delivery with one owner-approved test submission and verify the S4 CRM contact, opportunity, and Kyle's portal visibility.
 
 ## Deployment
 
