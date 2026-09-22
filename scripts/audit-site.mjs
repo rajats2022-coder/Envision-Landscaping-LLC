@@ -254,9 +254,6 @@ for (const pathname of urls) {
     if (!exists(target)) findings.push(`${pathname}: broken internal link ${href}`)
   }
 
-  if (html.toLowerCase().includes('formspree')) {
-    findings.push(`${pathname}: still references the retired Formspree lead path`)
-  }
   const nativeFormCount = (html.match(/id="envision-estimate-form"/g) || []).length
   const expectsRequestForm = !['/privacy', '/terms'].includes(pathname)
   if (expectsRequestForm && nativeFormCount !== 1) {
@@ -272,8 +269,8 @@ for (const pathname of urls) {
     if (!html.includes(`href="${jobberFormUrl}"`)) {
       findings.push(`${pathname}: direct Jobber fallback link is missing`)
     }
-    if (!html.includes('name="emailServiceConsent"') || !html.includes('name="smsServiceConsent"')) {
-      findings.push(`${pathname}: independent service-reply permissions are missing`)
+    if (html.includes('name="smsServiceConsent"')) {
+      findings.push(`${pathname}: native estimate form offers deferred SMS consent`)
     }
   }
 

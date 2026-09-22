@@ -1,4 +1,4 @@
-// Interaction signals only. Jobber submissions require provider-confirmed evidence.
+// Interaction signals only. Form and provider receipts remain the lead evidence.
 const servicePaths = Object.freeze({
   '/services/landscape-design-planting': 'landscape-projects',
   '/services/spring-fall-cleanups': 'fall-cleanup',
@@ -41,7 +41,7 @@ export function interactionFor({ href, pageUrl, explicitIntent, rememberedIntent
   } else if (sameSite && pathOf(destination) === '/contact') {
     event = 'estimate_start'
     interactionType = 'contact_link'
-  } else if (sameSite && destination.hash === '#jobber-request') {
+  } else if (sameSite && destination.hash === '#estimate-request') {
     event = 'estimate_start'
     interactionType = 'request_anchor'
   } else { return null }

@@ -2055,7 +2055,7 @@ function faqSection(items = homepageFaqs, heading = 'Questions before you book?'
   </section>`;
 }
 
-function jobberRequestForm() {
+function estimateRequestForm() {
   return `<form id="envision-estimate-form" class="native-estimate-form">
     <div class="native-form-row">
       <label>First name <span aria-hidden="true">*</span><input name="firstName" autocomplete="given-name" maxlength="80" required></label>
@@ -2081,12 +2081,6 @@ function jobberRequestForm() {
     <label>Tell Kyle what the property needs <span aria-hidden="true">*</span><textarea name="details" rows="6" maxlength="3200" required></textarea></label>
     <input id="estimate-source-page" name="sourcePage" type="hidden" value="">
     <label class="native-form-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-    <fieldset id="reply-permissions" class="reply-permissions" hidden>
-      <legend>Optional updates about this request</legend>
-      <label class="permission-choice"><input name="emailServiceConsent" type="checkbox"><span id="email-disclosure"></span></label>
-      <label class="permission-choice"><input name="smsServiceConsent" type="checkbox"><span id="sms-disclosure"></span></label>
-    </fieldset>
-    <div id="turnstile-challenge" class="turnstile-challenge" aria-label="Security check"></div>
     <button class="button button-primary native-form-submit" type="submit" disabled><span>Send Estimate Request</span><span class="button-icon">${icons.arrow}</span></button>
     <p id="estimate-form-status" class="estimate-form-status" aria-live="polite"></p>
     <p class="jobber-request-fallback">Prefer Kyle’s existing scheduling system? <a href="${jobberFormUrl}" target="_blank" rel="noopener">Open Envision’s secure Jobber request form</a>.</p>
@@ -2113,7 +2107,7 @@ function contactSection() {
       <div class="quote-panel reveal">
         <p class="quote-panel-kicker">Request an estimate</p>
         <h3>Send your project details</h3>
-        ${jobberRequestForm()}
+        ${estimateRequestForm()}
       </div>
     </div>
   </section>`;
@@ -2463,7 +2457,7 @@ function contactPage() {
             <div><span>${icons.clock}</span><p><strong>Availability</strong>${business.availabilityNote}</p></div>
           </div>
         </div>
-        <div class="quote-panel quote-panel-large reveal"><p class="quote-panel-kicker">Estimate request</p><h2>Send the project details.</h2>${jobberRequestForm()}</div>
+        <div class="quote-panel quote-panel-large reveal"><p class="quote-panel-kicker">Estimate request</p><h2>Send the project details.</h2>${estimateRequestForm()}</div>
       </div></section>` +
       areaSection() +
       faqSection(homepageFaqs),
@@ -2783,7 +2777,7 @@ function legalPage(kind) {
     ? [
         [
           'What this site collects',
-          'This website uses Google Analytics 4 through Google Tag Manager to understand page visits and interactions such as estimate-form and business-phone activity. Analytics may collect device, browser, approximate location, referral, and usage information; Envision does not intentionally send the details entered into the estimate form to Google Analytics. Native estimate requests are securely processed by S4 AI LLC, Envision’s website service provider, and saved in Envision’s private lead workspace. The optional Jobber link opens Envision’s existing scheduling system under Jobber’s privacy terms.',
+          'This website uses Google Analytics 4 through Google Tag Manager to understand page visits and interactions such as estimate-form and business-phone activity. Analytics may collect device, browser, approximate location, referral, and usage information; Envision does not intentionally send the details entered into the estimate form to Google Analytics. When the S4 intake is enabled, estimate requests are submitted through Formspree and routed into Envision’s private S4 lead workspace. The optional Jobber link opens Envision’s existing scheduling system under Jobber’s privacy terms.',
         ],
         [
           'Third-party links',
@@ -2889,7 +2883,7 @@ ${areas.map((area) => `- ${area.name}, ${area.region}`).join('\n')}
 
 - No verified street address is published on this website because Envision operates as a service-area business.
 - Service availability, scheduling, estimate scope, price, and promotional eligibility must be confirmed directly with Envision.
-- The native estimate form sends submitted details to Envision's private lead workspace through S4 AI LLC, Envision's website service provider.
+- When enabled, the native estimate form submits through Formspree and routes to Envision's S4 lead workspace.
 - The optional Jobber link opens Envision's existing scheduling system; information entered there is handled under Jobber's privacy terms.
 `;
   if (!full) return base;

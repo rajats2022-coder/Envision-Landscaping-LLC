@@ -205,9 +205,6 @@ try {
     }
     assertions += 10
 
-    if (html.toLowerCase().includes('formspree')) {
-      throw new Error(`${pathname} still references Formspree`)
-    }
     const nativeFormCount = (html.match(/id="envision-estimate-form"/g) || []).length
     const expectsRequestForm = !['/privacy', '/terms'].includes(pathname)
     if (nativeFormCount !== (expectsRequestForm ? 1 : 0)) {
@@ -220,8 +217,8 @@ try {
       if (!html.includes(`href="${jobberFormUrl}"`)) {
         throw new Error(`${pathname} is missing the direct Jobber fallback link`)
       }
-      if (!html.includes('name="emailServiceConsent"') || !html.includes('name="smsServiceConsent"')) {
-        throw new Error(`${pathname} is missing independent service-reply permissions`)
+      if (html.includes('name="smsServiceConsent"')) {
+        throw new Error(`${pathname} offers SMS consent even though SMS intake is deferred`)
       }
     }
     assertions += 5

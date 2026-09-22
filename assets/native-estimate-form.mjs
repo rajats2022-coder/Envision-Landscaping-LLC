@@ -1,6 +1,5 @@
-const INTAKE_ORIGIN = "https://app.s4aiagency.com";
-const FORM_KEY_PATTERN = /^[A-Za-z0-9_-]{32,120}$/;
-const SITE_KEY_PATTERN = /^[A-Za-z0-9_-]{10,200}$/;
+const FORMSPREE_ORIGIN = "https://formspree.io";
+const FORM_ID_PATTERN = /^[A-Za-z0-9_-]{4,120}$/;
 
 function clean(value) {
   return typeof value === "string" ? value.trim() : "";
@@ -33,16 +32,32 @@ export function buildEstimateSummary(fields) {
   return summary;
 }
 
-function failureMessage(status, code) {
-  if (status === 429) return "Too many requests were submitted. Please wait before trying again.";
-  if (status === 409) return "This request conflicts with an earlier attempt. Refresh the page before sending a new request.";
-  if (code === "captcha_invalid") return "The security check expired. Complete it again before submitting.";
-  if (status === 503 || code === "network_error") return "We could not confirm your request was saved. Your entries are still here; complete the security check to retry safely.";
-  return "Review your details and complete the security check before trying again.";
+export function formspreeFields(data) {
+  const firstName = clean(data.get("firstName"));
+  const lastName = clean(data.get("lastName"));
+  return {
+    name: [firstName, lastName].filter(Boolean).join(" "),
+    email: clean(data.get("email")).toLowerCase(),
+    phone: normalizePhoneE164(data.get("phone")),
+    service: clean(data.get("service")),
+    message: buildEstimateSummary({
+      service: data.get("service"),
+      propertyLocation: data.get("propertyLocation"),
+      timing: data.get("timing"),
+      details: data.get("details"),
+      sourcePage: data.get("sourcePage"),
+    }),
+    lead_source: "website",
+    source_page: clean(data.get("sourcePage")),
+    form_surface: "envision_estimate",
+    website: clean(data.get("website")),
+  };
 }
 
-async function jsonReply(response) {
-  try { return await response.json(); } catch { return {}; }
+function failureMessage(status) {
+  if (status === 429) return "Too many requests were submitted. Please wait before trying again.";
+  if (status >= 500 || status === 0) return "We could not confirm your request was saved. Your entries are still here; please try again or use the secure Jobber form below.";
+  return "Review your details and try again. If the problem continues, use the secure Jobber form below.";
 }
 
 async function initialize() {
@@ -50,21 +65,12 @@ async function initialize() {
   if (!form) return;
   const submit = form.querySelector('button[type="submit"]');
   const status = document.getElementById("estimate-form-status");
-  const permissions = document.getElementById("reply-permissions");
-  const emailDisclosure = document.getElementById("email-disclosure");
-  const smsDisclosure = document.getElementById("sms-disclosure");
-  const challenge = document.getElementById("turnstile-challenge");
   const service = new URLSearchParams(location.search).get("service") || "";
   const serviceSelect = document.getElementById("estimate-service");
   if (service && [...serviceSelect.options].some((option) => option.value === service)) serviceSelect.value = service;
   document.getElementById("estimate-source-page").value = location.href.slice(0, 240);
 
   let configuration;
-  let captchaToken = "";
-  let widgetId;
-  let pendingFingerprint = "";
-  let idempotencyKey = "";
-
   function unavailable(message = "Online requests are temporarily unavailable. Please call (984) 338-6483 or use the secure Jobber form below.") {
     submit.disabled = true;
     status.textContent = message;
@@ -75,83 +81,19 @@ async function initialize() {
     const response = await fetch("/api/leads", { headers: { Accept: "application/json" }, cache: "no-store", redirect: "error", signal: AbortSignal.timeout(8000) });
     if (!response.ok) throw new Error("configuration_unavailable");
     configuration = await response.json();
-    if (configuration.consentCaptureEnabled !== true || !FORM_KEY_PATTERN.test(configuration.formKey || "") || !SITE_KEY_PATTERN.test(configuration.siteKey || "") || !clean(configuration.emailServiceDisclosure) || !clean(configuration.smsServiceDisclosure)) throw new Error("configuration_unavailable");
-    emailDisclosure.textContent = configuration.emailServiceDisclosure;
-    smsDisclosure.textContent = configuration.smsServiceDisclosure;
-    permissions.hidden = false;
+    if (configuration.formspreeEnabled !== true || !FORM_ID_PATTERN.test(configuration.formId || "")) throw new Error("configuration_unavailable");
+    submit.disabled = false;
   } catch {
     unavailable();
     return;
   }
-
-  try {
-    await new Promise((resolve, reject) => {
-      if (window.turnstile) return resolve();
-      const script = document.createElement("script");
-      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-      script.async = true;
-      script.defer = true;
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-    widgetId = window.turnstile.render(challenge, {
-      sitekey: configuration.siteKey,
-      action: "client-lead",
-      callback(token) {
-        captchaToken = typeof token === "string" ? token : "";
-        submit.disabled = !captchaToken;
-        status.textContent = "";
-        status.className = "estimate-form-status";
-      },
-      "expired-callback"() {
-        captchaToken = "";
-        submit.disabled = true;
-        status.textContent = "The security check expired. Complete it again.";
-        status.className = "estimate-form-status error";
-      },
-      "error-callback"() { unavailable(); },
-    });
-  } catch {
-    unavailable();
-    return;
-  }
-
-  form.addEventListener("input", () => {
-    const fingerprint = new URLSearchParams(new FormData(form)).toString();
-    if (pendingFingerprint && fingerprint !== pendingFingerprint) {
-      pendingFingerprint = "";
-      idempotencyKey = "";
-    }
-  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (!captchaToken || submit.disabled) return;
-    const data = new FormData(form);
-    const fingerprint = new URLSearchParams(data).toString();
-    if (!idempotencyKey || pendingFingerprint !== fingerprint) {
-      pendingFingerprint = fingerprint;
-      idempotencyKey = crypto.randomUUID();
-    }
-    let payload;
+    if (submit.disabled) return;
+    let fields;
     try {
-      const phone = normalizePhoneE164(data.get("phone"));
-      if (data.get("smsServiceConsent") === "on" && !phone) {
-        throw new TypeError("Enter a phone number to receive text updates.");
-      }
-      payload = {
-        firstName: clean(data.get("firstName")),
-        lastName: clean(data.get("lastName")),
-        email: clean(data.get("email")).toLowerCase(),
-        phone,
-        message: buildEstimateSummary({ service: data.get("service"), propertyLocation: data.get("propertyLocation"), timing: data.get("timing"), details: data.get("details"), sourcePage: data.get("sourcePage") }),
-        emailServiceConsent: data.get("emailServiceConsent") === "on",
-        smsServiceConsent: data.get("smsServiceConsent") === "on",
-        turnstileToken: captchaToken,
-        idempotencyKey,
-        website: clean(data.get("website")),
-      };
+      fields = formspreeFields(new FormData(form));
     } catch (error) {
       status.textContent = error instanceof Error ? error.message : "Review the form fields.";
       status.className = "estimate-form-status error";
@@ -159,43 +101,34 @@ async function initialize() {
     }
 
     submit.disabled = true;
-    submit.textContent = "Saving request…";
-    status.textContent = "Saving your request…";
+    submit.textContent = "Sending request…";
+    status.textContent = "Sending your request…";
     status.className = "estimate-form-status";
     try {
-      const response = await fetch(`${INTAKE_ORIGIN}/api/forms/${encodeURIComponent(configuration.formKey)}`, {
+      const response = await fetch(`${FORMSPREE_ORIGIN}/f/${encodeURIComponent(configuration.formId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        credentials: "omit",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
         cache: "no-store",
         redirect: "error",
         signal: AbortSignal.timeout(15000),
       });
-      const reply = await jsonReply(response);
-      if (response.status !== 202 || reply.accepted !== true) {
-        status.textContent = failureMessage(response.status, reply.error || "");
+      if (!response.ok) {
+        status.textContent = failureMessage(response.status);
         status.className = "estimate-form-status error";
-        captchaToken = "";
-        window.turnstile.reset(widgetId);
         return;
       }
-      window.s4TrackEvent?.("generate_lead", { form_id: "envision-estimate-form", service_intent: clean(data.get("service")) || "unspecified" });
+      window.s4TrackEvent?.("generate_lead", { form_id: "envision-estimate-form", service_intent: fields.service || "unspecified" });
       form.reset();
-      pendingFingerprint = "";
-      idempotencyKey = "";
-      captchaToken = "";
-      window.turnstile.reset(widgetId);
-      status.textContent = "Request saved. Kyle will follow up to confirm fit, scope, and scheduling.";
+      document.getElementById("estimate-source-page").value = location.href.slice(0, 240);
+      status.textContent = "Request received. Kyle will follow up to confirm fit, scope, and scheduling.";
       status.className = "estimate-form-status success";
     } catch {
-      status.textContent = failureMessage(0, "network_error");
+      status.textContent = failureMessage(0);
       status.className = "estimate-form-status error";
-      captchaToken = "";
-      window.turnstile.reset(widgetId);
     } finally {
       submit.textContent = "Send Estimate Request";
-      submit.disabled = !captchaToken;
+      submit.disabled = false;
     }
   });
 }

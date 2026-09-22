@@ -29,9 +29,11 @@ npm run screenshot:mobile
 
 ## Lead path
 
-The shared estimate section uses Envision's direct Jobber work-request embed. Submissions enter Kyle's Jobber request queue instead of passing through a separate website form service. Every embed includes a direct Jobber form link as a fallback if the inline form is blocked or unavailable.
+The native estimate form is prepared for Formspree-to-S4 CRM intake. It is disabled until the exact Formspree form is connected in the S4 Command Center and the approved Vercel project has both `ENVISION_FORMSPREE_INTAKE_ENABLED=true` and the matching non-secret `ENVISION_FORMSPREE_FORM_ID`. Until then, visitors can use the existing Jobber form link.
 
-Do not send a fake production lead during routine verification. After deployment, confirm delivery with one owner-approved test submission and verify that it appears in Jobber Requests.
+The form submits `name`, `email`, `phone`, `service`, `message`, and `lead_source=website`. The summary retains the property location, timing, project details, and source page. SMS permission and SMS sending are intentionally outside this cutover.
+
+Do not send a fake production lead during routine verification. After deployment, use one owner-approved test submission, then verify the Formspree webhook receipt and the Envision-scoped CRM contact, opportunity, task, and lifecycle event before disabling the Jobber fallback.
 
 ## Deployment
 
