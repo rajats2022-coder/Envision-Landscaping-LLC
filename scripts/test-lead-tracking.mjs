@@ -8,9 +8,7 @@ assert.deepEqual(inspect('/contact?email=private@example.com'), {
   event: 'estimate_start', service_intent: 'christmas-lighting', interaction_type: 'contact_link',
 })
 assert.equal(inspect('tel:+19843386483').event, 'phone_click')
-assert.equal(inspect('#jobber-request').interaction_type, 'request_anchor')
-assert.equal(inspect('https://clienthub.getjobber.com/client_hubs/example?private=value').interaction_type, 'jobber_fallback')
-for (const href of ['https://clienthub.getjobber.com.evil.test/', 'https://evil.test/?clienthub.getjobber.com', 'javascript:alert(1)', '/gallery']) {
+for (const href of ['https://clienthub.getjobber.com/client_hubs/example', 'https://clienthub.getjobber.com.evil.test/', 'https://evil.test/?clienthub.getjobber.com', 'javascript:alert(1)', '/gallery']) {
   assert.equal(inspect(href), null, `Should not track ${href}`)
 }
 assert.equal(inspect('/contact', { explicitIntent: 'leaf-removal' }).service_intent, 'leaf-removal')

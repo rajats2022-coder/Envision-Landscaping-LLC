@@ -1,4 +1,4 @@
-// Interaction signals only. Jobber submissions require provider-confirmed evidence.
+// Interaction signals only. A submitted lead requires a successful S4 intake response.
 const servicePaths = Object.freeze({
   '/services/landscape-design-planting': 'landscape-projects',
   '/services/spring-fall-cleanups': 'fall-cleanup',
@@ -35,15 +35,9 @@ export function interactionFor({ href, pageUrl, explicitIntent, rememberedIntent
   if (destination.protocol === 'tel:') {
     event = 'phone_click'
     interactionType = 'phone_link'
-  } else if (destination.protocol === 'https:' && destination.hostname === 'clienthub.getjobber.com') {
-    event = 'estimate_start'
-    interactionType = 'jobber_fallback'
   } else if (sameSite && pathOf(destination) === '/contact') {
     event = 'estimate_start'
     interactionType = 'contact_link'
-  } else if (sameSite && destination.hash === '#jobber-request') {
-    event = 'estimate_start'
-    interactionType = 'request_anchor'
   } else { return null }
   // No URL, query string, free text, chat message, phone number, or form data.
   return { event, service_intent: intent, interaction_type: interactionType }
