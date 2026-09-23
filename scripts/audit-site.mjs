@@ -56,6 +56,10 @@ const pagePath = (pathname) => {
 const connectedGooglePlaceId = 'ChIJ3xWsRgz1rIkR7xzJrM3_Fy0'
 const staleGooglePlaceId = 'ChIJjRfUHps6RysRA6PtjRQlYYc'
 const googleTagManagerId = 'GTM-TK4WJG52'
+const jobberEmbedId = '152dfe43-b7b8-4665-b208-c0f34dac1803-2057108'
+const jobberEmbedCss = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css'
+const jobberEmbedScript = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js'
+const jobberFormUrl = 'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108'
 
 const stripFragments = (href) => href.split('#')[0].split('?')[0]
 
@@ -251,23 +255,29 @@ for (const pathname of urls) {
   if (html.toLowerCase().includes('formspree')) {
     findings.push(`${pathname}: still references the retired Formspree lead path`)
   }
-  if (html.includes('clienthub.getjobber.com')) {
-    findings.push(`${pathname}: still links to the retired Jobber lead path`)
+  if (!html.includes(`href="${jobberEmbedCss}"`)) {
+    findings.push(`${pathname}: Jobber embed stylesheet is missing`)
   }
-  const nativeFormCount = (html.match(/id="envision-estimate-form"/g) || []).length
+  if (html.includes('id="envision-estimate-form"') || html.includes('native-estimate-form.mjs')) {
+    findings.push(`${pathname}: obsolete S4 estimate form is still present`)
+  }
+  const jobberShellCount = (html.match(/data-jobber-request/g) || []).length
   const expectsRequestForm = !['/privacy', '/terms'].includes(pathname)
-  if (expectsRequestForm && nativeFormCount !== 1) {
-    findings.push(`${pathname}: expected exactly one native estimate form, found ${nativeFormCount}`)
+  if (expectsRequestForm && jobberShellCount !== 1) {
+    findings.push(`${pathname}: expected exactly one Jobber request embed, found ${jobberShellCount}`)
   }
-  if (!expectsRequestForm && nativeFormCount !== 0) {
-    findings.push(`${pathname}: legal page unexpectedly contains a native estimate form`)
+  if (!expectsRequestForm && jobberShellCount !== 0) {
+    findings.push(`${pathname}: legal page unexpectedly contains a Jobber request embed`)
   }
-  if (nativeFormCount) {
-    if (!html.includes('src="/assets/native-estimate-form.mjs')) {
-      findings.push(`${pathname}: native estimate form module is missing`)
+  if (jobberShellCount) {
+    if ((html.match(new RegExp(`<div id="${jobberEmbedId}"`, 'g')) || []).length !== 1) {
+      findings.push(`${pathname}: Jobber mount ID is missing or duplicated`)
     }
-    if (!html.includes('name="emailServiceConsent"') || html.includes('name="smsServiceConsent"')) {
-      findings.push(`${pathname}: service-reply permissions do not match the deferred SMS scope`)
+    if (!html.includes(`<script src="${jobberEmbedScript}" clienthub_id="${jobberEmbedId}" form_url="${jobberFormUrl}"></script>`)) {
+      findings.push(`${pathname}: Jobber script has the wrong account or form URL`)
+    }
+    if (!html.includes(`href="${jobberFormUrl}"`)) {
+      findings.push(`${pathname}: direct Jobber fallback link is missing`)
     }
   }
 
@@ -490,7 +500,7 @@ for (const [source, destination] of [
 }
 
 const home = read('index.html')
-if (!home.includes('id="envision-estimate-form"')) findings.push('homepage native estimate form is not wired')
+if (!home.includes('data-jobber-request')) findings.push('homepage Jobber request form is not wired')
 if (!home.includes('href="tel:+19843386483"')) findings.push('homepage missing normalized phone link')
 if (!home.includes('data-map-canvas')) findings.push('homepage live service map is missing')
 if (!home.includes('data-map-view="state"')) findings.push('homepage North Carolina map view is missing')

@@ -48,7 +48,7 @@
 
 - No verified street address is published on this website because Envision operates as a service-area business.
 - Service availability, scheduling, estimate scope, price, and promotional eligibility must be confirmed directly with Envision.
-- The native estimate form sends submitted details to Envision's private lead workspace through S4 AI LLC, Envision's website service provider.
+- The embedded Jobber estimate form directs submitted details to Envision's Jobber request queue.
 
 ## Company
 
