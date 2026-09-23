@@ -7,6 +7,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const port = 3197
 const baseUrl = `http://127.0.0.1:${port}`
 const googleTagManagerId = 'GTM-TK4WJG52'
+const jobberEmbedId = '152dfe43-b7b8-4665-b208-c0f34dac1803-2057108'
+const jobberEmbedCss = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css'
+const jobberEmbedScript = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js'
+const jobberFormUrl = 'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108'
 const server = spawn(process.execPath, ['serve.mjs'], {
   cwd: root,
   env: { ...process.env, ENVISION_PORT: String(port) },
@@ -202,17 +206,26 @@ try {
     if (html.toLowerCase().includes('formspree')) {
       throw new Error(`${pathname} still references Formspree`)
     }
-    const nativeFormCount = (html.match(/id="envision-estimate-form"/g) || []).length
-    const expectsRequestForm = !['/privacy', '/terms'].includes(pathname)
-    if (nativeFormCount !== (expectsRequestForm ? 1 : 0)) {
-      throw new Error(`${pathname} has ${nativeFormCount} native estimate forms; expected ${expectsRequestForm ? 1 : 0}`)
+    if (!html.includes(`href="${jobberEmbedCss}"`)) {
+      throw new Error(`${pathname} is missing the Jobber embed stylesheet`)
     }
-    if (nativeFormCount) {
-      if (!html.includes('src="/assets/native-estimate-form.mjs')) {
-        throw new Error(`${pathname} is missing the native estimate form module`)
+    if (html.includes('id="envision-estimate-form"') || html.includes('native-estimate-form.mjs')) {
+      throw new Error(`${pathname} still includes the S4 estimate form`)
+    }
+    const jobberShellCount = (html.match(/data-jobber-request/g) || []).length
+    const expectsRequestForm = !['/privacy', '/terms'].includes(pathname)
+    if (jobberShellCount !== (expectsRequestForm ? 1 : 0)) {
+      throw new Error(`${pathname} has ${jobberShellCount} Jobber forms; expected ${expectsRequestForm ? 1 : 0}`)
+    }
+    if (jobberShellCount) {
+      if ((html.match(new RegExp(`<div id="${jobberEmbedId}"`, 'g')) || []).length !== 1) {
+        throw new Error(`${pathname} Jobber mount ID is missing or duplicated`)
       }
-      if (!html.includes('name="emailServiceConsent"') || html.includes('name="smsServiceConsent"')) {
-        throw new Error(`${pathname} has unexpected service-reply permissions`)
+      if (!html.includes(`<script src="${jobberEmbedScript}" clienthub_id="${jobberEmbedId}" form_url="${jobberFormUrl}"></script>`)) {
+        throw new Error(`${pathname} Jobber embed has the wrong account or form URL`)
+      }
+      if (!html.includes(`href="${jobberFormUrl}"`)) {
+        throw new Error(`${pathname} is missing the direct Jobber fallback link`)
       }
     }
     assertions += 5

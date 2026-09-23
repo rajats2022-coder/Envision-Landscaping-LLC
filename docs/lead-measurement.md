@@ -1,11 +1,9 @@
 # Envision website lead path
 
-Updated: 2026-09-22. This replaces the September 7 Jobber measurement plan.
+Updated: 2026-09-22. Envision estimates use the prior Jobber work-request form until further notice.
 
-The public estimate form sends directly to S4 Command Center. `/api/leads` exposes the exact Envision form key, Turnstile site key, and consent disclosures only when the intake configuration is enabled. The browser submits to the S4 `/api/forms/[formKey]` endpoint with a Turnstile proof and stable retry key. The S4 endpoint validates the exact site origin and registered form, then writes the lead to Envision's tenant-scoped CRM. The Jobber fallback link has been removed from the generated site. The optional SMS reply choice is hidden while SMS automation is deferred; submissions explicitly set SMS consent to false.
+The shared estimate section on the homepage, contact page, and service pages embeds Envision's Jobber form (client hub `152dfe43-b7b8-4665-b208-c0f34dac1803`, form `2057108`). A direct Jobber link appears below the embed if it does not load. The site no longer submits new estimate requests to S4 Command Center.
 
-`estimate_start` records a visitor choosing the contact path. `phone_click` records a phone-link click. Neither event proves a submitted lead. The browser emits `generate_lead` only after the S4 endpoint returns an accepted response. A returned response, the resulting CRM record, and Kyle's portal readback are distinct checks.
+`estimate_start` records a visitor opening the contact page; `phone_click` records a phone-link click. Neither event proves a submitted Jobber request. Do not report a lead as received until it appears in the correct Jobber account.
 
-The current production intake form has been observed enabled and verified for `envisionlandscapingllc.com` and `www.envisionlandscapingllc.com`; the S4 database contained six `s4_form` lead-received events for Envision on September 22. These observations do not establish that a new submission, acknowledgement, or Kyle's browser view was tested during this site change.
-
-For release: build the site, run its tests, review the generated HTML for any Jobber URL, obtain approval to deploy, then verify the live page and `/api/leads`. A clearly labeled end-to-end test request needs separate approval. Check its exact Envision CRM opportunity and task, and Kyle's portal view before reporting that new intake is end-to-end verified.
+For release: build and audit the generated site, inspect the Jobber embed and fallback on representative pages, obtain production approval, and verify the public pages after deployment. A clearly labeled end-to-end Jobber request and receipt check require separate owner approval.

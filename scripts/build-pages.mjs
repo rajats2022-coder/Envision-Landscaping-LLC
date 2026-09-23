@@ -6,6 +6,13 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const origin = 'https://envisionlandscapingllc.com';
+const jobberEmbedId = '152dfe43-b7b8-4665-b208-c0f34dac1803-2057108';
+const jobberEmbedCss =
+  'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css';
+const jobberEmbedScript =
+  'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js';
+const jobberFormUrl =
+  'https://clienthub.getjobber.com/client_hubs/152dfe43-b7b8-4665-b208-c0f34dac1803/public/work_request/embedded_work_request_form?form_id=2057108';
 const googleTagManagerId = 'GTM-TK4WJG52';
 // Fixed content revision date, never the clock time of a rebuild.
 const siteLastModified = '2026-09-07';
@@ -1483,7 +1490,10 @@ function pageShell({
   <link rel="apple-touch-icon" href="/assets/images/envision-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://d3ey4dbjkt2f6s.cloudfront.net" crossorigin>
+  <link rel="preconnect" href="https://clienthub.getjobber.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="${jobberEmbedCss}" media="screen">
   <link rel="stylesheet" href="/assets/vendor/maplibre-gl.css?v=6.9.0">
   <link rel="stylesheet" href="/assets/styles.css?v=20260811-8">
   ${renderSchemas(pageSchemas)}
@@ -1497,7 +1507,6 @@ function pageShell({
   ${siteFooter()}
   <script type="module" src="/assets/site.js?v=20260907-1"></script>
   <script type="module" src="/assets/concierge.js?v=20260907-1"></script>
-  <script type="module" src="/assets/native-estimate-form.mjs?v=20260914-1"></script>
 </body>
 </html>`;
 }
@@ -2052,40 +2061,12 @@ function faqSection(items = homepageFaqs, heading = 'Questions before you book?'
   </section>`;
 }
 
-function nativeEstimateForm() {
-  return `<form id="envision-estimate-form" class="native-estimate-form">
-    <div class="native-form-row">
-      <label>First name <span aria-hidden="true">*</span><input name="firstName" autocomplete="given-name" maxlength="80" required></label>
-      <label>Last name <span aria-hidden="true">*</span><input name="lastName" autocomplete="family-name" maxlength="80" required></label>
-    </div>
-    <div class="native-form-row">
-      <label>Email <span aria-hidden="true">*</span><input name="email" type="email" autocomplete="email" maxlength="254" required></label>
-      <label>Phone<input name="phone" type="tel" autocomplete="tel" inputmode="tel"></label>
-    </div>
-    <label>Service needed <span aria-hidden="true">*</span><select id="estimate-service" name="service" required>
-      <option value="">Choose a service</option>
-      <option>Lawn maintenance</option>
-      <option>Landscape maintenance</option>
-      <option>Aeration and overseeding</option>
-      <option>Spring or fall cleanup</option>
-      <option>Mulch or pine straw</option>
-      <option>Landscape design or planting</option>
-      <option>Christmas light installation</option>
-      <option>Other property work</option>
-    </select></label>
-    <label>Property address, city, or ZIP <span aria-hidden="true">*</span><input name="propertyLocation" autocomplete="street-address" maxlength="240" required></label>
-    <label>Preferred timing<input name="timing" maxlength="160" placeholder="For example: within two weeks"></label>
-    <label>Tell Kyle what the property needs <span aria-hidden="true">*</span><textarea name="details" rows="6" maxlength="3200" required></textarea></label>
-    <input id="estimate-source-page" name="sourcePage" type="hidden" value="">
-    <label class="native-form-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-    <fieldset id="reply-permissions" class="reply-permissions" hidden>
-      <legend>Optional updates about this request</legend>
-      <label class="permission-choice"><input name="emailServiceConsent" type="checkbox"><span id="email-disclosure"></span></label>
-    </fieldset>
-    <div id="turnstile-challenge" class="turnstile-challenge" aria-label="Security check"></div>
-    <button class="button button-primary native-form-submit" type="submit" disabled><span>Send Estimate Request</span><span class="button-icon">${icons.arrow}</span></button>
-    <p id="estimate-form-status" class="estimate-form-status" aria-live="polite"></p>
-  </form>`;
+function jobberRequestForm() {
+  return `<div class="jobber-request-shell" id="jobber-request" data-jobber-request>
+    <div id="${jobberEmbedId}" data-jobber-mount></div>
+    <p class="jobber-request-fallback">Having trouble loading the form? <a href="${jobberFormUrl}" target="_blank" rel="noopener">Open Envision’s secure Jobber request form</a>.</p>
+  </div>
+  <script src="${jobberEmbedScript}" clienthub_id="${jobberEmbedId}" form_url="${jobberFormUrl}"></script>`;
 }
 
 function contactSection() {
@@ -2094,7 +2075,7 @@ function contactSection() {
       <div class="contact-copy reveal">
         <p class="eyebrow">Start with the property</p>
         <h2>Tell Envision what needs work.</h2>
-        <p>Send the service, property area, timing, and project details. The request is saved in Envision’s secure lead workspace so Kyle can review it and follow up about fit, scope, and scheduling.</p>
+        <p>Send the service, property area, timing, and project details directly to Envision through Jobber. Kyle can review the request and follow up about fit, scope, and scheduling.</p>
         <div class="contact-direct">
           <a class="contact-phone" href="tel:${business.phoneHref}">${icons.phone}<span><small>Prefer to call?</small><strong>${business.phone}</strong></span></a>
           <a class="contact-email" href="mailto:${business.email}">${icons.mail}<span><small>Prefer email?</small><strong>${business.email}</strong></span></a>
@@ -2108,7 +2089,7 @@ function contactSection() {
       <div class="quote-panel reveal">
         <p class="quote-panel-kicker">Request an estimate</p>
         <h3>Send your project details</h3>
-        ${nativeEstimateForm()}
+        ${jobberRequestForm()}
       </div>
     </div>
   </section>`;
@@ -2458,7 +2439,7 @@ function contactPage() {
             <div><span>${icons.clock}</span><p><strong>Availability</strong>${business.availabilityNote}</p></div>
           </div>
         </div>
-        <div class="quote-panel quote-panel-large reveal"><p class="quote-panel-kicker">Estimate request</p><h2>Send the project details.</h2>${nativeEstimateForm()}</div>
+        <div class="quote-panel quote-panel-large reveal"><p class="quote-panel-kicker">Estimate request</p><h2>Send the project details.</h2>${jobberRequestForm()}</div>
       </div></section>` +
       areaSection() +
       faqSection(homepageFaqs),
@@ -2778,7 +2759,7 @@ function legalPage(kind) {
     ? [
         [
           'What this site collects',
-          'This website uses Google Analytics 4 through Google Tag Manager to understand page visits and interactions such as estimate-form and business-phone activity. Analytics may collect device, browser, approximate location, referral, and usage information; Envision does not intentionally send the details entered into the estimate form to Google Analytics. Native estimate requests are securely processed by S4 AI LLC, Envision’s website service provider, and saved in Envision’s private lead workspace.',
+          'This website uses Google Analytics 4 through Google Tag Manager to understand page visits and interactions such as estimate-link and business-phone clicks. Analytics may collect device, browser, approximate location, referral, and usage information; Envision does not intentionally send the details entered into the Jobber form to Google Analytics. The estimate form is provided by Jobber, and submitted details go directly into Envision Landscaping’s Jobber request queue under Jobber’s privacy terms.',
         ],
         [
           'Third-party links',
@@ -2884,7 +2865,7 @@ ${areas.map((area) => `- ${area.name}, ${area.region}`).join('\n')}
 
 - No verified street address is published on this website because Envision operates as a service-area business.
 - Service availability, scheduling, estimate scope, price, and promotional eligibility must be confirmed directly with Envision.
-- The native estimate form sends submitted details to Envision's private lead workspace through S4 AI LLC, Envision's website service provider.
+- The embedded Jobber estimate form directs submitted details to Envision's Jobber request queue.
 `;
   if (!full) return base;
   return `${base}

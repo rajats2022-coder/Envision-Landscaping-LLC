@@ -1,4 +1,4 @@
-// Interaction signals only. A submitted lead requires a successful S4 intake response.
+// Interaction signals only. A submitted Jobber lead requires provider readback.
 const servicePaths = Object.freeze({
   '/services/landscape-design-planting': 'landscape-projects',
   '/services/spring-fall-cleanups': 'fall-cleanup',
