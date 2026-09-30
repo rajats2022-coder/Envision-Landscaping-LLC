@@ -1,4 +1,5 @@
 import { initLeadTracking } from './lead-tracking.js'
+import { initJobberInlineScroll } from './jobber-inline-scroll.js'
 import * as maplibregl from './vendor/maplibre-gl.mjs'
 
 document.documentElement.classList.add('has-js')
@@ -6,6 +7,7 @@ document.documentElement.classList.add('has-js')
 const selectAll = (selector, root = document) => [...root.querySelectorAll(selector)]
 
 initLeadTracking(document, window)
+initJobberInlineScroll(document, window)
 
 const header = document.querySelector('[data-site-header]')
 const headerSentinel = document.querySelector('.header-sentinel')
@@ -103,56 +105,6 @@ selectAll('[data-accordion]').forEach((accordion) => {
         if (other !== item) other.open = false
       })
     })
-  })
-})
-
-const copyText = async (value) => {
-  if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(value)
-    return true
-  }
-
-  const temporaryInput = document.createElement('textarea')
-  temporaryInput.value = value
-  temporaryInput.setAttribute('readonly', '')
-  temporaryInput.style.position = 'fixed'
-  temporaryInput.style.opacity = '0'
-  document.body.append(temporaryInput)
-  temporaryInput.select()
-  const copied = document.execCommand('copy')
-  temporaryInput.remove()
-  return copied
-}
-
-selectAll('[data-offer-button]').forEach((button) => {
-  const card = button.closest('.offer-stack')
-  const display = card?.querySelector('[data-offer-display]')
-  const status = card?.querySelector('[data-offer-status]')
-  const label = button.querySelector('[data-offer-label]')
-  const code = button.dataset.offerCode
-  const defaultStatus = status?.textContent || ''
-
-  button.addEventListener('click', async () => {
-    if (!code || !display || !status || !label) return
-
-    display.textContent = code
-    card?.classList.add('is-revealed')
-
-    try {
-      const copied = await copyText(code)
-      label.textContent = copied ? 'Copied!' : 'Code shown'
-      status.textContent = copied
-        ? `${code} copied. Mention it when requesting your estimate.`
-        : `${code} revealed. Mention it when requesting your estimate.`
-    } catch {
-      label.textContent = 'Code shown'
-      status.textContent = `${code} revealed. Select and copy it before contacting Envision.`
-    }
-
-    window.setTimeout(() => {
-      label.textContent = 'Copy again'
-      status.textContent = defaultStatus
-    }, 3200)
   })
 })
 
