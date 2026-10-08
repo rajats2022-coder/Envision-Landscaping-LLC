@@ -344,6 +344,10 @@ const commonProcess = [
 const projectImage = (name) => `/assets/images/projects/${name}`;
 
 const beforeAfterProjects = [
+  { title: 'Wooded backyard', type: 'Leaf removal', before: projectImage('leaf-removal-3-before.jpg'), after: projectImage('leaf-removal-3-after.jpg'), beforeAlt: 'Wooded backyard before leaf removal', afterAlt: 'Wooded backyard after leaf removal by Envision' },
+  { title: 'Backyard leaf cleanup', type: 'Leaf removal', before: projectImage('leaf-removal-4-before.jpg'), after: projectImage('leaf-removal-4-after.jpg'), beforeAlt: 'Backyard leaf cleanup before leaf removal', afterAlt: 'Backyard leaf cleanup after leaf removal by Envision' },
+  { title: 'Lawn and walkway cleanup', type: 'Leaf removal', before: projectImage('leaf-removal-5-before.jpg'), after: projectImage('leaf-removal-5-after.jpg'), beforeAlt: 'Lawn and walkway cleanup before leaf removal', afterAlt: 'Lawn and walkway cleanup after leaf removal by Envision' },
+
   {
     title: 'Backyard lawn makeover',
     type: 'Lawn renovation',
@@ -371,6 +375,10 @@ const beforeAfterProjects = [
 ];
 
 const projectGalleryItems = [
+  [projectImage('leaf-removal-3-after.jpg'), 'Wooded backyard after leaf removal', 'Leaf removal'],
+  [projectImage('leaf-removal-4-after.jpg'), 'Backyard leaf cleanup after leaf removal', 'Leaf removal'],
+  [projectImage('leaf-removal-5-after.jpg'), 'Lawn and walkway cleanup after leaf removal', 'Leaf removal'],
+
   [projectImage('striped-lawn-hero.jpg'), 'Striped residential lawn after maintenance', 'Lawn maintenance'],
   [projectImage('lawn-crew-stripes.jpg'), 'Lawn maintenance in progress with clean mowing lines', 'Lawn maintenance'],
   [projectImage('finished-lawn-wide.jpg'), 'Wide finished lawn after routine care', 'Lawn maintenance'],
@@ -537,9 +545,11 @@ const services = [
     title: 'Leaf Removal',
     navTitle: 'Leaf Removal',
     localize: false,
-    image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg',
-    imageAlt: 'Temporary stock photo of seasonal leaf clearing; not an Envision project',
-    stockPlaceholder: true,
+    image: projectImage('leaf-removal-4-after.jpg'),
+    imageAlt: 'Backyard after leaf removal by Envision Landscaping',
+    heroImage: projectImage('leaf-removal-4-before.jpg'),
+    heroImageAlt: 'Envision crew member using a backpack blower to clear leaves from a backyard',
+    heroPosition: '70% center',
     short:
       'Quote-only leaf clearing and seasonal debris removal planned around the property, access, and collection needs.',
     meta:
@@ -872,12 +882,12 @@ const serviceProfiles = {
   'leaf-removal': {
     jobHeading: 'Leaf-removal quotes built around the property',
     jobIntro:
-      'These temporary stock photos illustrate the seasonal service only; they are not Envision projects. The final scope stays quote-only until Envision reviews the property.',
+      'Real leaf-removal work photographed before and after Envision cleared these properties. Each new project is quoted around the property and approved scope.',
     jobs: [
-      { title: 'Property and debris review', description: 'Share photos, collection areas, access details, and timing so Envision can assess the request before quoting.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
-      { title: 'Approved-area clearing', description: 'The quote can identify the lawn, beds, walkways, patios, and other approved areas that need seasonal leaf clearing.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
-      { title: 'Collection plan', description: 'Collection method and debris volume are reviewed with the property so the approved scope is clear before work is scheduled.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
-      { title: 'Final surface cleanup', description: 'The approved hard surfaces are checked at the end of the visit, with any additional needs kept separate in the quote.', image: '/assets/images/placeholders/leaf-removal-stock-unsplash.jpg', alt: 'Temporary stock leaf-clearing photo; not an Envision project', stockPlaceholder: true },
+      { title: 'Property and debris review', description: 'Share photos, collection areas, access details, and timing so Envision can assess the request before quoting.', image: projectImage('leaf-removal-3-before.jpg'), alt: 'Leaves across a wooded backyard before Envision leaf removal' },
+      { title: 'Approved-area clearing', description: 'The quote can identify the lawn, beds, walkways, patios, and other approved areas that need seasonal leaf clearing.', image: projectImage('leaf-removal-crew-blowing.jpg'), alt: 'Envision crew clearing seasonal leaves with backpack blowers' },
+      { title: 'Collection plan', description: 'Collection method and debris volume are reviewed with the property so the approved scope is clear before work is scheduled.', image: projectImage('leaf-removal-3-after.jpg'), alt: 'Wooded backyard after Envision cleared seasonal leaves' },
+      { title: 'Final surface cleanup', description: 'The approved hard surfaces are checked at the end of the visit, with any additional needs kept separate in the quote.', image: projectImage('leaf-removal-5-after.jpg'), alt: 'Lawn and walkway after leaf removal by Envision' },
     ],
     process: [
       ['Send the property details', 'Share the address, photos, leaf-collection areas, access details, and preferred timing.'],
@@ -1645,8 +1655,8 @@ function serviceHero(service, area = null) {
     ? `${service.short} Envision confirms the exact ${area.name} property, project fit, and scheduling before service.`
     : service.short;
   return `<section class="service-page-hero">
-    <div class="service-page-hero-media">
-      <img src="${heroImage}" alt="${heroImageAlt}" width="${heroImageWidth}" height="${heroImageHeight}"${service.heroPosition ? ` style="object-position:${service.heroPosition}"` : ''} fetchpriority="high" decoding="async">
+    <div class="service-page-hero-media${service.slug === 'leaf-removal' ? ' leaf-hero-comparison' : ''}">
+      ${service.slug === 'leaf-removal' ? ['before', 'after'].map((state) => `<figure class="leaf-hero-frame"><img src="${projectImage(`leaf-removal-4-${state}.jpg`)}" alt="Same backyard ${state} leaf removal by Envision Landscaping" width="1800" height="1350" ${state === 'before' ? 'fetchpriority="high"' : ''} decoding="async"><figcaption>${state === 'before' ? 'Before' : 'After'}</figcaption></figure>`).join('') : `<img src="${heroImage}" alt="${heroImageAlt}" width="${heroImageWidth}" height="${heroImageHeight}"${service.heroPosition ? ` style="object-position:${service.heroPosition}"` : ''} fetchpriority="high" decoding="async">`}
       ${service.stockPlaceholder ? '<span class="temporary-stock-label">Temporary stock photo — not an Envision project</span>' : ''}
     </div>
     <div class="service-page-hero-panel">
@@ -1661,6 +1671,7 @@ function serviceHero(service, area = null) {
 }
 
 function serviceProofSection(service) {
+  if (service.slug === 'leaf-removal') return beforeAfterSection({ limit: 3, heading: 'Leaf removal. Before and after.' });
   const comparison = serviceProfiles[service.slug].proofComparison;
   if (!comparison) return '';
 
@@ -2349,7 +2360,7 @@ function galleryPage() {
         image: projectImage('backyard-makeover-after-wide.jpg'),
       }) +
       breadcrumb([['Gallery']]) +
-      beforeAfterSection({ heading: 'Three projects. Three visible changes.' }) +
+      beforeAfterSection({ heading: 'Real projects. Visible changes.' }) +
       backyardStorySection() +
       `<section class="gallery-page section-pad" id="project-gallery"><div class="shell">
         ${sectionHeading('Project gallery', 'Work from across the service list.', 'Browse lawn maintenance, mulch installation, aeration and overseeding, and larger landscape projects.')}

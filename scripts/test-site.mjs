@@ -243,7 +243,8 @@ try {
       }
       const heroImages = imageSources(serviceHero.html)
       const placeholderHero = ['/services/leaf-removal', '/services/christmas-light-installation'].includes(pathname) && heroImages[0]?.includes('/assets/images/placeholders/')
-      if (heroImages.length !== 1 || (!isRealFinishedProjectImage(heroImages[0]) && !placeholderHero)) {
+      const stackedLeafHero = serviceSlug === 'leaf-removal' && heroImages.length === 2 && heroImages[0] === '/assets/images/projects/leaf-removal-4-before.jpg' && heroImages[1] === '/assets/images/projects/leaf-removal-4-after.jpg'
+      if (!stackedLeafHero && (heroImages.length !== 1 || (!isRealFinishedProjectImage(heroImages[0]) && !placeholderHero))) {
         throw new Error(
           `${pathname} service hero must contain exactly one finished /assets/images/projects/ image; found ${heroImages.join(', ') || 'none'}`,
         )
@@ -265,7 +266,8 @@ try {
         throw new Error(`${pathname} is missing its offer catalog schema`)
       }
       for (const [, image] of html.matchAll(/<article class="service-job-card[\s\S]*?<img src="([^"]+)"/g)) {
-        if (/(?:before|during|seasonal-cleanup)/i.test(image)) {
+        const approvedLeafWorkPhoto = serviceSlug === 'leaf-removal' && ['/assets/images/projects/leaf-removal-3-before.jpg', '/assets/images/projects/leaf-removal-crew-blowing.jpg'].includes(image)
+        if (!approvedLeafWorkPhoto && /(?:before|during|seasonal-cleanup)/i.test(image)) {
           throw new Error(`${pathname} uses non-finished ${image} as a standalone service-job image`)
         }
       }
