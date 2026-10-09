@@ -1505,7 +1505,7 @@ function pageShell({
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="${jobberEmbedCss}" media="screen">
   <link rel="stylesheet" href="/assets/vendor/maplibre-gl.css?v=6.9.0">
-  <link rel="stylesheet" href="/assets/styles.css?v=20260811-8">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260930-1">
   ${renderSchemas(pageSchemas)}
 </head>
 <body class="${bodyClass}">
@@ -1515,7 +1515,7 @@ function pageShell({
   ${siteHeader(path)}
   <main id="main-content">${body}</main>
   ${siteFooter()}
-  <script type="module" src="/assets/site.js?v=20260907-1"></script>
+  <script type="module" src="/assets/site.js?v=20260930-1"></script>
   <script type="module" src="/assets/concierge.js?v=20260907-1"></script>
 </body>
 </html>`;
@@ -1828,56 +1828,6 @@ function reviewSection() {
       <div class="center-row review-cta-row">
         <a class="button button-navy" href="${business.googleReviews}" target="_blank" rel="noopener">${icons.google}<span>Read all ${business.reviewCount} reviews</span>${icons.arrow}</a>
         <a class="button button-primary" href="${business.googleWriteReview}" target="_blank" rel="noopener">${icons.google}<span>Leave a Google review</span>${icons.arrow}</a>
-      </div>
-    </div>
-  </section>`;
-}
-
-function offerSection() {
-  return `<section class="offers section-pad" id="special-offers">
-    <div class="shell offers-shell">
-      <div class="offers-heading reveal">
-        <p class="eyebrow eyebrow-light">Current website offers</p>
-        <h2>Special offers for sharper properties.</h2>
-        <p>Reveal a code, copy it in one click, and mention it when requesting your estimate. Availability and eligibility should be confirmed before service.</p>
-      </div>
-      <div class="offer-grid">
-        <article class="offer-stack reveal">
-          <div class="offer-card">
-            <header class="offer-card-top">
-              <div><strong class="offer-value">15%</strong><span>First service package</span></div>
-              <button class="offer-code-button" type="button" data-offer-button data-offer-code="WELCOME15" aria-describedby="offer-welcome-details">
-                <span data-offer-label>Get code</span>${icons.copy}
-              </button>
-            </header>
-            <div class="offer-card-copy" id="offer-welcome-details">
-              <p class="offer-kicker">New Customer Special</p>
-              <h3>Start with a sharper lawn.</h3>
-              <p>Enjoy 15% off a first lawn-care service package. Share the code when you contact Envision and confirm the offer applies to your project.</p>
-            </div>
-            <footer class="offer-code-row">
-              <span>Promo code</span><code data-offer-display>•••••••••</code><small data-offer-status aria-live="polite">Conditions apply</small>
-            </footer>
-          </div>
-        </article>
-        <article class="offer-stack offer-stack-alt reveal">
-          <div class="offer-card">
-            <header class="offer-card-top">
-              <div><strong class="offer-value">$50</strong><span>Seasonal package</span></div>
-              <button class="offer-code-button" type="button" data-offer-button data-offer-code="SEASON50" aria-describedby="offer-season-details">
-                <span data-offer-label>Get code</span>${icons.copy}
-              </button>
-            </header>
-            <div class="offer-card-copy" id="offer-season-details">
-              <p class="offer-kicker">Seasonal Care Discount</p>
-              <h3>Reset the property for the season.</h3>
-              <p>Save $50 on a seasonal maintenance package. Share the code with Envision and confirm current scheduling, availability, and eligibility.</p>
-            </div>
-            <footer class="offer-code-row">
-              <span>Promo code</span><code data-offer-display>••••••••</code><small data-offer-status aria-live="polite">Limited availability</small>
-            </footer>
-          </div>
-        </article>
       </div>
     </div>
   </section>`;
@@ -2267,7 +2217,6 @@ function homePage() {
       processSection() +
       why +
       reviewSection() +
-      offerSection() +
       beforeAfterSection({ limit: 3, heading: 'See what changed.' }) +
       transformation +
       gallerySection() +
@@ -2895,11 +2844,6 @@ Envision Landscaping LLC is led by owner Kyle Young. The business's published st
 
 Published customer reviews repeatedly mention professional communication, reasonable estimates, prompt scheduling, trust, and clean finished work. Visit the linked Google review profile for current complete reviews.
 
-## Current website offers
-
-- WELCOME15: 15% off a first lawn-care service package.
-- SEASON50: $50 off a seasonal maintenance package.
-- Conditions, availability, and eligibility must be confirmed before service.
 `;
 }
 
